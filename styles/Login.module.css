@@ -1,3 +1,14 @@
 .title {
   font-weight: bold;
+  color: white;
+}
+
+.standOut {
+  font-weight: normal;
+  color: red;
+}
+
+.error {
+  font-weight: 300;
+  color: red;
 }
