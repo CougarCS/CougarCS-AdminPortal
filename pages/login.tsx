@@ -8,67 +8,53 @@ import {
   Text,
 } from "@mantine/core";
 import { NextPage } from "next";
-import { useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Layout from "../components/layout";
 import styles from "../styles/Login.module.css";
 import { useRouter } from "next/router";
-
-/*
-TODO
-1. Call real database for user info.
-2. Remove setTimeout()
-*/
-
-const exampleDatabase = [
-  {
-    username: "admin",
-    password: "notsafe",
-  },
-  {
-    username: "webmaster",
-    password: "bryant",
-  },
-];
-
-interface loginData {
-  username: { value: string };
-  password: { value: string };
-}
-
-const errorMessage = "Your username or password is invalid!";
+import { fetchLogin } from "../utils/api";
 
 const Login: NextPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLElement>): void => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setLoading(true);
+    const data = new FormData(e.currentTarget);
+    const username = data.get("username")?.toString();
+    const password = data.get("password")?.toString();
+
     setError(false);
+    setLoading(true);
 
-    const { username, password } = e.target as typeof e.target & loginData;
-
-    setTimeout(() => {
+    try {
+      const res = await fetchLogin({ username, password });
       setLoading(false);
-      const user = exampleDatabase.find(
-        (user) => user.username === username.value
-      );
 
-      console.log(user);
-
-      if (user) {
-        if (user.password !== password.value) {
-          setError(true);
-        } else {
-          router.push("/");
-        }
-      } else {
-        setError(true);
+      if (res.status === 200) {
+        await router.push("/");
+        return;
       }
-    }, 2000);
+
+      if (res.status === 401) {
+        setError(true);
+        setErrorMessage("Your username or password is invalid!");
+        return;
+      }
+
+      setError(true);
+      setErrorMessage("Something went wrong!");
+    } catch (err) {
+      setError(true);
+      setLoading(false);
+      setErrorMessage("An unexpected error occurred");
+
+      throw err;
+    }
   };
 
   return (
@@ -103,7 +89,7 @@ const Login: NextPage = () => {
               disabled={loading}
               error={error}
             />
-            {error ? <a className={styles.error}>{errorMessage}</a> : <></>}
+            {error && <a className={styles.error}>{errorMessage}</a>}
             <Button
               type="submit"
               fullWidth
