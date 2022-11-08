@@ -61,12 +61,17 @@ const Login: NextPage = () => {
     <Layout title="Officer Login">
       <Container size={450} my={40}>
         <Title className={styles.title} align="center" p="sm">
-          <Image src="/images/CougarCS-logo.png" width={150} height={150} />
+          <Image
+            src="/images/CougarCS-logo.png"
+            alt="CougarCS Logo"
+            width={150}
+            height={150}
+          />
           <br />
           CougarCS Login
         </Title>
         <Text color="dimmed" size="sm" align="center" mt={5}>
-          Don't have an account? Contact the{" "}
+          Don&#39;t have an account? Contact the{" "}
           <a className={styles.standOut}>Webmaster</a>.
         </Text>
 
