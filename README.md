@@ -1,34 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# CougarCS Admin Portal 💼
 
-## Getting Started
+CougarCS is the largest student-run Computer Science organization at the University of Houston. 
+At CougarCS, our mission is to smoothly transition our inexperienced members into young professionals by the end of their degree and to provide support and assistance to members who struggle academically or who need career guidance.
 
-First, run the development server:
+This is the admin portal for **CougarCS**. The portal is designed for officers to manage data of the organization. 
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+The portal is built with NextJS and TypeScript. 
+The backend is built with ExpressJS and TypeScript. The database is built with MySQL.
+You can view to the backend repository [here](https://github.com/CougarCS/astro-api).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<hr/>
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+![GitHub](https://img.shields.io/github/license/CougarCS/CougarCS-AdminPortal?style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues/CougarCS/CougarCS-AdminPortal?style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/CougarCS/CougarCS-AdminPortal?style=flat-square)
+![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/CougarCS/CougarCS-AdminPortal/next?style=flat-square)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+# Development 🔨
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- #### Requirements
+    - [NodeJS](https://nodejs.org/en/) Version 16+
+    - [Yarn](https://yarnpkg.com/)
 
-## Learn More
+- #### Installation
+    1. `yarn` to install packages
+    2. Create an `.env` in the root (./) directory with the following variables:
+  ```
+    BASE_URL = <API_URL>
+  ```
+    3. You're good to go!
+- #### Scripts
+    - `yarn start` : Runs the code normally using next start
+    - `yarn dev` : Starts the development server.
+    - `yarn build` : Builds the application for production usage.
+- #### Linting/Styling
+    - This repo uses ESLint and Prettier to enforce linting and styling rules.
+    - `yarn lint` : Runs ESLint on the codebase.
+    - `yarn prettier` : Runs Prettier on the codebase.
+    - `yarn prettier:fix` : Runs Prettier on the codebase and fixes any issues.
+    - We highly suggest using an ESLint and Prettier plugin for your respective editor to aid with development.
+- #### Structure
+    - `_app.tsx` : This is the root component of the application.
+    - `./components` : This folder contains all the components used in the application.
+    - `./interfaces` : This folder contains all the interfaces used in the application.
+    - `./pages` : This folder contains all the pages used in the application.
+    - `./public` : This folder contains all the static files used in the application.
+    - `./styles` : This folder contains all the styles used in the application.
+    - `./types` : This folder contains all the types used in the application.
+    - `./utils` : This folder contains all the utility functions used in the application.
 
-To learn more about Next.js, take a look at the following resources:
+<hr/>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# Contributing 🤝
+Want to get involved? 
+Get in contact with the CougarCS Webmaster(webmaster@cougarcs.com) to get involved.
