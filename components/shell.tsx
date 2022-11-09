@@ -1,6 +1,6 @@
 import { childrenProps } from "../interfaces/children";
 import { AppShell } from "@mantine/core";
-import Nav from "./Nav";
+import Nav from "./nav";
 
 const Shell = ({ children }: childrenProps) => {
   return (
