@@ -12,6 +12,7 @@ const Nav = () => {
   return (
     <>
       <Navbar
+        className="NavbarItems"
         fixed={false}
         height="100vh"
         p="xs"
@@ -23,9 +24,17 @@ const Nav = () => {
       >
         <Navbar.Section>{"Logo"}</Navbar.Section>
         <Navbar.Section grow mt="md">
-          {"Nav Item 1"}
+          {"Overview"}
+          <div>
+            {"Contacts"}
+          </div>
         </Navbar.Section>
-        <Navbar.Section>{"User info"}</Navbar.Section>
+        <Navbar.Section>
+            {mockUser.first_name} {mockUser.last_name}
+          <div>
+            {mockUser.email}
+          </div>
+        </Navbar.Section>
       </Navbar>
     </>
   );

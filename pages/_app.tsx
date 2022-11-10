@@ -1,15 +1,11 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import { MantineProvider } from '@mantine/core';
-
-function MyApp({ Component, pageProps }: AppProps) {
+import { MantineProvider, Button } from '@mantine/core';
+import Nav from "../components/nav";
+export default function App() {
   return (
-    <>
-      <MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme: 'dark' }}>
-        <Component {...pageProps} />
-      </MantineProvider>
-    </>
+    <MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme: 'dark' }}>    
+      <div>
+        <Nav />
+      </div>
+    </MantineProvider>
   );
 }
-
-export default MyApp
