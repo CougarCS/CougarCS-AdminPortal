@@ -4,7 +4,6 @@ export default function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme: 'dark' }}>    
       <div>
-        
         <Nav/>
       </div>
     </MantineProvider>

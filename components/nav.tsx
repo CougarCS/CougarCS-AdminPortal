@@ -1,5 +1,7 @@
 import { Navbar, createStyles, Group, Code } from "@mantine/core";
 import { useState } from 'react';
+import styles from "../styles/nav.module.css";
+
 
 const mockUser = {
   contact_id: "e0765790-fb13-477f-92ed-ef658effb7d8",
@@ -33,16 +35,20 @@ const useStyles = createStyles((theme, _params, getRef) => {
       }`,
     },
     link: {
-      ...theme.fn.focusStyles(),
       display: 'flex',
       alignItems: 'center',
       textDecoration: 'none',
-      fontSize: theme.fontSizes.sm,
       color: theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[7],
       padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
-      borderRadius: theme.radius.sm,
-      fontWeight: 500,
-
+      borderStyle: 'solid',
+      borderRadius: theme.radius.lg,
+      borderWidth: 2,
+      fontWeight: 600,      
+      fontStyle: 'normal',
+      fontSize: 20,
+      
+      justifyContent: 'space-around',
+      
       '&:hover': {
         backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
@@ -79,40 +85,29 @@ const Nav = () => {
   ));
 
   return (
-      <Navbar
-        className="NavbarItems"
-        fixed={false}
-        height="100vh"
-        p="xs"
-        width={{
-          sm: 150,
-          lg: 200,
-          base: 50,
-        }}
-      >
+      <Navbar fixed={false}
+      height="100vh"
+      width={{
+        lg: 200,
+      }}>
+        <Navbar.Section >
+            {mockUser.first_name} {mockUser.last_name}
+          <div>
+            {mockUser.email}
+          </div>
+        </Navbar.Section>
         <Navbar.Section grow>
           <Group className={classes.header} position="apart">
-            <Code sx={{ fontWeight: 700}}> CougarCS</Code>
+            <Code sx={{ fontWeight: 100}}> Not {mockUser.first_name}? Logout</Code>
           </Group>
           {links}
         </Navbar.Section>
         
         <Navbar.Section className={classes.footer}>
           <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-            <span>Change account</span>
-          </a>
-
-          <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-        
-            <span>Logout</span>
+          
           </a>
       </Navbar.Section>
-        <Navbar.Section>
-            {mockUser.first_name} {mockUser.last_name}
-          <div>
-            {mockUser.email}
-          </div>
-        </Navbar.Section>
       </Navbar>
  
   );
