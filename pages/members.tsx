@@ -1,17 +1,21 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import Layout from "../components/layout";
+import { MembersTable } from "../components/membersTable/MembersTable";
 import { MemberData } from "../types/types";
 import { fetchMember } from "../utils/api";
 
-const Members: NextPage = () => {
+const Members: NextPage = () =>
+{
   const [data, setData] = useState<MemberData[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setLoading(true);
 
-    (async () => {
+    (async () =>
+    {
       const memberData = await fetchMember();
       setData(memberData);
 
@@ -22,7 +26,7 @@ const Members: NextPage = () => {
   }, []);
 
   return (
-    <Layout shell>{loading ? <a>loading...</a> : <a>Data here</a>}</Layout>
+    <Layout shell>{loading ? <a>loading...</a> : <MembersTable data={data} />}</Layout>
   );
 };
 
