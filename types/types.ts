@@ -13,6 +13,7 @@ type MemberData = {
   phone_number: string;
   shirt_size_id: string;
   uh_id: number;
+  timestamp: string;
 };
 
 export type { MemberData };
