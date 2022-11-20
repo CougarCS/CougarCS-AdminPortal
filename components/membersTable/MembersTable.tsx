@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { createStyles, Table, ScrollArea } from '@mantine/core';
+import { createStyles, Table } from '@mantine/core';
 import { MemberData } from '../../types/types';
 
 // This uses the "Table With Sticky Header" starter from
@@ -16,7 +15,6 @@ const useStyles = createStyles((theme) =>
             position: 'sticky',
             top: -1,
             backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
-            transition: 'box-shadow 150ms ease',
             '&::after': {
                 content: '""',
                 position: 'absolute',
@@ -37,11 +35,6 @@ const useStyles = createStyles((theme) =>
             },
 
             borderCollapse: "collapse",
-            borderSpacing: 0,
-        },
-
-        scrolled: {
-            boxShadow: theme.shadows.lg,
         },
     };
 });
@@ -49,15 +42,16 @@ const useStyles = createStyles((theme) =>
 interface MembersTableProps
 {
     data: MemberData[];
+    setSelectedMember: (selected: MemberData) => void;
+    setModalOpen: (open: boolean) => void;
 }
 
-export function MembersTable({ data }: MembersTableProps)
+export function MembersTable({ data, setSelectedMember, setModalOpen }: MembersTableProps)
 {
     const { classes, cx } = useStyles();
-    const [scrolled, setScrolled] = useState(false);
 
     const rows = data.map((row) => (
-        <tr key={row.contact_id}>
+        <tr key={row.contact_id} onClick={() => { setSelectedMember(row); setModalOpen(true); }}>
             <td>{row.contact_id}</td>
             <td>{row.uh_id}</td>
             <td>{row.first_name}</td>
@@ -83,8 +77,8 @@ export function MembersTable({ data }: MembersTableProps)
     );
 
     return (
-        <Table  className={cx(classes.borders)} sx={{ marginTop: "1rem", minWidth: 700 }}>
-            <thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
+        <Table className={cx(classes.borders)} sx={{ marginTop: "1rem", marginBottom: "3rem", minWidth: 700 }}>
+            <thead className={cx(classes.header)}>
                 {headers}
             </thead>
             <tbody>{rows}</tbody>
