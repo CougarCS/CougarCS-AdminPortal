@@ -1,15 +1,13 @@
-import { Group, Button } from "@mantine/core";
+import { Group, Button, Box } from "@mantine/core";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import Layout from "../components/layout";
 import MemberModal from "../components/memberModal/MemberModal";
 import { MembersTable } from "../components/membersTable/MembersTable";
+import { ErrorObject, MembersError } from "../components/membersPageError/MembersError";
 import { MemberData } from "../types/types";
 import { fetchMember } from "../utils/api";
-
-// for scroll to top button
-import { useWindowScroll } from '@mantine/hooks';
-import { Affix, Transition } from '@mantine/core';
+import { ScrollToTopButton } from "../components/scrollToTop/ScrollToTopButton";
 
 const dummyMember: MemberData = {
   contact_id: "b9446715-34c0-4068-9c73-44f90e32bb79",
@@ -25,6 +23,7 @@ const dummyMember: MemberData = {
 const Members: NextPage = () =>
 {
   const [data, setData] = useState<MemberData[]>([]);
+  const [error, setError] = useState<ErrorObject | undefined>();
   const [selectedMember, setSelectedMember] = useState<MemberData>(dummyMember);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -36,62 +35,53 @@ const Members: NextPage = () =>
     (async () =>
     {
       const memberData = await fetchMember();
-      setData(memberData);
-
-      console.log(memberData);
-
-      setLoading(false);
+      if (memberData)
+      {
+        // I don't think you necessarily have to set error to undefined here
+        // but certainty is nice
+        setError(undefined);
+        setData(memberData);
+        console.log(memberData);
+        setLoading(false);
+      }
+      else
+      {
+        // error state
+        const fetchError: ErrorObject = {
+          errorTitle: "Contacts Page Error",
+          errorMessage: "Failed to fetch member data."
+        };
+        setError(fetchError);
+        console.log(fetchError);
+        setLoading(false);
+      }
     })();
   }, []);
 
   return (
     <Layout shell>{loading ? <a>loading...</a> :
-      <div>
-        <h1>
-          Contacts
-        </h1>
-        <Group spacing={"xl"}>
-          <Button variant="outline" color="red" radius="xs" size="md">
-            Add
-          </Button>
-          <Button variant="outline" color="red" radius="xs" size="md">
-            Edit
-          </Button>
-        </Group>
-        <MembersTable data={data} setSelectedMember={setSelectedMember} setModalOpen={setModalOpen} />
-        <MemberModal member={selectedMember} open={isModalOpen} setClose={() => { setModalOpen(false); }} />
-        <ScrollToTopButton />
-      </div>}
+      <Box sx={{ height: "100%" }}>
+        {error ? <MembersError errorTitle={error.errorTitle} errorMessage={error.errorMessage} /> :
+          <div>
+            <h1>
+              Contacts
+            </h1>
+            <Group spacing={"xl"}>
+              <Button variant="outline" color="red" radius="xs" size="md">
+                Add
+              </Button>
+              <Button variant="outline" color="red" radius="xs" size="md">
+                Edit
+              </Button>
+            </Group>
+            <MembersTable data={data} setSelectedMember={setSelectedMember} setModalOpen={setModalOpen} />
+            <ScrollToTopButton />
+            <MemberModal member={selectedMember} open={isModalOpen} setClose={() => { setModalOpen(false); }} />
+          </div>
+        }
+      </Box>}
     </Layout>
   );
 };
 
 export default Members;
-
-
-// saw this in mantine docs and liked it
-// lots of rows = lots of scrolling (not lots of fun)
-// optimizes access to add+edit buttons
-const ScrollToTopButton = () =>
-{
-  const [scroll, scrollTo] = useWindowScroll();
-
-  return (
-    <Affix position={{ bottom: 20, right: 20 }}>
-      <Transition transition="slide-up" mounted={scroll.y > 0}>
-        {(transitionStyles) => (
-          <Button
-            style={transitionStyles}
-            onClick={() => scrollTo({ y: 0 })}
-            color="red"
-            size="md"
-            radius="xs"
-            compact
-          >
-            Scroll to top
-          </Button>
-        )}
-      </Transition>
-    </Affix>
-  );
-};
