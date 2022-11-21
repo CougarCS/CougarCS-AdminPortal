@@ -24,7 +24,7 @@ const useStyles = createStyles((theme) =>
             },
         },
 
-        borders: {
+        cells: {
             '& thead tr th': {
                 border: `${borderWidth} solid ${redQuery}`,
                 borderBottomWidth: 0,
@@ -32,8 +32,8 @@ const useStyles = createStyles((theme) =>
             '& tbody tr td': {
                 borderLeft: `${borderWidth} solid ${redQuery}`,
                 borderRight: `${borderWidth} solid ${redQuery}`,
+                cursor: "pointer",
             },
-
             borderCollapse: "collapse",
         },
     };
@@ -77,7 +77,7 @@ export function MembersTable({ data, setSelectedMember, setModalOpen }: MembersT
     );
 
     return (
-        <Table className={cx(classes.borders)} sx={{ marginTop: "1rem", marginBottom: "3rem", minWidth: 700 }}>
+        <Table className={cx(classes.cells)} sx={{ marginTop: "1rem", marginBottom: "3rem", minWidth: 700 }}>
             <thead className={cx(classes.header)}>
                 {headers}
             </thead>
