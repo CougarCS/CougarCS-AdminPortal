@@ -37,9 +37,6 @@ const Members: NextPage = () =>
       const memberData = await fetchMember();
       if (memberData)
       {
-        // I don't think you necessarily have to set error to undefined here
-        // but certainty is nice
-        setError(undefined);
         setData(memberData);
         console.log(memberData);
         setLoading(false);
