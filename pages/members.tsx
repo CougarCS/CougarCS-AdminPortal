@@ -1,4 +1,4 @@
-import { Group, Button, Box } from "@mantine/core";
+import { Group, Button, Box, Title } from "@mantine/core";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import Layout from "../components/layout";
@@ -60,9 +60,9 @@ const Members: NextPage = () =>
       <Box sx={{ height: "100%" }}>
         {error ? <MembersError errorTitle={error.errorTitle} errorMessage={error.errorMessage} /> :
           <div>
-            <h1>
+            <Title order={1} color={"gray.1"} sx={{ margin: "1rem 0px 2rem 0px"}}>
               Contacts
-            </h1>
+            </Title>
             <Group spacing={"xl"}>
               <Button variant="outline" color="red" radius="xs" size="md">
                 Add
