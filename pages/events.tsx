@@ -1,57 +1,87 @@
 import type { NextPage } from "next";
 import React, { useState } from 'react';
-import { Modal, Button, Group } from '@mantine/core';
-import { DefaultDeserializer } from 'v8';
+import { Modal, Button, Group, TextInput, NumberInput, Textarea, Title } from '@mantine/core';
+import { DatePicker } from '@mantine/dates';
 import Layout from "../components/layout";
+import styles from "../styles/Events.module.css"
 
-// TO-DO:
-  // capture the field changes into some type of local state
-    // instead of having state all together, each field will get its own handler bc why not
-  // will need to figure out where that info is going (later)
-
-// referring to this for form state stuff: https://stackoverflow.com/questions/53519578/forms-as-functional-components-with-react
+// Helen McKay | 11/21/22
+  // NOTES: 
+    // added loading, error, and errorMessage states so can be used later
+    // wasn't sure if eventDate, eventDuration, and eventPoints also need to be converted to strings
+    // wasn't sure which fields needed to be "required" so just set all of them to be required
+    // apologies if the silly placeholders are too silly, feel free to change them
 
 const EventForm = () => {
-  // const [eventTitle, setEventTitle] = useState("");
-  // const [eventDate, setEventDate] = useState("");
-  // const [eventDuration, setEventDuration] = useState("");
-  // const [eventPoints, setEventPoints] = useState("");
-  // const [eventDescription, setEventDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  // const [inputField, setInputField] = useState({
-  //   eventTitle: '',
-  //   eventDate: '',
-  //   eventDuration: '',
-  //   eventPoints: '',
-  //   eventDescription: ''
-  // })
+  const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  // const inputsHandler = ( e : React.FormEvent<HTMLInputElement>): void => {
-  //   setInputField( {0: "bob"});
-  // }
+    const data = new FormData(e.currentTarget);
+    const eventTitle = data.get("eventTitle")?.toString();
+    const eventDate = data.get("eventDate");
+    const eventDuration = data.get("eventDuration");
+    const eventPoints = data.get("eventPoints");
+    const eventDescription = data.get("eventDescription")?.toString();
 
-  // const inputsTextAreaHandler = (e : React.FormEvent<HTMLTextAreaElement>) => {
-  //   setInputField({eventDescription : e.currentTarget.value});
-  // }
+    // FIXME: 
+      // send form data to backend
+      // deal with the error, errorMessage, and loading states, too
+  }
 
   return(
-    <form onSubmit={e => e.preventDefault()}>
-      <div>
-        <label>Event title: </label><input type="text" name="eventTitle" value={inputField.eventTitle} onChange={inputsHandler}/>
-      </div>
-      <div>
-        <label>Event date: </label><input type="date" name="eventDate" value={inputField.eventDate} onChange={inputsHandler}/>
-      </div>
-      <div>
-        <label>Event duration: </label><input type="number" name="eventDuration" value={inputField.eventDuration} onChange={inputsHandler}/> <label>mins</label>
-      </div>
-      <div>
-        <label>Member point value: </label><input type="number" name="eventPoints" value={inputField.eventPoints} onChange={inputsHandler}></input>
-      </div>
-      {/* // <div>
-      //   <label>Event description: </label><textarea name="eventDescription" value={inputField.eventDescription} onChange={e => inputsTextAreaHandler(e)}></textarea>
-      // </div> */}
-      <input type="submit"/>
+    <form onSubmit={handleSubmit}>
+      <TextInput
+        name="eventTitle"
+        label="Event Title"
+        placeholder="A Really Cool Event's Really Cool Title"
+        required
+        disabled={loading}
+        error={error}
+      />
+      <DatePicker
+        required
+        name="eventDate"
+        label="Event Date"
+        placeholder="A Convenient Date"
+        disabled={loading}
+        error={error}
+      />
+      <NumberInput
+        required
+        name="eventDuration"
+        label="Event Duration (in minutes)"
+        placeholder="A Length of Time"
+        disabled={loading}
+        error={error}
+      />
+      <NumberInput
+        required
+        name="eventPoints"
+        label="Member Point Value"
+        placeholder="A Reasonable Amount of Points"
+        disabled={loading}
+        error={error}
+      />
+      <Textarea
+        required
+        name="eventDescription"
+        label="Event Description"
+        placeholder="An Exciting Description of the Really Cool Event"
+        disabled={loading}
+        error={error}
+      />
+      {error && <a className={styles.error}>{errorMessage}</a>}
+      <Button 
+        type="submit"
+        loading={loading}
+        color="red"
+      >
+        Submit
+      </Button>
     </form>
   );
 }
@@ -70,7 +100,7 @@ const CreateEvent = () => {
       </Modal>
 
       <Group position="center">
-        <Button onClick={() => setOpened(true)}>Create Event</Button>
+        <Button onClick={() => setOpened(true)} color="red">Create Event</Button>
       </Group>
     </>
   );
@@ -78,9 +108,9 @@ const CreateEvent = () => {
 
 const Events: NextPage = () => {
   return(
-    <Layout shell>
-      <h1>Events</h1>
-      <h2>Upcoming Events</h2>
+    <Layout shell title="Events">
+      <Title order={1} className={styles.title}>Events</Title>
+      {/* FIXME: Implement "Upcoming Events" */}
       <CreateEvent/>
     </Layout>
   );

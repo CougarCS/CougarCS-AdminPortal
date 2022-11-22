@@ -1,0 +1,10 @@
+.title, .subtitle {
+    font-weight: bold;
+    color: white;
+  }
+
+  .error {
+    font-weight: 300;
+    color: red;
+  }
+  
