@@ -1,0 +1,35 @@
+.NavbarItems {
+    position: absolute;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    color: #FFFFFF;
+
+    
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    
+}
+
+.NavbarRec {
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 224px;
+    height: 41px;
+    left: 23px;
+
+    border: 2px solid #FFFFFF;
+    border-radius: 13px;
+}
+.CougarcsLogo {
+    position: absolute;
+    width: 93px;
+    height: 93px;
+    left: 89px;
+    top: 83px;
+    background: url(cougarheadTransparent);
+
+}
