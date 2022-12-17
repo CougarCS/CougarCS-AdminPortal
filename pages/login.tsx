@@ -59,7 +59,7 @@ const Login: NextPage = () => {
   return (
     <Layout title="Officer Login">
       <Container className="my-10 max-w-md">
-        <Title className="text-white font-bold" align="center" p="sm">
+        <Title className="font-bold text-white" align="center" p="sm">
           <Image
             src="/images/CougarCS-logo.png"
             alt="CougarCS Logo"
@@ -69,12 +69,12 @@ const Login: NextPage = () => {
           <br />
           CougarCS Login
         </Title>
-        <Text className="text-center mt-1 text-gray-500 text-sm">
+        <Text className="mt-1 text-center text-sm text-gray-500">
           Don&#39;t have an account? Contact the{" "}
           <a className="text-red-500">Webmaster</a>.
         </Text>
 
-        <Paper withBorder className="shadow-md rounded-md mt-8 p-8">
+        <Paper className="mt-8 rounded-md border border-zinc-700 p-8 shadow-md">
           <form onSubmit={handleSubmit}>
             <TextInput
               name="username"
