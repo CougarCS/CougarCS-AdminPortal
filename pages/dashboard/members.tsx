@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import Layout from "../components/layout";
-import { fetchMember } from "../utils/api";
+import Layout from "../../components/layout";
+import { fetchMember } from "../../utils/api";
 
 const Members: NextPage = () => {
   const [data, setData] = useState([]);
