@@ -11,7 +11,6 @@ import { NextPage } from "next";
 import React, { useState } from "react";
 import Image from "next/image";
 import Layout from "../components/layout";
-import styles from "../styles/Login.module.css";
 import { useRouter } from "next/router";
 import { fetchLogin } from "../utils/api";
 
@@ -59,8 +58,8 @@ const Login: NextPage = () => {
 
   return (
     <Layout title="Officer Login">
-      <Container size={450} my={40}>
-        <Title className={styles.title} align="center" p="sm">
+      <Container className="my-10 max-w-md">
+        <Title className="font-bold text-white" align="center" p="sm">
           <Image
             src="/images/CougarCS-logo.png"
             alt="CougarCS Logo"
@@ -70,12 +69,12 @@ const Login: NextPage = () => {
           <br />
           CougarCS Login
         </Title>
-        <Text color="dimmed" size="sm" align="center" mt={5}>
+        <Text className="mt-1 text-center text-sm text-gray-500">
           Don&#39;t have an account? Contact the{" "}
-          <a className={styles.standOut}>Webmaster</a>.
+          <a className="text-red-500">Webmaster</a>.
         </Text>
 
-        <Paper withBorder shadow="md" radius="md" p={30} mt={30}>
+        <Paper className="mt-8 rounded-md border border-zinc-700 p-8 shadow-md">
           <form onSubmit={handleSubmit}>
             <TextInput
               name="username"
@@ -86,20 +85,20 @@ const Login: NextPage = () => {
               error={error}
             />
             <PasswordInput
+              className="mt-4"
               name="password"
               label="Password"
               placeholder="Password"
               required
-              mt={"md"}
               disabled={loading}
               error={error}
             />
-            {error && <a className={styles.error}>{errorMessage}</a>}
+            {error && <a className="text-red-500">{errorMessage}</a>}
             <Button
+              className="bg-red-600 hover:bg-red-700"
               type="submit"
               fullWidth
               mt={"xl"}
-              color="red"
               loading={loading}
             >
               Sign in
