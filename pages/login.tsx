@@ -12,9 +12,11 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Layout from "../components/layout";
 import { useRouter } from "next/router";
-import { fetchLogin } from "../utils/api";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const Login: NextPage = () => {
+  const session = useSession();
+  const supabase = useSupabaseClient();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -23,38 +25,34 @@ const Login: NextPage = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const data = new FormData(e.currentTarget);
-    const username = data.get("username")?.toString();
-    const password = data.get("password")?.toString();
+    const formData = new FormData(e.currentTarget);
+    const username = formData.get("username")?.toString();
+    const password = formData.get("password")?.toString();
 
     setError(false);
     setLoading(true);
 
-    try {
-      const res = await fetchLogin({ username, password });
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: username as string,
+      password: password as string,
+    });
+
+    if (error) {
       setLoading(false);
-
-      if (res.status === 200) {
-        await router.push("/");
-        return;
-      }
-
-      if (res.status === 401) {
-        setError(true);
-        setErrorMessage("Your username or password is invalid!");
-        return;
-      }
-
       setError(true);
-      setErrorMessage("Something went wrong!");
-    } catch (err) {
-      setError(true);
+      setErrorMessage(error.message);
+      return;
+    }
+
+    if (data) {
       setLoading(false);
-      setErrorMessage("An unexpected error occurred");
-
-      throw err;
+      await router.push("/dashboard");
     }
   };
+
+  if (session) {
+    router.push("/dashboard");
+  }
 
   return (
     <Layout title="Officer Login">
