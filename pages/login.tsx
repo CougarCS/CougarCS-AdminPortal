@@ -13,6 +13,7 @@ import Image from "next/image";
 import Layout from "../components/layout";
 import { useRouter } from "next/router";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import Error from "../components/error";
 
 const Login: NextPage = () => {
   const session = useSession();
@@ -91,7 +92,6 @@ const Login: NextPage = () => {
               disabled={loading}
               error={error}
             />
-            {error && <a className="text-red-500">{errorMessage}</a>}
             <Button
               className="bg-red-600 hover:bg-red-700"
               type="submit"
@@ -104,6 +104,7 @@ const Login: NextPage = () => {
           </form>
         </Paper>
       </Container>
+      {error && <Error>{errorMessage}</Error>}
     </Layout>
   );
 };
