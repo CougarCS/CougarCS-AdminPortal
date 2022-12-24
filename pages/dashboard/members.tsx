@@ -1,27 +1,24 @@
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
 import Layout from "../../components/layout";
-import { fetchMember } from "../../utils/api";
+import useSWR, { mutate } from "swr";
+import fetcher from "../../utils/fetcher";
+import Error from "../../components/error";
 
 const Members: NextPage = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { data, error, isLoading } = useSWR("/api/members", fetcher);
 
-  useEffect(() => {
-    setLoading(true);
-
-    (async () => {
-      const memberData = await fetchMember();
-      setData(memberData);
-
-      console.log(memberData);
-
-      setLoading(false);
-    })();
-  }, []);
+  if (error) {
+    return (
+      <Layout shell>
+        <Error>Unable to retrieve member data.</Error>
+      </Layout>
+    );
+  }
 
   return (
-    <Layout shell>{loading ? <a>loading...</a> : <a>Data here</a>}</Layout>
+    <Layout shell>
+      {isLoading ? <a>loading...</a> : <a>{data[0].contact_id}</a>}
+    </Layout>
   );
 };
 
