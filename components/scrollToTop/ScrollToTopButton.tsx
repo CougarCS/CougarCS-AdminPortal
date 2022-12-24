@@ -11,10 +11,11 @@ export const ScrollToTopButton = () =>
     const [scroll, scrollTo] = useWindowScroll();
 
     return (
-        <Affix position={{ bottom: 20, right: 20 }}>
+        <Affix className="bottom-6 right-6">
             <Transition transition="slide-up" mounted={scroll.y > 0}>
                 {(transitionStyles) => (
                     <Button
+                        className="bg-red-700"
                         style={transitionStyles}
                         onClick={() => scrollTo({ y: 0 })}
                         color="red"

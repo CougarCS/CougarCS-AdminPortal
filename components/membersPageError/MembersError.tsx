@@ -8,14 +8,12 @@ export type ErrorObject = {
 export function MembersError({ errorTitle, errorMessage }: ErrorObject)
 {
     return (
-        <Center style={{ height: "100%", textAlign: 'center' }}>
-            <div>
-                <Stack>
-                    <Title order={1} color={'red.7'}>
-                        {errorTitle}
-                    </Title>
-                    <Text size="md">{errorMessage}</Text>
-                </Stack>
+        <Center className="h-full text-center">
+            <div className="flex flex-col gap-3">
+                <Title className="text-4xl text-red-500">
+                    {errorTitle}
+                </Title>
+                <Text className="text-xl text-slate-200">{errorMessage}</Text>
             </div>
         </Center>
     );

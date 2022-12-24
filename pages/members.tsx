@@ -57,20 +57,22 @@ const Members: NextPage = () =>
 
   return (
     <Layout shell>{loading ? <a>loading...</a> :
-      <Box sx={{ height: "100%" }}>
+      <Box className="h-full">
         {error ? <MembersError errorTitle={error.errorTitle} errorMessage={error.errorMessage} /> :
           <div>
-            <Title order={1} color={"gray.1"} sx={{ margin: "1rem 0px 2rem 0px"}}>
+            <Title className="mt-4 mb-6 text-gray-100 ">
               Contacts
             </Title>
-            <Group spacing={"xl"}>
+
+            <div className="mb-4 flex flex-row gap-6">
               <Button variant="outline" color="red" radius="xs" size="md">
                 Add
               </Button>
               <Button variant="outline" color="red" radius="xs" size="md">
                 Edit
               </Button>
-            </Group>
+            </div>
+
             <MembersTable data={data} setSelectedMember={setSelectedMember} setModalOpen={setModalOpen} />
             <ScrollToTopButton />
             <MemberModal member={selectedMember} open={isModalOpen} setClose={() => { setModalOpen(false); }} />
