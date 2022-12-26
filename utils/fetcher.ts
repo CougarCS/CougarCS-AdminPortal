@@ -3,6 +3,15 @@ const fetcher = async (
   init: RequestInit | undefined
 ) => {
   const response = await fetch(input, init);
+  if (!response.ok) {
+    const error = new Error("An error occurred while fetching the data.");
+
+    throw Object.assign(error, {
+      info: await response.json(),
+      status: response.status,
+    });
+  }
+
   return response.json();
 };
 
