@@ -1,16 +1,29 @@
 import type { NextPage } from "next";
 import Layout from "../../components/layout";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import fetcher from "../../utils/fetcher";
 import Error from "../../components/error";
+import { useState } from "react";
+import { Loader } from "@mantine/core";
 
 const Members: NextPage = () => {
   const { data, error, isLoading } = useSWR("/api/members", fetcher);
+  const [errorMessage] = useState("Unable to retrieve member data.");
 
   if (error) {
     return (
       <Layout shell>
-        <Error>Unable to retrieve member data.</Error>
+        <Error>{errorMessage}</Error>
+      </Layout>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <Layout shell>
+        <div className="grid h-screen place-content-center">
+          <Loader color="red" size="xl" />
+        </div>
       </Layout>
     );
   }
