@@ -1,6 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { promises as fs } from "fs";
-import path from "path";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -26,12 +24,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === "GET") {
-    const mockDataDirectory = path.join(process.cwd(), "data");
-    const mockMembers = JSON.parse(
-      await fs.readFile(mockDataDirectory + "/MOCK_MEMBER_DATA.json", "utf8")
-    );
+    const { data: contacts, error } = await supabase
+      .from("contacts")
+      .select("*");
 
-    return res.status(200).json(mockMembers);
+    if (error) {
+      return res.status(500).json({ error });
+    }
+
+    return res.status(200).json(contacts);
   }
 };
 
