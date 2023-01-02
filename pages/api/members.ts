@@ -18,9 +18,31 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === "POST") {
     const { body } = req;
-    console.log("POST request received with body: ", body);
 
-    return res.status(200).json({ message: "POST request received" });
+    console.log("body: ", body);
+
+    const { data, error } = await supabase
+      .from("contacts")
+      .insert([body])
+      .select();
+
+    if (error) {
+      if (error.code === "23505") {
+        return res.status(409).json({
+          error: "Conflict",
+          description: "This contact already exists.",
+        });
+      }
+
+      return res.status(500).json({
+        error: "Internal Server Error",
+        description: "Something went wrong.",
+      });
+    }
+
+    console.log("data: ", data);
+
+    return res.status(200).json({ data: data });
   }
 
   if (req.method === "GET") {
@@ -29,7 +51,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       .select("*");
 
     if (error) {
-      return res.status(500).json({ error });
+      return res.status(500).json({
+        error: "Internal Server Error",
+        description: "Something went wrong.",
+      });
     }
 
     return res.status(200).json(contacts);
