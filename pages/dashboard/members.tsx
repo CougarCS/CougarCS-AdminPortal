@@ -49,7 +49,7 @@ const Members: NextPage = () => {
       {isLoading ? <a>loading...</a> : <a>{data[0].contact_id}</a>}
       <br />
       <Button
-        className="rounded bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700 "
+        className="rounded bg-red-600 py-2 px-4 font-bold text-white hover:bg-red-700"
         onClick={async () => {
           setError(false);
           setSuccess(false);
