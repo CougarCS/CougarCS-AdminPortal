@@ -19,8 +19,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const { body } = req;
 
-    console.log("body: ", body);
-
     const { data, error } = await supabase
       .from("contacts")
       .insert([body])
@@ -39,8 +37,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         description: "Something went wrong.",
       });
     }
-
-    console.log("data: ", data);
 
     return res.status(200).json({ data: data });
   }
