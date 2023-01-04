@@ -4,7 +4,9 @@ import {
   createServerSupabaseClient,
   User,
 } from "@supabase/auth-helpers-nextjs";
-import Link from "next/link";
+import { Button } from "@mantine/core";
+import { useRouter } from "next/router";
+import { AiOutlineUnorderedList } from "react-icons/ai";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const supabase = createServerSupabaseClient(ctx);
@@ -30,21 +32,25 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 };
 
 const Dashboard = ({ user }: { user: User }) => {
+  const router = useRouter();
+
   return (
     <Layout shell title="Dashboard">
       <div>
         <h1 className="text-4xl font-bold text-white">Dashboard</h1>
         <h2 className="text-xl font-medium text-white">
-          Welcome, <a className="text-red-500">{user.email}</a>
+          Welcome, <a className="text-red-600">{user.email}</a>
         </h2>
       </div>
 
-      <br />
-      <br />
-
-      <Link href="dashboard/members">
-        <a className="text-red-300">Click here to navigate to /members</a>
-      </Link>
+      <Button
+        className="my-4 max-w-sm rounded bg-red-600 py-2 px-4 font-bold text-white hover:bg-red-700"
+        leftIcon={<AiOutlineUnorderedList />}
+        fullWidth
+        onClick={() => router.push("/dashboard/members")}
+      >
+        <a className="text-white">Members</a>
+      </Button>
     </Layout>
   );
 };
