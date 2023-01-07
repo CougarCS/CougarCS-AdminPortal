@@ -1,6 +1,13 @@
-type loginData = {
-  username: string | undefined;
-  password: string | undefined;
+import { ReactNode } from "react";
+
+type shellProps = {
+  children: ReactNode;
+  title?: string;
+  shell?: boolean;
 };
 
-export type { loginData };
+type childrenProps = {
+  children: ReactNode;
+};
+
+export type { shellProps, childrenProps };

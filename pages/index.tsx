@@ -1,49 +1,36 @@
+import { Button, Container, Title } from "@mantine/core";
 import type { NextPage } from "next";
 import Image from "next/image";
 import Layout from "../components/layout";
+import { AiOutlineDashboard } from "react-icons/ai";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
+  const router = useRouter();
+
   return (
-    <Layout shell>
-      <div className="pr-8">
-        <main className="flex min-h-screen flex-col items-center justify-center pl-16">
-          <h1 className="m-0 text-7xl">
-            Welcome to{" "}
-            <a
-              className="font-bold text-blue-400 hover:underline"
-              href="https://nextjs.org"
-            >
-              Next.js!
-            </a>
-          </h1>
+    <Layout title="Home">
+      <Container className="my-10 max-w-md">
+        <Title className="my-4 text-center font-bold text-white">
+          <Image
+            src="/images/CougarCS-logo.png"
+            alt="CougarCS Logo"
+            width={150}
+            height={150}
+          />
+          <br />
+          <a className="my-4 text-red-500">CougarCS</a> Officer Dashboard
+        </Title>
 
-          <p className="mt-16 text-base leading-6">
-            Get started by editing{" "}
-            <code className="rounded-md bg-zinc-800 p-3 font-mono text-base">
-              pages/index.tsx
-            </code>
-          </p>
-        </main>
-
-        <footer className="flex items-center justify-center pt-8">
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center"
-          >
-            Powered by{" "}
-            <span className="ml-2 h-4 invert">
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                width={72}
-                height={16}
-              />
-            </span>
-          </a>
-        </footer>
-      </div>
+        <Button
+          className="my-4 rounded bg-red-600 py-2 px-4 font-bold text-white hover:bg-red-700"
+          leftIcon={<AiOutlineDashboard />}
+          fullWidth
+          onClick={() => router.push("/dashboard")}
+        >
+          <a className="text-white">Dashboard</a>
+        </Button>
+      </Container>
     </Layout>
   );
 };

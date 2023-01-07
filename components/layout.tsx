@@ -1,8 +1,8 @@
 import Head from "next/head";
-import { childrenProps } from "../interfaces/children";
+import { shellProps } from "../types/types";
 import Shell from "./shell";
 
-const Layout = ({ children, title, shell }: childrenProps) => {
+const Layout = ({ children, title, shell }: shellProps) => {
   return (
     <>
       <Head>
