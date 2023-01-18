@@ -12,20 +12,18 @@ const MyApp = ({
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
 
   return (
-    <>
-      <SessionContextProvider
-        supabaseClient={supabaseClient}
-        initialSession={pageProps.initialSession}
+    <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+    >
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{ colorScheme: "dark" }}
       >
-        <MantineProvider
-          withGlobalStyles
-          withNormalizeCSS
-          theme={{ colorScheme: "dark" }}
-        >
-          <Component {...pageProps} />
-        </MantineProvider>
-      </SessionContextProvider>
-    </>
+        <Component {...pageProps} />
+      </MantineProvider>
+    </SessionContextProvider>
   );
 };
 
