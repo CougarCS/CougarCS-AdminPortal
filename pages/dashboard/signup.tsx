@@ -31,15 +31,15 @@ const Signup: NextPage = () => {
       password: password as string,
     });
 
+    setLoading(false);
+
     if (error) {
-      setLoading(false);
       setError(true);
       setErrorMessage(error.message);
       return;
     }
 
     if (data) {
-      setLoading(false);
       setSuccess(true);
       setSuccessMessage("Account invite sent!");
       return;
