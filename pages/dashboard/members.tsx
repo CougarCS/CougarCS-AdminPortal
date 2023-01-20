@@ -7,8 +7,11 @@ import { useState } from "react";
 import { Button, Loader } from "@mantine/core";
 import poster from "../../utils/poster";
 import Success from "../../components/success";
+import { DataTable, Demo } from "../../components/dataTable/DataTable";
+import { MemberType } from "../../types/types";
 
-const Members: NextPage = () => {
+const Members: NextPage = () =>
+{
   const { data, error, isLoading } = useSWR("/api/members", fetcher);
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
@@ -17,7 +20,8 @@ const Members: NextPage = () => {
   const [isSuccess, setSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
-  if (error) {
+  if (error)
+  {
     return (
       <Layout shell>
         <Error>{errorMessage}</Error>
@@ -25,7 +29,8 @@ const Members: NextPage = () => {
     );
   }
 
-  if (isLoading) {
+  if (isLoading)
+  {
     return (
       <Layout shell>
         <div className="grid h-screen place-content-center">
@@ -34,6 +39,8 @@ const Members: NextPage = () => {
       </Layout>
     );
   }
+
+  console.log(data);
 
   const user = {
     uh_id: 1234567,
@@ -44,19 +51,37 @@ const Members: NextPage = () => {
     shirt_size_id: "L",
   };
 
+  const rows = data.map((row: MemberType) =>
+    <tr key={row.toString()}
+    >
+      {[
+        row.contact_id,
+        row.uh_id,
+        row.first_name,
+        row.last_name,
+        row.email,
+        row.phone_number,
+        row.shirt_size_id,
+        row.timestamp
+      ].map((info) =>
+        <td key={row.contact_id}>{info}</td>)}
+    </tr>
+  );
+
   return (
     <Layout shell>
-      {isLoading ? <a>loading...</a> : <a>{data[0].contact_id}</a>}
       <br />
       <Button
         className="rounded bg-red-600 py-2 px-4 font-bold text-white hover:bg-red-700"
-        onClick={async () => {
+        onClick={async () =>
+        {
           setError(false);
           setSuccess(false);
 
           const res = await poster("/api/members", user);
 
-          if (res.error) {
+          if (res.error)
+          {
             setError(true);
             setErrorMessage(res.description);
             return;
@@ -69,6 +94,25 @@ const Members: NextPage = () => {
       >
         Add Member
       </Button>
+
+      {isLoading ? <a>loading...</a> : <DataTable className="mt-4">
+        <thead>
+          <tr>
+            <th>Contact ID</th>
+            <th>UH ID</th>
+            <th>First</th>
+            <th>Last</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Shirt</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows}
+        </tbody>
+      </DataTable>}
+
       {isError ? <Error>{errorMessage}</Error> : <></>}
       {isSuccess ? <Success>{successMessage}</Success> : <></>}
     </Layout>
