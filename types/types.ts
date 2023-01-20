@@ -10,4 +10,15 @@ type childrenProps = {
   children: ReactNode;
 };
 
-export type { shellProps, childrenProps };
+type MemberType = {
+  contact_id: string,
+  email: string,
+  first_name: string,
+  last_name: string,
+  phone_number: number,
+  shirt_size_id: string,
+  timestamp: string,
+  uh_id: number,
+};
+
+export type { shellProps, childrenProps, MemberType };
