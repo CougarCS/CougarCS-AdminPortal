@@ -2,14 +2,37 @@ import React from "react";
 
 interface DataTableProps
 {
-    children: React.ReactNode;
+    columns?: any[] | undefined;
+    rows?: any[] | undefined;
     className?: string;
 }
-export const DataTable = ({ children, className }: DataTableProps) =>
+export const DataTable = ({ columns, rows, className }: DataTableProps) =>
 {
+    const styledHeaderColumns = columns?.map(columnTitle =>
+        <th className="border border-red-400 bg-black px-2 py-2">
+            {columnTitle}
+        </th>);
+
+    // Outermost map is for each row, innermost map is for each column in that row
+    const styledRows = rows?.map((rowData: any[]) =>
+        <tr className="cursor-pointer border border-y-zinc-700 text-gray-300 first:border-t-0 last:border-b-red-400 hover:bg-zinc-800">
+            {rowData.map((rowCol: any) =>
+                <td className="border-x border-x-red-400 px-1 py-1.5">
+                    {rowCol}
+                </td>)}
+        </tr>);
+
     return (
-        <table className={`data-table ${className}`}>
-            {children}
+        <table className={`table-auto border border-red-400 ${className}`}>
+            <thead>
+                <tr className="sticky top-0">
+                    {styledHeaderColumns}
+                </tr>
+            </thead>
+
+            <tbody>
+                {styledRows}
+            </tbody>
         </table>
     );
 };
@@ -25,17 +48,15 @@ export const Demo = () =>
     ];
 
     const rows = elements.map((element) => (
-        <tr key={element.name}>
-            <td>{element.position}</td>
-            <td>{element.name}</td>
-            <td>{element.symbol}</td>
-            <td>{element.mass}</td>
-        </tr>
+        [
+            element.position,
+            element.name,
+            element.symbol,
+            element.mass
+        ]
     ));
 
     return (
-        <DataTable>
-            <tbody>{rows}</tbody>
-        </DataTable>
+        <DataTable columns={["Element Position", "Element Name", "Symbol", "Atomic Mass"]} rows={rows} />
     );
 };
