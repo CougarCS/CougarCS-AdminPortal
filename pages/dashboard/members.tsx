@@ -52,20 +52,16 @@ const Members: NextPage = () =>
   };
 
   const rows = data.map((row: MemberType) =>
-    <tr key={row.toString()}
-    >
-      {[
-        row.contact_id,
-        row.uh_id,
-        row.first_name,
-        row.last_name,
-        row.email,
-        row.phone_number,
-        row.shirt_size_id,
-        row.timestamp
-      ].map((info) =>
-        <td key={row.contact_id}>{info}</td>)}
-    </tr>
+    [
+      row.contact_id,
+      row.uh_id,
+      row.first_name,
+      row.last_name,
+      row.email,
+      row.phone_number,
+      row.shirt_size_id,
+      row.timestamp
+    ]
   );
 
   return (
@@ -95,23 +91,18 @@ const Members: NextPage = () =>
         Add Member
       </Button>
 
-      {isLoading ? <a>loading...</a> : <DataTable className="mt-4">
-        <thead>
-          <tr>
-            <th>Contact ID</th>
-            <th>UH ID</th>
-            <th>First</th>
-            <th>Last</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Shirt</th>
-            <th>Timestamp</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows}
-        </tbody>
-      </DataTable>}
+      {isLoading ? <a>loading...</a> : <DataTable className="mt-4" columns={[
+        "Contact ID",
+        "UH ID",
+        "First",
+        "Last",
+        "Email",
+        "Phone",
+        "Shirt",
+        "Timestamp"
+      ]}
+        rows={rows}
+      />}
 
       {isError ? <Error>{errorMessage}</Error> : <></>}
       {isSuccess ? <Success>{successMessage}</Success> : <></>}
