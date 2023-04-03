@@ -8,6 +8,7 @@ import { toast } from "sonner";
 
 import { TextInput } from "../components/textInput";
 import { PasswordInput } from "../components/pwInput";
+import { LoadSpinner } from "../components/loadingSpinner";
 
 const Login: NextPage = () =>
 {
@@ -49,6 +50,28 @@ const Login: NextPage = () =>
   if (session)
   {
     router.push("/dashboard");
+  }
+
+  if (loading)
+  {
+    return (
+      <Layout title="Officer Login" sidebarHidden>
+        <div className="my-32 max-w-md w-full mx-auto">
+          <h1 className="font-bold text-white text-center">
+            <Image
+              src="/images/CougarCS-logo.png"
+              alt="CougarCS Logo"
+              width={150}
+              height={150}
+            />
+            <br />
+            CougarCS Login
+          </h1>
+
+          <LoadSpinner />
+        </div>
+      </Layout>
+    );
   }
 
   return (

@@ -1,8 +1,7 @@
-import { Button, Container, Title } from "@mantine/core";
 import type { NextPage } from "next";
 import Image from "next/image";
 import Layout from "../components/layout";
-import { AiOutlineDashboard } from "react-icons/ai";
+import { AiOutlineDashboard, AiOutlineUnorderedList } from "react-icons/ai";
 import { useRouter } from "next/router";
 
 const Home: NextPage = () =>
@@ -11,8 +10,8 @@ const Home: NextPage = () =>
 
   return (
     <Layout title="Home">
-      <Container className="my-10 max-w-md">
-        <Title className="my-4 text-center font-bold text-white">
+      <div className="my-10 mx-auto max-w-md space-y-8">
+        <h1 className="font-bold text-white text-center my-4">
           <Image
             src="/images/CougarCS-logo.png"
             alt="CougarCS Logo"
@@ -20,18 +19,26 @@ const Home: NextPage = () =>
             height={150}
           />
           <br />
-          <a className="my-4 text-red-500">CougarCS</a> Officer Dashboard
-        </Title>
+          <span className="text-red-500">CougarCS</span> Admin Portal
+        </h1>
 
-        <Button
-          className="my-4 rounded bg-red-600 py-2 px-4 font-bold text-white hover:bg-red-700"
-          leftIcon={<AiOutlineDashboard />}
-          fullWidth
-          onClick={() => router.push("/dashboard")}
-        >
-          <a className="text-white">Dashboard</a>
-        </Button>
-      </Container>
+
+        <button onClick={() => router.push("/dashboard")}
+          className="flex justify-center w-full text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700 space-x-2">
+          <AiOutlineDashboard className=" my-auto" />
+          <span className="my-auto">
+            Dashboard
+          </span>
+        </button>
+
+        <button onClick={() => router.push("/dashboard/members")}
+          className="flex justify-center w-full text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700 space-x-2">
+          <AiOutlineUnorderedList className="my-auto" />
+          <span className="my-auto">
+            Members
+          </span>
+        </button>
+      </div>
     </Layout>
   );
 };

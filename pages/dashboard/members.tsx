@@ -3,9 +3,9 @@ import Layout from "../../components/layout";
 import useSWR, { mutate } from "swr";
 import fetcher from "../../utils/fetcher";
 import { useState } from "react";
-import { Button, Loader } from "@mantine/core";
+import { LoadSpinner } from "../../components/loadingSpinner";
 import poster from "../../utils/poster";
-import { DataTable, Demo } from "../../components/dataTable/DataTable";
+import { DataTable } from "../../components/dataTable/DataTable";
 import { MemberType } from "../../types/types";
 import { toast } from "sonner";
 
@@ -39,7 +39,7 @@ const Members: NextPage = () =>
     return (
       <Layout>
         <div className="grid h-screen place-content-center">
-          <Loader color="red" size="xl" />
+          <LoadSpinner />
         </div>
       </Layout>
     );
@@ -72,28 +72,25 @@ const Members: NextPage = () =>
   return (
     <Layout>
       <br />
-      <Button
-        className="rounded bg-red-600 py-2 px-4 font-bold text-white hover:bg-red-700"
-        onClick={async () =>
+      <button onClick={async () =>
+      {
+        setError(false);
+
+        const res = await poster("/api/members", user);
+
+        if (res.error)
         {
-          setError(false);
+          setError(true);
+          setErrorMessage(res.description);
+          toast.error(`Contacts Error: ${res.description}`);
+          return;
+        }
 
-          const res = await poster("/api/members", user);
-
-          if (res.error)
-          {
-            setError(true);
-            setErrorMessage(res.description);
-            toast.error(`Contacts Error: ${res.description}`);
-            return;
-          }
-
-          toast.success(`Successfully added ${user.first_name}.`);
-          mutate("/api/members", data, false);
-        }}
-      >
+        toast.success(`Successfully added ${user.first_name}.`);
+        mutate("/api/members", data, false);
+      }} className="px-4 text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700">
         Add Member
-      </Button>
+      </button>
 
       {isLoading ? <a>loading...</a> : <DataTable className="mt-4" columns={[
         "Contact ID",

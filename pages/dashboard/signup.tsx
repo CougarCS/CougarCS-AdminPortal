@@ -1,12 +1,12 @@
 import { NextPage } from "next";
 import React, { useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { Button } from "@mantine/core";
 import Layout from "../../components/layout";
 
 import { TextInput } from "../../components/textInput";
 import { PasswordInput } from "../../components/pwInput";
 import { toast } from "sonner";
+import { LoadSpinner } from "../../components/loadingSpinner";
 
 const Signup: NextPage = () =>
 {
@@ -41,6 +41,7 @@ const Signup: NextPage = () =>
       <Layout title="Officer Signup">
         <div className="w-5/12 mx-auto place-content-center">
           <h1>Loading</h1>
+          <LoadSpinner />
         </div>
       </Layout>
     );
