@@ -1,6 +1,7 @@
 import type { GetServerSidePropsContext } from "next";
 import Layout from "../../components/layout";
-import {
+import
+{
   createServerSupabaseClient,
   User,
 } from "@supabase/auth-helpers-nextjs";
@@ -8,7 +9,8 @@ import { Button } from "@mantine/core";
 import { useRouter } from "next/router";
 import { AiOutlineUnorderedList } from "react-icons/ai";
 
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) =>
+{
   const supabase = createServerSupabaseClient(ctx);
 
   const {
@@ -31,11 +33,12 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   };
 };
 
-const Dashboard = ({ user }: { user: User }) => {
+const Dashboard = ({ user }: { user: User; }) =>
+{
   const router = useRouter();
 
   return (
-    <Layout shell title="Dashboard">
+    <Layout title="Dashboard">
       <div>
         <h1 className="text-4xl font-bold text-white">Dashboard</h1>
         <h2 className="text-xl font-medium text-white">

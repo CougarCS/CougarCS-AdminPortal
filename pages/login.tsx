@@ -57,7 +57,7 @@ const Login: NextPage = () =>
   }
 
   return (
-    <Layout title="Officer Login">
+    <Layout title="Officer Login" sidebarHidden>
       <div className="my-32 max-w-md w-full mx-auto">
         <h1 className="font-bold text-white text-center">
           <Image

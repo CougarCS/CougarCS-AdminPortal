@@ -23,7 +23,7 @@ const Members: NextPage = () =>
   if (error)
   {
     return (
-      <Layout shell>
+      <Layout>
         <Error>{errorMessage}</Error>
       </Layout>
     );
@@ -32,7 +32,7 @@ const Members: NextPage = () =>
   if (isLoading)
   {
     return (
-      <Layout shell>
+      <Layout>
         <div className="grid h-screen place-content-center">
           <Loader color="red" size="xl" />
         </div>
@@ -65,7 +65,7 @@ const Members: NextPage = () =>
   );
 
   return (
-    <Layout shell>
+    <Layout>
       <br />
       <Button
         className="rounded bg-red-600 py-2 px-4 font-bold text-white hover:bg-red-700"

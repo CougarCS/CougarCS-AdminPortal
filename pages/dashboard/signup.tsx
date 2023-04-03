@@ -4,7 +4,8 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
 import Layout from "../../components/layout";
 
-const Signup: NextPage = () => {
+const Signup: NextPage = () =>
+{
   const supabase = useSupabaseClient();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -12,7 +13,8 @@ const Signup: NextPage = () => {
   const [success, setSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>
+  {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
@@ -33,13 +35,15 @@ const Signup: NextPage = () => {
 
     setLoading(false);
 
-    if (error) {
+    if (error)
+    {
       setError(true);
       setErrorMessage(error.message);
       return;
     }
 
-    if (data) {
+    if (data)
+    {
       setSuccess(true);
       setSuccessMessage("Account invite sent!");
       return;
@@ -47,7 +51,7 @@ const Signup: NextPage = () => {
   };
 
   return (
-    <Layout title="Officer Signup" shell>
+    <Layout title="Officer Signup">
       <form onSubmit={handleSubmit}>
         <TextInput
           name="username"

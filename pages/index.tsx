@@ -5,7 +5,8 @@ import Layout from "../components/layout";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { useRouter } from "next/router";
 
-const Home: NextPage = () => {
+const Home: NextPage = () =>
+{
   const router = useRouter();
 
   return (

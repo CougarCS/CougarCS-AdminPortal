@@ -9,6 +9,7 @@ type shellProps = {
 type LayoutProps = {
   children: ReactNode;
   title?: string;
+  sidebarHidden?: boolean;
 };
 
 type childrenProps = {
