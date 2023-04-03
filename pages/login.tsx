@@ -76,19 +76,20 @@ const Login: NextPage = () =>
 
   return (
     <Layout title="Officer Login" sidebarHidden>
-      <div className="my-32 max-w-md w-full mx-auto">
-        <h1 className="font-bold text-white text-center">
+      <div className="my-32 max-w-md w-full mx-auto items-center">
+        <div className="block mx-auto w-fit">
           <Image
             src="/images/CougarCS-logo.png"
             alt="CougarCS Logo"
             width={150}
             height={150}
           />
-          <br />
+        </div>
+        <h1 className="mt-4 font-bold text-white text-center text-4xl">
           CougarCS Login
         </h1>
 
-        <p className="mt-1 text-center text-sm text-gray-500">
+        <p className="mt-2 text-center text-gray-500 text-lg">
           Don&#39;t have an account? Contact the{" "}
           <a className="text-red-500">Webmaster</a>.
         </p>

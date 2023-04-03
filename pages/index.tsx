@@ -11,17 +11,17 @@ const Home: NextPage = () =>
   return (
     <Layout title="Home">
       <div className="my-10 mx-auto max-w-md space-y-8">
-        <h1 className="font-bold text-white text-center my-4">
+        <div className="block mx-auto w-fit">
           <Image
             src="/images/CougarCS-logo.png"
             alt="CougarCS Logo"
             width={150}
             height={150}
           />
-          <br />
+        </div>
+        <h1 className="mt-4 font-bold text-white text-center text-4xl">
           <span className="text-red-500">CougarCS</span> Admin Portal
         </h1>
-
 
         <button onClick={() => router.push("/dashboard")}
           className="flex justify-center w-full text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700 space-x-2">
