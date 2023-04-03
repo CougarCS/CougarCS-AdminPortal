@@ -1,8 +1,10 @@
 import Head from "next/head";
-import { shellProps } from "../types/types";
-import Shell from "./shell";
+import Sidebar from "./sidebar";
 
-const Layout = ({ children, title, shell }: shellProps) => {
+import { LayoutProps } from "../types/types";
+
+const Layout = ({ children, title }: LayoutProps) =>
+{
   return (
     <>
       <Head>
@@ -13,8 +15,14 @@ const Layout = ({ children, title, shell }: shellProps) => {
         )}
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      {shell ? <Shell>{children}</Shell> : <>{children}</>}
-      {/* <Shell>{children}</Shell> */}
+
+      <div className="w-full h-full flex">
+        <Sidebar />
+
+        <div id="layout-content" className="bg-[#1C1C1C] flex-1 p-8">
+          {children}
+        </div>
+      </div>
     </>
   );
 };

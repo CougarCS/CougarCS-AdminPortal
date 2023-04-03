@@ -6,6 +6,11 @@ type shellProps = {
   shell?: boolean;
 };
 
+type LayoutProps = {
+  children: ReactNode;
+  title?: string;
+};
+
 type childrenProps = {
   children: ReactNode;
 };
@@ -21,4 +26,4 @@ type MemberType = {
   uh_id: number,
 };
 
-export type { shellProps, childrenProps, MemberType };
+export type { shellProps, childrenProps, MemberType, LayoutProps };
