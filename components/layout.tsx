@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Sidebar from "./sidebar";
+import { Toaster } from 'sonner';
 
 import { LayoutProps } from "../types/types";
 
@@ -21,6 +22,7 @@ const Layout = ({ children, title, sidebarHidden }: LayoutProps) =>
 
         <div id="layout-content" className="bg-[#1C1C1C] flex-1 p-8">
           {children}
+          <Toaster position="top-right" richColors closeButton />
         </div>
       </div>
     </>

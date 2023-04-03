@@ -2,13 +2,12 @@ import type { NextPage } from "next";
 import Layout from "../../components/layout";
 import useSWR, { mutate } from "swr";
 import fetcher from "../../utils/fetcher";
-import Error from "../../components/error";
 import { useState } from "react";
 import { Button, Loader } from "@mantine/core";
 import poster from "../../utils/poster";
-import Success from "../../components/success";
 import { DataTable, Demo } from "../../components/dataTable/DataTable";
 import { MemberType } from "../../types/types";
+import { toast } from "sonner";
 
 const Members: NextPage = () =>
 {
@@ -17,14 +16,20 @@ const Members: NextPage = () =>
   const [errorMessage, setErrorMessage] = useState(
     "Unable to retrieve member data."
   );
-  const [isSuccess, setSuccess] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
 
   if (error)
   {
+    toast.error(`Contacts Error: ${errorMessage}`);
     return (
       <Layout>
-        <Error>{errorMessage}</Error>
+        <div className="grid h-full place-content-center">
+          <h1 className="text-red-600 font-bold text-4xl text-center">
+            Contacts Page Error
+          </h1>
+          <h2 className="mt-2 text-white font-medium text-2xl text-center">
+            {errorMessage}
+          </h2>
+        </div>
       </Layout>
     );
   }
@@ -43,12 +48,12 @@ const Members: NextPage = () =>
   console.log(data);
 
   const user = {
-    uh_id: 1234567,
-    email: "eklug0@ibm.com",
-    first_name: "Esmaria",
-    last_name: "Klug",
-    phone_number: 3271982939,
-    shirt_size_id: "L",
+    uh_id: 1111117,
+    email: "testa@ibm.com",
+    first_name: "Testy",
+    last_name: "Test",
+    phone_number: 1112223435,
+    shirt_size_id: "XXS",
   };
 
   const rows = data.map((row: MemberType) =>
@@ -72,7 +77,6 @@ const Members: NextPage = () =>
         onClick={async () =>
         {
           setError(false);
-          setSuccess(false);
 
           const res = await poster("/api/members", user);
 
@@ -80,11 +84,11 @@ const Members: NextPage = () =>
           {
             setError(true);
             setErrorMessage(res.description);
+            toast.error(`Contacts Error: ${res.description}`);
             return;
           }
 
-          setSuccess(true);
-          setSuccessMessage(`${user.first_name} was successfully added.`);
+          toast.success(`Successfully added ${user.first_name}.`);
           mutate("/api/members", data, false);
         }}
       >
@@ -103,9 +107,6 @@ const Members: NextPage = () =>
       ]}
         rows={rows}
       />}
-
-      {isError ? <Error>{errorMessage}</Error> : <></>}
-      {isSuccess ? <Success>{successMessage}</Success> : <></>}
     </Layout>
   );
 };

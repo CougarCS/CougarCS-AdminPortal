@@ -4,7 +4,7 @@ import Image from "next/image";
 import Layout from "../components/layout";
 import { useRouter } from "next/router";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import Error from "../components/error";
+import { toast } from "sonner";
 
 import { TbEye, TbEyeOff } from "react-icons/tb";
 
@@ -15,8 +15,6 @@ const Login: NextPage = () =>
   const supabase = useSupabaseClient();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const [pwVisible, setPwVisible] = useState(false);
 
@@ -28,7 +26,6 @@ const Login: NextPage = () =>
     const username = formData.get("username")?.toString();
     const password = formData.get("password")?.toString();
 
-    setError(false);
     setLoading(true);
 
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -40,8 +37,7 @@ const Login: NextPage = () =>
 
     if (error)
     {
-      setError(true);
-      setErrorMessage(error.message);
+      toast.error(`Failed to login: ${error.message}`);
       return;
     }
 
@@ -94,7 +90,6 @@ const Login: NextPage = () =>
           </form>
         </div>
       </div>
-      {error && <Error>{errorMessage}</Error>}
     </Layout>
   );
 };
