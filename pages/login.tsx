@@ -6,8 +6,8 @@ import { useRouter } from "next/router";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { toast } from "sonner";
 
-import { TbEye, TbEyeOff } from "react-icons/tb";
-
+import { TextInput } from "../components/textInput";
+import { PasswordInput } from "../components/pwInput";
 
 const Login: NextPage = () =>
 {
@@ -16,7 +16,6 @@ const Login: NextPage = () =>
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const [pwVisible, setPwVisible] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>
   {
@@ -74,16 +73,11 @@ const Login: NextPage = () =>
         <div className="mt-8 rounded-md border border-zinc-700 px-8 pt-5 pb-8 shadow-md">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div id="username-input">
-              <label htmlFor="username" className="text-sm font-bold after:content-['*'] after:text-red-500 after:align-sub">Username </label>
-              <input type="text" id="username" name="username" placeholder="Web Developer" className="placeholder:text-neutral-500 focus:outline-none focus:border-blue-500 focus:ring-blue-500 w-full h-9 rounded-sm text-sm px-4 bg-zinc-800 border border-zinc-700" required />
+              <TextInput name="username" label="Username" placeholder="Username" required />
             </div>
 
             <div id="password-input">
-              <label htmlFor="password" className="text-sm font-bold after:content-['*'] after:text-red-500 after:align-sub">Password </label>
-              <div className="flex flex-row">
-                <input type={!pwVisible ? "password" : "input"} id="password" name="password" placeholder="Password" className="placeholder:text-neutral-500 focus:outline-none focus:border-blue-500 focus:ring-blue-500 w-full h-9 rounded-sm rounded-r-none text-sm px-4 bg-zinc-800 border border-zinc-700 border-r-0" required />
-                <button type="button" className="p-2 bg-zinc-800 border border-zinc-700 border-l-0 rounded-r-sm" onClick={() => setPwVisible(!pwVisible)}>{!pwVisible ? <TbEye /> : <TbEyeOff />}</button>
-              </div>
+              <PasswordInput name="password" label="Password" placeholder="Password" required />
             </div>
 
             <button type="submit" className="w-full text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700">Sign in</button>

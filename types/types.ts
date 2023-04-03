@@ -27,4 +27,12 @@ type MemberType = {
   uh_id: number,
 };
 
-export type { shellProps, childrenProps, MemberType, LayoutProps };
+type TextInputProps = {
+  name: string;
+  label: string;
+  placeholder?: string;
+  required?: boolean;
+  className?: string;
+};
+
+export type { shellProps, childrenProps, MemberType, LayoutProps, TextInputProps };
