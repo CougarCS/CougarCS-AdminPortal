@@ -36,27 +36,3 @@ export const DataTable = ({ columns, rows, className }: DataTableProps) =>
         </table>
     );
 };
-
-export const Demo = () =>
-{
-    const elements = [
-        { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
-        { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen' },
-        { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium' },
-        { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium' },
-        { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
-    ];
-
-    const rows = elements.map((element) => (
-        [
-            element.position,
-            element.name,
-            element.symbol,
-            element.mass
-        ]
-    ));
-
-    return (
-        <DataTable columns={["Element Position", "Element Name", "Symbol", "Atomic Mass"]} rows={rows} />
-    );
-};
