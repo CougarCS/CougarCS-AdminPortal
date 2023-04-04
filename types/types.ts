@@ -1,19 +1,9 @@
 import { ReactNode } from "react";
 
-type shellProps = {
-  children: ReactNode;
-  title?: string;
-  shell?: boolean;
-};
-
 type layoutProps = {
   children: ReactNode;
   title?: string;
   sidebarHidden?: boolean;
-};
-
-type childrenProps = {
-  children: ReactNode;
 };
 
 type memberType = {
@@ -35,4 +25,10 @@ type textInputProps = {
   className?: string;
 };
 
-export type { shellProps, childrenProps, memberType, layoutProps, textInputProps };
+type dataTableProps = {
+  columns?: any[] | undefined;
+  rows?: any[] | undefined;
+  className?: string;
+};
+
+export type { memberType, layoutProps, textInputProps, dataTableProps };
