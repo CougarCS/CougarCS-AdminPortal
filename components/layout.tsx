@@ -20,7 +20,7 @@ const Layout = ({ children, title, sidebarHidden }: layoutProps) =>
       <div className="w-full min-h-screen flex text-white">
         {sidebarHidden ? null : <Sidebar />}
 
-        <div id="layout-content" className="bg-[#1C1C1C] flex-1 p-8">
+        <div id="layout-content" className="bg-mainBG flex-1 p-8">
           {children}
           <Toaster position="top-right" richColors closeButton />
         </div>

@@ -9,7 +9,7 @@ const mockUser = {
 const Sidebar = () =>
 {
   return (
-    <div id="sidebar" className="min-h-full w-56 bg-[#131313]">
+    <div id="sidebar" className="min-h-full w-56 bg-sidebarBG">
       <div id="sidebar-content" className="sticky top-0 items-center">
         <NavElement />
       </div>
