@@ -6,7 +6,7 @@ import { useState } from "react";
 import { LoadSpinner } from "../../components/loadingSpinner";
 import poster from "../../utils/poster";
 import { DataTable } from "../../components/dataTable/DataTable";
-import { MemberType } from "../../types/types";
+import { memberType } from "../../types/types";
 import { toast } from "sonner";
 
 const Members: NextPage = () =>
@@ -56,7 +56,7 @@ const Members: NextPage = () =>
     shirt_size_id: "XXS",
   };
 
-  const rows = data.map((row: MemberType) =>
+  const rows = data.map((row: memberType) =>
     [
       row.contact_id,
       row.uh_id,

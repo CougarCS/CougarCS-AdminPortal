@@ -6,7 +6,7 @@ type shellProps = {
   shell?: boolean;
 };
 
-type LayoutProps = {
+type layoutProps = {
   children: ReactNode;
   title?: string;
   sidebarHidden?: boolean;
@@ -16,7 +16,7 @@ type childrenProps = {
   children: ReactNode;
 };
 
-type MemberType = {
+type memberType = {
   contact_id: string,
   email: string,
   first_name: string,
@@ -27,7 +27,7 @@ type MemberType = {
   uh_id: number,
 };
 
-type TextInputProps = {
+type textInputProps = {
   name: string;
   label: string;
   placeholder?: string;
@@ -35,4 +35,4 @@ type TextInputProps = {
   className?: string;
 };
 
-export type { shellProps, childrenProps, MemberType, LayoutProps, TextInputProps };
+export type { shellProps, childrenProps, memberType, layoutProps, textInputProps };

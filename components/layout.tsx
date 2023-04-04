@@ -2,9 +2,9 @@ import Head from "next/head";
 import Sidebar from "./sidebar";
 import { Toaster } from 'sonner';
 
-import { LayoutProps } from "../types/types";
+import { layoutProps } from "../types/types";
 
-const Layout = ({ children, title, sidebarHidden }: LayoutProps) =>
+const Layout = ({ children, title, sidebarHidden }: layoutProps) =>
 {
   return (
     <>

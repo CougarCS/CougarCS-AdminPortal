@@ -1,6 +1,6 @@
-import { TextInputProps } from "../types/types";
+import { textInputProps } from "../types/types";
 
-export const TextInput = ({ name, label, placeholder, required, className }: TextInputProps) =>
+export const TextInput = ({ name, label, placeholder, required, className }: textInputProps) =>
 {
   return (
     <div className={className}>
