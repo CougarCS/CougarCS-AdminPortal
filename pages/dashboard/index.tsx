@@ -1,14 +1,15 @@
 import type { GetServerSidePropsContext } from "next";
 import Layout from "../../components/layout";
-import {
+import
+{
   createServerSupabaseClient,
   User,
 } from "@supabase/auth-helpers-nextjs";
-import { Button } from "@mantine/core";
 import { useRouter } from "next/router";
 import { AiOutlineUnorderedList } from "react-icons/ai";
 
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) =>
+{
   const supabase = createServerSupabaseClient(ctx);
 
   const {
@@ -31,11 +32,12 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   };
 };
 
-const Dashboard = ({ user }: { user: User }) => {
+const Dashboard = ({ user }: { user: User; }) =>
+{
   const router = useRouter();
 
   return (
-    <Layout shell title="Dashboard">
+    <Layout title="Dashboard">
       <div>
         <h1 className="text-4xl font-bold text-white">Dashboard</h1>
         <h2 className="text-xl font-medium text-white">
@@ -43,14 +45,13 @@ const Dashboard = ({ user }: { user: User }) => {
         </h2>
       </div>
 
-      <Button
-        className="my-4 max-w-sm rounded bg-red-600 py-2 px-4 font-bold text-white hover:bg-red-700"
-        leftIcon={<AiOutlineUnorderedList />}
-        fullWidth
-        onClick={() => router.push("/dashboard/members")}
-      >
-        <a className="text-white">Members</a>
-      </Button>
+      <button onClick={() => router.push("/dashboard/members")}
+        className="my-4 flex justify-center w-1/5 text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700 space-x-2">
+        <AiOutlineUnorderedList className="my-auto" />
+        <span className="my-auto">
+          Members
+        </span>
+      </button>
     </Layout>
   );
 };

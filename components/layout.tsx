@@ -1,8 +1,11 @@
 import Head from "next/head";
-import { shellProps } from "../types/types";
-import Shell from "./shell";
+import Sidebar from "./sidebar";
+import { Toaster } from 'sonner';
 
-const Layout = ({ children, title, shell }: shellProps) => {
+import { layoutProps } from "../types/types";
+
+const Layout = ({ children, title, sidebarHidden }: layoutProps) =>
+{
   return (
     <>
       <Head>
@@ -13,8 +16,15 @@ const Layout = ({ children, title, shell }: shellProps) => {
         )}
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      {shell ? <Shell>{children}</Shell> : <>{children}</>}
-      {/* <Shell>{children}</Shell> */}
+
+      <div className="w-full min-h-screen flex text-white">
+        {sidebarHidden ? null : <Sidebar />}
+
+        <div id="layout-content" className="bg-mainBG flex-1 p-8">
+          {children}
+          <Toaster position="top-right" richColors closeButton />
+        </div>
+      </div>
     </>
   );
 };
