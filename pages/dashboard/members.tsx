@@ -5,9 +5,11 @@ import fetcher from "../../utils/fetcher";
 import { useState } from "react";
 import { LoadSpinner } from "../../components/loadingSpinner";
 import poster from "../../utils/poster";
-import { DataTable } from "../../components/dataTable/DataTable";
 import { memberType } from "../../types/types";
 import { toast } from "sonner";
+import { DataTable } from "../../components/dataTable/dataTable";
+
+import { ViewMemberModal } from "../../components/members/viewMemberModal";
 
 const Members: NextPage = () =>
 {
@@ -16,6 +18,29 @@ const Members: NextPage = () =>
   const [errorMessage, setErrorMessage] = useState(
     "Unable to retrieve member data."
   );
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalData, setModalData] = useState<memberType>({
+    contact_id: "123foobar",
+    uh_id: 1111117,
+    email: "testa@ibm.com",
+    first_name: "Testy",
+    last_name: "Test",
+    phone_number: 1112223435,
+    shirt_size_id: "XXS",
+    timestamp: "01/01/1970"
+  });
+
+  const members = data as memberType[];
+  const schema = {
+    "UH ID": "uh_id",
+    "First": "first_name",
+    "Last": "last_name",
+    "Email": "email",
+    "Phone": "phone_number",
+    "Shirt": "shirt_size_id",
+    "Timestamp": "timestamp"
+  };
 
   if (error)
   {
@@ -45,38 +70,16 @@ const Members: NextPage = () =>
     );
   }
 
-  console.log(data);
-
-  const user = {
-    uh_id: 1111117,
-    email: "testa@ibm.com",
-    first_name: "Testy",
-    last_name: "Test",
-    phone_number: 1112223435,
-    shirt_size_id: "XXS",
-  };
-
-  const rows = data.map((row: memberType) =>
-    [
-      row.contact_id,
-      row.uh_id,
-      row.first_name,
-      row.last_name,
-      row.email,
-      row.phone_number,
-      row.shirt_size_id,
-      row.timestamp
-    ]
-  );
-
   return (
     <Layout>
+      <ViewMemberModal isOpen={modalOpen} member={modalData} setModalOpen={(state) => setModalOpen(state)} />
+
       <br />
       <button onClick={async () =>
       {
         setError(false);
 
-        const res = await poster("/api/members", user);
+        const res = await poster("/api/members", modalData);
 
         if (res.error)
         {
@@ -86,24 +89,17 @@ const Members: NextPage = () =>
           return;
         }
 
-        toast.success(`Successfully added ${user.first_name}.`);
+        toast.success(`Successfully added ${modalData.first_name}.`);
         mutate("/api/members", data, false);
       }} className="px-4 text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700">
         Add Member
       </button>
 
-      {isLoading ? <a>loading...</a> : <DataTable className="mt-4" columns={[
-        "Contact ID",
-        "UH ID",
-        "First",
-        "Last",
-        "Email",
-        "Phone",
-        "Shirt",
-        "Timestamp"
-      ]}
-        rows={rows}
-      />}
+      {isLoading ? <a>loading...</a> : <DataTable className="mt-4" schema={schema} data={data} rowClick={(modalData) =>
+      {
+        setModalData(modalData);
+        setModalOpen(true);
+      }} />}
     </Layout>
   );
 };
