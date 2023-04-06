@@ -4,7 +4,7 @@ import { viewMemberModalProps } from "../../types/types";
 
 export const ViewMemberModal = ({ isOpen, setModalOpen, member }: viewMemberModalProps) =>
 {
-  // You can access member values like I do in line 12
+  // You can access member values like I do in the h2 element
 
   return (
     <Modal isOpen={isOpen} shouldCloseOnEsc shouldCloseOnOverlayClick onRequestClose={() => setModalOpen(false)}

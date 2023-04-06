@@ -70,8 +70,6 @@ const Members: NextPage = () =>
     );
   }
 
-  // <DataTable className="mt-4" 
-
   return (
     <Layout>
       <ViewMemberModal isOpen={modalOpen} member={modalData} setModalOpen={(state) => setModalOpen(state)} />
