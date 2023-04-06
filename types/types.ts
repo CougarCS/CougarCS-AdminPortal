@@ -7,14 +7,14 @@ type layoutProps = {
 };
 
 type memberType = {
-  contact_id: string,
-  email: string,
-  first_name: string,
-  last_name: string,
-  phone_number: number,
-  shirt_size_id: string,
-  timestamp: string,
-  uh_id: number,
+  contact_id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone_number: number;
+  shirt_size_id: string;
+  timestamp: string;
+  uh_id: number;
 };
 
 type textInputProps = {
@@ -46,7 +46,7 @@ type MyKeyValueType = KeyValueType<typeof demo>;
 type keys = keyof MyKeyValueType[];
 */
 
-// TODO: make the type for schema + data 
+// TODO: make the type for schema + data
 // schema should be an object with string keys, where those keys
 // map to a value on an element of data's type
 // Schema should have SOME or ALL of data's values
@@ -62,6 +62,13 @@ type viewMemberModalProps = {
   isOpen: boolean;
   member: memberType;
   setModalOpen: (state: boolean) => void;
+  setEditingMember: (state: boolean) => void;
 };
 
-export type { memberType, layoutProps, textInputProps, dataTableProps, viewMemberModalProps };
+export type {
+  memberType,
+  layoutProps,
+  textInputProps,
+  dataTableProps,
+  viewMemberModalProps,
+};
