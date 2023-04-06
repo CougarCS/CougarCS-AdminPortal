@@ -9,7 +9,6 @@ import { memberType } from "../../types/types";
 import { toast } from "sonner";
 import { DataTable } from "../../components/dataTable/dataTable";
 
-import Modal from "react-modal";
 import { ViewMemberModal } from "../../components/members/viewMemberModal";
 
 const Members: NextPage = () =>

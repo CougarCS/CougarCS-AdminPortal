@@ -1,8 +1,6 @@
 import React from "react";
 import { dataTableProps } from "../../types/types";
 
-import Modal from "react-modal";
-
 export const DataTable = ({ schema, data, className, rowClick }: dataTableProps) =>
 {
   // schema stays the same so we get the names + values outside of the maps
