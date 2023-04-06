@@ -25,10 +25,43 @@ type textInputProps = {
   className?: string;
 };
 
+/*
+const demo = {
+  "uh_id": 1234567,
+  "first_name": "Skibbidybopta",
+  "last_name": "Longahname",
+  "email": "skibbyB123456@gmail.com",
+  "shirt_size_id": "XXX",
+  "timestamp": "01-01-1970",
+  "phone_number": 1234567890,
+  "contact_id": "numb"
+};
+
+type KeyValueType<T extends Record<string, any>> = {
+  [K in keyof T]: K extends T[K] ? K : never;
+};
+
+type MyKeyValueType = KeyValueType<typeof demo>;
+
+type keys = keyof MyKeyValueType[];
+*/
+
+// TODO: make the type for schema + data 
+// schema should be an object with string keys, where those keys
+// map to a value on an element of data's type
+// Schema should have SOME or ALL of data's values
+// rowClick will be a function that passes one row of data into its first param
 type dataTableProps = {
-  columns?: any[] | undefined;
-  rows?: any[] | undefined;
+  schema: any;
+  data: any[];
+  rowClick?: (data: any) => void;
   className?: string;
 };
 
-export type { memberType, layoutProps, textInputProps, dataTableProps };
+type viewMemberModalProps = {
+  isOpen: boolean;
+  member: memberType;
+  setModalOpen: (state: boolean) => void;
+};
+
+export type { memberType, layoutProps, textInputProps, dataTableProps, viewMemberModalProps };

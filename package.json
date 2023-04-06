@@ -19,10 +19,12 @@
     "@supabase/auth-helpers-nextjs": "^0.5.2",
     "@supabase/auth-helpers-react": "^0.3.1",
     "@supabase/supabase-js": "^2.2.1",
+    "@types/react-modal": "^3.13.1",
     "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
+    "react-modal": "^3.16.1",
     "sonner": "^0.3.0",
     "swr": "^2.0.0",
     "zustand": "^4.1.2"

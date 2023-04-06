@@ -4,6 +4,8 @@ import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider, Session } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 
+import Modal from 'react-modal';
+
 const MyApp = ({
   Component,
   pageProps,
