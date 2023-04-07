@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import { MemberModalInformation } from "./memberModalInformation";
+import { MemberInformationModal } from "./memberInformationModal";
 import { memberType } from "../../types/types";
 
 type viewMemberModalProps = {
@@ -31,7 +31,7 @@ export const ViewMemberModal = ({
         </h1>
         <h2 className="mb-2 text-xl">ID: {member.uh_id}</h2>
 
-        <MemberModalInformation
+        <MemberInformationModal
           setModalOpen={setModalOpen}
           member={member}
           setEditingMember={setEditingMember}

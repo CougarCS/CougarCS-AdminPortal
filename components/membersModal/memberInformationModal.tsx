@@ -7,7 +7,7 @@ type memberInformationModalProps = {
   setEditingMember: (state: boolean) => void;
 };
 
-export const MemberModalInformation = ({
+export const MemberInformationModal = ({
   setEditingMember,
   setModalOpen,
   member,
