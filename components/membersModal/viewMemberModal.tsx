@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import { MemberInformation } from "./memberInformation";
-import { viewMemberModalProps } from "../../types/types";
+import { MemberModalInformation } from "./memberModalInformation";
+import { memberType } from "../../types/types";
+
+type viewMemberModalProps = {
+  member: memberType;
+  isOpen: boolean;
+  setModalOpen: (state: boolean) => void;
+};
 
 export const ViewMemberModal = ({
   isOpen,
@@ -16,7 +22,7 @@ export const ViewMemberModal = ({
       shouldCloseOnEsc
       shouldCloseOnOverlayClick
       onRequestClose={() => setModalOpen(false)}
-      className="bg-opacity-8 flex h-screen w-full flex-col items-center justify-center bg-black bg-opacity-80"
+      className="flex h-screen w-full flex-col items-center justify-center bg-black bg-opacity-80"
       ariaHideApp={false}
     >
       <div className="h-fit w-fit min-w-[30rem] max-w-xl rounded-md bg-sidebarBG p-7 text-white">
@@ -25,8 +31,7 @@ export const ViewMemberModal = ({
         </h1>
         <h2 className="mb-2 text-xl">ID: {member.uh_id}</h2>
 
-        <MemberInformation
-          isOpen={isOpen}
+        <MemberModalInformation
           setModalOpen={setModalOpen}
           member={member}
           setEditingMember={setEditingMember}

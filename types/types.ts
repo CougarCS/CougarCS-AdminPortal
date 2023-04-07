@@ -58,17 +58,4 @@ type dataTableProps = {
   className?: string;
 };
 
-type viewMemberModalProps = {
-  isOpen: boolean;
-  member: memberType;
-  setModalOpen: (state: boolean) => void;
-  setEditingMember: (state: boolean) => void;
-};
-
-export type {
-  memberType,
-  layoutProps,
-  textInputProps,
-  dataTableProps,
-  viewMemberModalProps,
-};
+export type { memberType, layoutProps, textInputProps, dataTableProps };
