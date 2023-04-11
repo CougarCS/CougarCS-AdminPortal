@@ -49,7 +49,7 @@ const Home: NextPage = () =>
 
         <button onClick={() => router.push("/dashboard/signup")}
           className="flex justify-center w-full text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700 space-x-2">
-          <AiOutlineUserAdd className="my-auto" />
+          <AiOutlineUnorderedList className="my-auto" />
           <span className="my-auto">
             Logout
           </span>
