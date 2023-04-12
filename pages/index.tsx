@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import Layout from "../components/layout";
-import { AiOutlineDashboard, AiOutlineUnorderedList, AiOutlineUserAdd } from "react-icons/ai";
+import { AiOutlineDashboard, AiOutlineUnorderedList, AiOutlineUserAdd, AiOutlineLogout } from "react-icons/ai";
 import { useRouter } from "next/router";
 
 const Home: NextPage = () =>
@@ -44,6 +44,14 @@ const Home: NextPage = () =>
           <AiOutlineUserAdd className="my-auto" />
           <span className="my-auto">
             Sign Up
+          </span>
+        </button>
+
+        <button onClick={() => router.push("/dashboard/signup")}
+          className="flex justify-center w-full text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700 space-x-2">
+          <AiOutlineLogout className="my-auto" />
+          <span className="my-auto">
+            Logout
           </span>
         </button>
       </div>
