@@ -49,9 +49,8 @@ export const UpdateMemberModal = ({
       shirt_size_id: memberInfo.shirt_size_id,
     };
 
-    console.log(updatedMemberInfo);
-
-    // setModalOpen(false)
+    setIsUpdatingMember(false);
+    setModalOpen(false);
   }
 
   const shirtSizeOptions = ["XS", "S", "M", "L", "XL", "XXL"];
