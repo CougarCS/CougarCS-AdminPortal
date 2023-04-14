@@ -4,15 +4,18 @@ import { memberType } from "../../types/types";
 type memberInformationModalProps = {
   member: memberType;
   setModalOpen: (state: boolean) => void;
-  setEditingMember: (state: boolean) => void;
+  setIsUpdatingMember: (state: boolean) => void;
 };
 
 export const MemberInformationModal = ({
-  setEditingMember,
+  setIsUpdatingMember,
   setModalOpen,
   member,
 }: memberInformationModalProps) => {
   const timestamp = member.timestamp.slice(0, member.timestamp.search("T"));
+
+  const buttonCSS =
+    "w-20 rounded-lg px-4 py-[3px] text-xl font-medium transition-colors";
 
   return (
     <>
@@ -27,9 +30,10 @@ export const MemberInformationModal = ({
       <div className="flex items-center justify-end gap-6">
         <button
           onClick={() => {
-            setEditingMember(true);
+            setIsUpdatingMember(true);
           }}
-          className="w-20 rounded-lg bg-gray-200 px-4 py-[3px] text-xl font-medium text-gray-800 transition-colors hover:bg-gray-300"
+          className={`${buttonCSS} bg-gray-200 text-gray-800 hover:bg-gray-300`}
+          aria-label="Edit member"
         >
           Edit
         </button>
@@ -37,7 +41,8 @@ export const MemberInformationModal = ({
           onClick={() => {
             setModalOpen(false);
           }}
-          className="w-20 rounded-lg bg-red-600 px-4 py-[3px] text-lg font-medium text-white transition-colors hover:bg-red-700"
+          className={`${buttonCSS} bg-red-600 text-gray-100 hover:bg-red-700`}
+          aria-label="Close modal"
         >
           Done
         </button>
