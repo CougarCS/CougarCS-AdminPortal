@@ -9,6 +9,7 @@ module.exports = {
       colors: {
         "mainBG": "#1C1C1C",
         "sidebarBG": "#131313",
+        "tableHD": "#303030",
       },
     },
   },
