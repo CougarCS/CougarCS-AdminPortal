@@ -12,7 +12,7 @@ export const DataTable = ({
   const columnValues = Object.values(schema);
 
   const headerElements = headerNames.map((columnTitle) => (
-    <th key={columnTitle} className="border-collapse  bg-tableHD text-left px-3 py-2">
+    <th key={columnTitle} className="bg-tableHD text-left px-3 py-2 rounded-2xl">
       {columnTitle}
     </th>
   ));
@@ -35,7 +35,7 @@ export const DataTable = ({
     return (
       <tr
         key={rowIndex}
-        className="cursor-pointer bg-sidebarBG hover:bg-zinc-800"
+        className="cursor-pointer bg-sidebarBG hover:bg-zinc-800 border-b-2 border-b-tableHD"
       >
         {columns}
       </tr>
@@ -43,7 +43,7 @@ export const DataTable = ({
   });
 
   return (
-    <table className={`border-separate rounded-md bg-tableHD ${className}`}>
+    <table className={`border-collapse rounded-md bg-tableHD ${className}`}>
       <thead>
         <tr className="sticky top-0">{headerElements}</tr>
       </thead>
