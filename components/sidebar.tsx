@@ -8,6 +8,9 @@ import { useRouter } from 'next/router';
 // moving logout function here for the sake of keeping layout file cleaner,
 // and because it's not really reused so it can sit here anyway
 
+const menuOptions = [
+  { title: "Members", icon: <FaUsers />, path: "/dashboard/members" }
+];
 const Sidebar = () =>
 {
   const router = useRouter();
@@ -25,9 +28,16 @@ const Sidebar = () =>
 
       </div>
       <div id="sidebar-content" className="sticky top-0 items-center">
-        <NavElement onClick={() => router.push("/dashboard/members")} active>
-          Members
-        </NavElement>
+        {menuOptions.map((item) =>
+        {
+          return (
+            <NavElement onClick={() => router.push(item.path)} active={router.pathname === item.path}>
+              {item.icon}
+              {item.title}
+            </NavElement>
+          );
+        })}
+
 
 
       </div>
