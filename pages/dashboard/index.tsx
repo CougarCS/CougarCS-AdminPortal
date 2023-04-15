@@ -1,15 +1,14 @@
 import type { GetServerSidePropsContext } from "next";
 import Layout from "../../components/layout";
-import
-{
+import {
   createServerSupabaseClient,
   User,
 } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/router";
 import { AiOutlineUnorderedList } from "react-icons/ai";
+import { Title } from "../../components/title";
 
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) =>
-{
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const supabase = createServerSupabaseClient(ctx);
 
   const {
@@ -32,18 +31,17 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) =>
   };
 };
 
-const Dashboard = ({ user }: { user: User; }) =>
-{
+const Dashboard = ({ user }: { user: User; }) => {
   const router = useRouter();
 
   return (
     <Layout title="Dashboard">
-      <div>
-        <h1 className="text-4xl font-bold text-white">Dashboard</h1>
-        <h2 className="text-xl font-medium text-white">
-          Welcome, <a className="text-red-600">{user.email}</a>
-        </h2>
-      </div>
+
+      <Title
+        title="Dashboard"
+        subtitle="The Great Dashboard">
+        Welcome, <a className="text-red-600">{user.email}</a>
+      </Title>
 
       <button onClick={() => router.push("/dashboard/members")}
         className="my-4 flex justify-center w-1/5 text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700 space-x-2">

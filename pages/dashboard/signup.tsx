@@ -7,14 +7,13 @@ import { TextInput } from "../../components/textInput";
 import { PasswordInput } from "../../components/pwInput";
 import { toast } from "sonner";
 import { LoadSpinner } from "../../components/loadingSpinner";
+import { Title } from "../../components/title";
 
-const Signup: NextPage = () =>
-{
+const Signup: NextPage = () => {
   const supabase = useSupabaseClient();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>
-  {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
@@ -35,8 +34,7 @@ const Signup: NextPage = () =>
     if (data) toast.success("Account invite sent!");
   };
 
-  if (loading)
-  {
+  if (loading) {
     return (
       <Layout title="Officer Signup">
         <div className="w-5/12 mx-auto place-content-center">
@@ -49,10 +47,12 @@ const Signup: NextPage = () =>
 
   return (
     <Layout title="Officer Signup">
+      <Title
+        title="Officer Signup"
+        subtitle="">
+      </Title>
       <div className="w-5/12 mx-auto place-content-center">
-        <h1 className="text-white font-bold text-4xl">
-          Officer Signup
-        </h1>
+
         <form onSubmit={handleSubmit}>
           <TextInput className="mt-4" name="username" label="Username" placeholder="Web Developer" required />
           <PasswordInput

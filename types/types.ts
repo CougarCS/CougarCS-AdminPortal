@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
+import { ReactComponentElement, ReactElement, ReactNode } from "react";
 
 type layoutProps = {
   children: ReactNode;
@@ -25,6 +26,11 @@ type textInputProps = {
   className?: string;
 };
 
+type titleProps = {
+  children: ReactNode;
+  title: string;
+  subtitle: string;
+}
 /*
 const demo = {
   "uh_id": 1234567,
@@ -58,4 +64,4 @@ type dataTableProps = {
   className?: string;
 };
 
-export type { memberType, layoutProps, textInputProps, dataTableProps };
+export type { memberType, layoutProps, textInputProps, dataTableProps, titleProps };

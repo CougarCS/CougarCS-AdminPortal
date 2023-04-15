@@ -8,7 +8,7 @@ import poster from "../../utils/poster";
 import { memberType } from "../../types/types";
 import { toast } from "sonner";
 import { DataTable } from "../../components/dataTable/DataTable";
-
+import { Title } from "../../components/title";
 import { ViewMemberModal } from "../../components/membersModal/viewMemberModal";
 
 const Members: NextPage = () => {
@@ -68,7 +68,13 @@ const Members: NextPage = () => {
   }
 
   return (
+
     <Layout>
+      <Title
+        title="Contacts"
+        subtitle="All past, present, and future? CougarCS members and event attendees.">
+      </Title>
+
       <ViewMemberModal
         isOpen={modalOpen}
         member={modalData}
