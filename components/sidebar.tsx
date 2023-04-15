@@ -3,6 +3,7 @@ import { FaHome, FaUsers, FaCalendarAlt, FaCog, FaSignOutAlt } from 'react-icons
 import { NavElement } from './sidebarNavElement';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 // moving logout function here for the sake of keeping layout file cleaner,
 // and because it's not really reused so it can sit here anyway
@@ -14,6 +15,7 @@ const menuOptions = [
 const Sidebar = () =>
 {
   const router = useRouter();
+  const supabase = useSupabaseClient();
 
   return (
     <div id="sidebar" className="min-h-full w-56 bg-sidebarBG flex justify-between flex-col">
@@ -41,8 +43,8 @@ const Sidebar = () =>
           );
         })}
       </div>
-      <div className="flex flex-col justify-end mt-auto">
-        <button onClick={() => { }} className="bg-red-500 text-white px-4 py-2 text-sm uppercase mt-3 mx-3 rounded-full hover:bg-red-600">Logout</button>
+      <div className="flex flex-col justify-end mt-auto mb-4">
+        <button onClick={async () => { await supabase.auth.signOut(); router.push("/login"); }} className="bg-red-500 text-white px-4 py-2 text-sm uppercase mt-3 mx-3 rounded-full hover:bg-red-600">Log out</button>
       </div>
     </div >
   );
