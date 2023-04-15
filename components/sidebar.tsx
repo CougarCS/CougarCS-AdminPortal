@@ -1,6 +1,5 @@
 import React from 'react';
 import { FaHome, FaUsers, FaCalendarAlt, FaCog, FaSignOutAlt } from 'react-icons/fa';
-import { useState } from 'react';
 import { NavElement } from './sidebarNavElement';
 import { useRouter } from 'next/router';
 
@@ -9,7 +8,8 @@ import { useRouter } from 'next/router';
 // and because it's not really reused so it can sit here anyway
 
 const menuOptions = [
-  { title: "Members", icon: <FaUsers />, path: "/dashboard/members" }
+  { title: "Overview", icon: <FaHome className='h-7 w-7' />, path: "/" },
+  { title: "Members", icon: <FaUsers className='h-7 w-7' />, path: "/dashboard/members" }
 ];
 const Sidebar = () =>
 {
