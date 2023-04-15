@@ -55,6 +55,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(200).json(contacts);
   }
+
+  if (req.method === "PUT") {
+    const { body } = req;
+
+    const contactResponse = await supabase
+      .from("contacts")
+      .update([body])
+      .eq("contact_id", body.contact_id)
+      .select("*");
+
+    if (contactResponse.error)
+    {
+      return res.status(500).json({
+        error: "Internal Server Error",
+        description: "Something went wrong: We couldn't update the member.",
+      });
+    }
+
+    return res.status(200).json(contactResponse);
+  }
 };
 
 export default handler;
