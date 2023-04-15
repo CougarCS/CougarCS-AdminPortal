@@ -30,8 +30,8 @@ const Sidebar = () =>
           <p className="text-lg font-bold text-white">CougarCS</p>
           <p className="text-sm font-light text-white">Admin Portal</p>
         </div>
-
       </div>
+      
       <div id="sidebar-content" className="sticky top-0 items-center">
         {menuOptions.map((item) =>
         {
