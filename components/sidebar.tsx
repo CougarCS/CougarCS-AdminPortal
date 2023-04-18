@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaHome, FaUsers, FaCalendarAlt, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaUsers, FaUserPlus, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import { NavElement } from './sidebarNavElement';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -10,7 +10,8 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 const menuOptions = [
   { title: "Overview", icon: <FaHome className='h-7 w-7' />, path: "/" },
-  { title: "Members", icon: <FaUsers className='h-7 w-7' />, path: "/dashboard/members" }
+  { title: "Members", icon: <FaUsers className='h-7 w-7' />, path: "/dashboard/members" },
+  { title: "Add Officer", icon: <FaUserPlus className='h-7 w-7' />, path: "/dashboard/signup" }
 ];
 const Sidebar = () =>
 {
