@@ -12,7 +12,7 @@ export const MemberInformationModal = ({
   setModalOpen,
   member,
 }: memberInformationModalProps) => {
-  const timestamp = member.timestamp.slice(0, member.timestamp.search("T"));
+  const timestamp = member.timestamp;
 
   const buttonCSS =
     "w-20 rounded-lg px-4 py-[3px] text-xl font-medium transition-colors";

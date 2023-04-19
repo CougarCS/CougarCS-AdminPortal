@@ -19,7 +19,7 @@ export const UpdateMemberModal = ({
   setModalOpen,
   member,
 }: updateMemberModalProps) => {
-  const timestamp = member.timestamp.slice(0, member.timestamp.search("T"));
+  const timestamp = member.timestamp;
 
   const [memberInfo, setMemberInfo] = useState<updateMemberInformation>({
     email: member.email,

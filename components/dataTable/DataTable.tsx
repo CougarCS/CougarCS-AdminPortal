@@ -1,5 +1,6 @@
 import React from "react";
 import { dataTableProps } from "../../types/types";
+import dayjs from 'dayjs';
 
 export const DataTable = ({
   schema,
@@ -18,6 +19,7 @@ export const DataTable = ({
   ));
 
   const rowElements = data.map((row: any, rowIndex) => {
+    row.timestamp = dayjs(row.timestamp).format('MM-DD-YYYY');
     const columns = columnValues.map((value: any, colIndex) => {
       return (
         <td
