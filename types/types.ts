@@ -63,4 +63,21 @@ type dataTableProps = {
   className?: string;
 };
 
-export type { memberType, layoutProps, textInputProps, dataTableProps, titleProps };
+type SSPConfig = {
+  // if query is undef, don't search :)
+  query?: string;
+
+  // sort objects by object[property], using dir to determine whether
+  // to use < or >
+  sort: {
+    property: keyof memberType;
+    dir: "ascending" | "descending";
+  };
+
+  // split elements into arrays of length paginate
+  // if paginate is 0, just put all the elements into 1 array
+  // and return that array inside another array (so it fits the type def)
+  paginate: number;
+};
+
+export type { memberType, layoutProps, textInputProps, dataTableProps, titleProps, SSPConfig };
