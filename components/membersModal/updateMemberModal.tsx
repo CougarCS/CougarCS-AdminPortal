@@ -23,8 +23,6 @@ export const UpdateMemberModal = ({
   setModalOpen,
   member,
 }: updateMemberModalProps) => {
-  const timestamp = member.timestamp;
-
   const [memberInfo, setMemberInfo] = useState<updateMemberInformation>({
     email: member.email,
     phone_number: member.phone_number,
@@ -124,8 +122,8 @@ export const UpdateMemberModal = ({
           />
         </div>
 
-        <p>Timestamp: {timestamp}</p>
-        <p>Member since: {timestamp}</p>
+        <p>Timestamp: {member.timestamp}</p>
+        <p>Member since: {member.timestamp}</p>
         <p>Cougar Coins: 0</p>
       </div>
       <div className="flex items-center justify-end gap-6">
