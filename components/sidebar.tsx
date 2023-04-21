@@ -45,7 +45,7 @@ const Sidebar = () =>
         })}
       </div>
       <div className="flex flex-col justify-end mt-auto mb-4">
-        <button onClick={async () => { await supabase.auth.signOut(); router.push("/login"); }} className="bg-red-500 text-white px-4 py-2 text-sm uppercase mt-3 mx-3 rounded-full hover:bg-red-600">Log out</button>
+        <button onClick={async () => { await supabase.auth.signOut(); router.push("/login"); }} className="text-red-500 px-4 py-2 text-lg"><FaSignOutAlt className="inline-block mr-2 h-7 w-7" />Log Out</button>
       </div>
     </div >
   );
