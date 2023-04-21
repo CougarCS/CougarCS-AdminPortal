@@ -45,7 +45,7 @@ export const DataTable = ({
   });
 
   return (
-    <table className={`border-collapse rounded-md bg-tableHD ${className}`}>
+    <table className={`border-collapse w-full rounded-md bg-tableHD ${className}`}>
       <thead>
         <tr className="sticky top-0">{headerElements}</tr>
       </thead>
