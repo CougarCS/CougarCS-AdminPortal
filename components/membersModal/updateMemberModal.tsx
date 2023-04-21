@@ -82,11 +82,16 @@ export const UpdateMemberModal = ({
     }
   }
 
+  const disableSaveButton =
+    memberInfo.email == member.email &&
+    memberInfo.phone_number == member.phone_number &&
+    memberInfo.shirt_size_id == member.shirt_size_id;
+
   const shirtSizeOptions = ["XS", "S", "M", "L", "XL", "XXL"];
 
   const inputCSS =
     "mb-2 h-10 w-full rounded-md border-[1px] border-gray-600 bg-transparent px-3 outline-0 transition-all hover:border-gray-200 focus:border-gray-200";
-  const buttonCSS = "rounded-lg px-4 py-[3px] font-medium transition-colors";
+  const buttonCSS = "rounded-lg px-4 py-[3px] font-medium";
   return (
     <>
       <div className="mt-4 mb-14 flex flex-col gap-2 text-xl">
@@ -135,8 +140,9 @@ export const UpdateMemberModal = ({
         </button>
         <button
           onClick={onSubmit}
-          className={`${buttonCSS} w-20 bg-red-600 text-lg text-white hover:bg-red-700`}
+          className={`${buttonCSS} w-20 bg-red-600 text-lg text-white transition-all hover:bg-red-700 disabled:bg-red-600 disabled:bg-opacity-40 disabled:text-gray-900 disabled:text-opacity-70 disabled:hover:cursor-not-allowed`}
           aria-label="Save member information"
+          disabled={disableSaveButton}
         >
           Save
         </button>
