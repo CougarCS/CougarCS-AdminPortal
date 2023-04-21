@@ -137,7 +137,7 @@ const Members: NextPage = () =>
             </div>
 
             <div>
-              <span className="text-lg">Sort members by: </span>
+              <span className="text-lg">Sort contacts by: </span>
               <SelectInput name="sortBy" ariaLabel="Sort Data By" height="h-fit"
                 width="w-fit"
                 textSize="text-lg"
