@@ -29,9 +29,8 @@ const Signup: NextPage = () => {
 
     setLoading(false);
 
-    if (error) toast.success(`Signup Error: ${error.message}`);
-
-    if (data) toast.success("Account invite sent!");
+    if (error) toast.error(`Signup Error: ${error.message}`)
+    else if (data) toast.success("Account invite sent!");
   };
 
   if (loading) {
@@ -49,7 +48,7 @@ const Signup: NextPage = () => {
     <Layout title="Officer Signup">
       <Title
         title="Officer Signup"
-        subtitle="">
+        subtitle="Add new coogs to the pack! 😸">
       </Title>
       <div className="w-5/12 mx-auto place-content-center">
 

@@ -1,29 +1,36 @@
 import React, { useState } from "react";
+import { AiOutlineSearch } from "react-icons/ai";
 
-export default function SearchBox() {
+type SearchBoxProps = {
+    initSearch: (query: string) => void;
+};
+
+export default function SearchBox({ initSearch }: SearchBoxProps)
+{
     const [searchKey, setSearchKey] = useState('');
+
+    const enterPressed = (event: React.KeyboardEvent) =>
+    {
+        if (event.key === "Enter")
+        {
+            initSearch(searchKey);
+        }
+    };
+    // <TextInput label="" name="memberSearch" placeholder="Search Members" className="ml-auto mt-auto w-2/5" />
     return (
-            <div className="relative">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                </svg>
-                <input 
-                    name="searchBox" 
-                    placeholder="Search"
-                    value={searchKey}
-                    onChange={e => setSearchKey(e.target.value)}
-                />
+        <label className="w-full relative">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <AiOutlineSearch className="w-5 h-5 bg-selectInputBG text-neutral-500" />
             </div>
+
+            <input
+                className="peer pl-10 w-full h-9 px-2 bg-selectInputBG placeholder:text-neutral-500 focus:outline-none focus:border-white focus:ring-white border border-neutral-500 rounded-sm"
+                name="searchBox"
+                placeholder={"Search"}
+                value={searchKey}
+                onKeyDown={enterPressed}
+                onChange={e => setSearchKey(e.target.value)}
+            />
+        </label>
     );
 }
