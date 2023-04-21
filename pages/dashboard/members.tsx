@@ -2,10 +2,10 @@ import type { NextPage } from "next";
 import Layout from "../../components/layout";
 import useSWR, { mutate } from "swr";
 import fetcher from "../../utils/fetcher";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LoadSpinner } from "../../components/loadingSpinner";
 import poster from "../../utils/poster";
-import { memberType } from "../../types/types";
+import { SSPConfig, memberType } from "../../types/types";
 import { toast } from "sonner";
 import { DataTable } from "../../components/dataTable/DataTable";
 import { Title } from "../../components/title";
@@ -13,6 +13,7 @@ import { ViewMemberModal } from "../../components/membersModal/viewMemberModal";
 import { SelectInput } from "../../components/selectInput";
 import SearchBox from "../../components/searchBox";
 import { TextInput } from "../../components/textInput";
+import { searchSortPaginate } from "../../utils/searchSortPaginate";
 
 const Members: NextPage = () =>
 {
@@ -21,7 +22,6 @@ const Members: NextPage = () =>
   const [errorMessage, setErrorMessage] = useState(
     "Unable to retrieve member data."
   );
-
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState<memberType>({
@@ -35,24 +35,57 @@ const Members: NextPage = () =>
     timestamp: "01/01/1970",
   });
 
-  type paginationOptions = "20" | "50" | "100" | "All";
-  const [paginationCount, setPaginationCount] = useState<paginationOptions>("20");
-
-  const sortOpts = ["First", "Last", "UH ID", "Email", "Timestamp"] as const;
-  type sorts = typeof sortOpts[number];
-  const [sortBy, setSortBy] = useState<sorts>("First");
-
-  // const presentableData : memberType[][] = searchSortPaginate();
-
-  const schema = {
-    "UH ID": "uh_id",
-    First: "first_name",
-    Last: "last_name",
-    Email: "email",
-    Phone: "phone_number",
-    Shirt: "shirt_size_id",
-    Timestamp: "timestamp",
+  type schemaDef = {
+    [key: string]: keyof memberType;
   };
+  const schema: schemaDef = {
+    "UH ID": "uh_id",
+    "First": "first_name",
+    "Last": "last_name",
+    "Email": "email",
+    "Phone": "phone_number",
+    "Shirt": "shirt_size_id",
+    "Timestamp": "timestamp",
+  };
+
+  type paginationDef = {
+    [key: string]: number;
+  };
+  const paginationOpts: paginationDef = {
+    "20": 20,
+    "50": 50,
+    "100": 100,
+    "All": 1000
+  };
+
+  // search, sort, filter
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [paginationCount, setPaginationCount] = useState<string>("20");
+
+  const [sortBy, setSortBy] = useState<keyof memberType>("first_name");
+  const [sortDsc, setSortDsc] = useState(false);
+
+  const sspConfig: SSPConfig = {
+    paginate: paginationOpts[paginationCount],
+    sort: {
+      dir: sortDsc ? "descending" : "ascending",
+      property: sortBy
+    },
+    query: (searchQuery === "") ? undefined : searchQuery,
+  };
+
+  useEffect(() =>
+  {
+    if (data)
+    {
+      setPresentableData(searchSortPaginate(data, sspConfig));
+    }
+  }, [data]);
+
+  const [presentableData, setPresentableData] = useState<memberType[][]>(searchSortPaginate(data, sspConfig));
+  const [dataPage, setDataPage] = useState(0);
 
   if (error)
   {
@@ -71,7 +104,7 @@ const Members: NextPage = () =>
     );
   }
 
-  if (isLoading)
+  if (isLoading || presentableData[0] === undefined)
   {
     return (
       <Layout>
@@ -83,11 +116,10 @@ const Members: NextPage = () =>
   }
 
   return (
-
     <Layout>
       <Title
         title="Contacts"
-        subtitle="All past, present, and future? CougarCS members and event attendees.">
+        subtitle="All past, present, and future? 🤯 CougarCS members and event attendees.">
         <div className="flex flex-row">
           <div className="mt-2 flex flex-col gap-2">
             <div>
@@ -95,11 +127,10 @@ const Members: NextPage = () =>
               <SelectInput name="pagination" ariaLabel="Contacts Per Page" height="h-fit"
                 width="w-fit"
                 textSize="text-lg"
-                options={["20", "50", "100", "All"]}
+                options={Object.keys(paginationOpts)}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                 {
-                  const { value, name } = e.target;
-                  setPaginationCount(value as paginationOptions);
+                  setPaginationCount(e.target.value);
                 }}
                 value={paginationCount}
               />
@@ -110,18 +141,25 @@ const Members: NextPage = () =>
               <SelectInput name="sortBy" ariaLabel="Sort Data By" height="h-fit"
                 width="w-fit"
                 textSize="text-lg"
-                options={["First", "Last", "UH ID", "Email", "Timestamp"]}
+                options={Object.keys(schema)}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                 {
-                  const { value, name } = e.target;
-                  setSortBy(value as sorts);
+                  const val = schema[e.target.value];
+                  setSortBy(val);
                 }}
-                value={sortBy}
+                value={schema[sortBy]}
               />
+
+              <label>
+                <span className="ml-2 mr-1 text-lg">Descending:</span>
+                <input type="checkbox" className="accent-red-500 scale-125" checked={sortDsc} onChange={e => setSortDsc(e.target.checked)} />
+              </label>
             </div>
           </div>
-          <TextInput label="" name="memberSearch" placeholder="Search Members" className="ml-auto mt-auto w-2/5" />
 
+          <div className="w-2/5 mt-auto ml-auto">
+            <SearchBox initSearch={setSearchQuery} />
+          </div>
         </div>
       </Title>
 
@@ -140,35 +178,13 @@ const Members: NextPage = () =>
           <DataTable
             className="mt-4"
             schema={schema}
-            data={data}
+            data={presentableData[dataPage]}
             rowClick={(modalData) =>
             {
               setModalData(modalData);
               setModalOpen(true);
             }}
           />
-          <button
-            onClick={async () =>
-            {
-              setError(false);
-
-              const res = await poster("/api/members", modalData);
-
-              if (res.error)
-              {
-                setError(true);
-                setErrorMessage(res.description);
-                toast.error(`Contacts Error: ${res.description}`);
-                return;
-              }
-
-              toast.success(`Successfully added ${modalData.first_name}.`);
-              mutate("/api/members", data, false);
-            }}
-            className="h-9 rounded-sm bg-red-600 px-4 text-sm font-semibold text-white hover:bg-red-700"
-          >
-            Add Member
-          </button>
         </>
 
       )}
@@ -177,3 +193,27 @@ const Members: NextPage = () =>
 };
 
 export default Members;
+
+// for future ref/use
+/* <button
+  onClick={async () =>
+  {
+    setError(false);
+
+    const res = await poster("/api/members", modalData);
+
+    if (res.error)
+    {
+      setError(true);
+      setErrorMessage(res.description);
+      toast.error(`Contacts Error: ${res.description}`);
+      return;
+    }
+
+    toast.success(`Successfully added ${modalData.first_name}.`);
+    mutate("/api/members", data, false);
+  }}
+  className="h-9 rounded-sm bg-red-600 px-4 text-sm font-semibold text-white hover:bg-red-700"
+>
+  Add Member
+</button>; */
