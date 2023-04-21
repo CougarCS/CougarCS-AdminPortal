@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { memberType } from "../../types/types";
 import { SelectInput } from "../selectInput";
+import { toast } from "sonner";
+import fetcher from "../../utils/fetcher";
+import putter from "../../utils/putter";
+import useSWR, { mutate } from "swr";
 
 type updateMemberModalProps = {
   member: memberType;
@@ -27,6 +31,8 @@ export const UpdateMemberModal = ({
     shirt_size_id: member.shirt_size_id,
   });
 
+  const { data } = useSWR("/api/members", fetcher);
+
   function handleChange(
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -41,16 +47,39 @@ export const UpdateMemberModal = ({
     });
   }
 
-  function onSubmit() {
-    const updatedMemberInfo: memberType = {
-      ...member,
-      email: memberInfo.email,
-      phone_number: memberInfo.phone_number,
-      shirt_size_id: memberInfo.shirt_size_id,
-    };
+  async function onSubmit() {
+    try {
+      const updatedMemberInfo: memberType = {
+        ...member,
+        email: memberInfo.email,
+        phone_number: memberInfo.phone_number,
+        shirt_size_id: memberInfo.shirt_size_id,
+      };
 
-    setIsUpdatingMember(false);
-    setModalOpen(false);
+      const res = await putter("/api/members", updatedMemberInfo);
+
+      if (res.error) {
+        throw new Error(`Update Error: ${res.description}`);
+      }
+
+      const returnedMemberInfo: memberType = res.data[0];
+
+      const updatedMemberCacheData = data.map((member: memberType) => {
+        if (returnedMemberInfo.contact_id === member.contact_id) {
+          return returnedMemberInfo;
+        }
+        return member;
+      });
+
+      mutate("/api/members", updatedMemberCacheData, false);
+
+      setIsUpdatingMember(false);
+      setModalOpen(false);
+      toast.success(`Successfully updated ${returnedMemberInfo.first_name}.`);
+    } catch (error) {
+      const err = error as string;
+      return toast.error(err);
+    }
   }
 
   const shirtSizeOptions = ["XS", "S", "M", "L", "XL", "XXL"];
