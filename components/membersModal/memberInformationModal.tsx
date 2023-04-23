@@ -12,8 +12,6 @@ export const MemberInformationModal = ({
   setModalOpen,
   member,
 }: memberInformationModalProps) => {
-  const timestamp = member.timestamp;
-
   const buttonCSS =
     "w-20 rounded-lg px-4 py-[3px] text-xl font-medium transition-colors";
 
@@ -23,8 +21,8 @@ export const MemberInformationModal = ({
         <p>Phone #: {member.phone_number}</p>
         <p>Email: {member.email}</p>
         <p>Shirt Size: {member.shirt_size_id}</p>
-        <p>Timestamp: {timestamp}</p>
-        <p>Member since: {timestamp}</p>
+        <p>Timestamp: {member.timestamp}</p>
+        <p>Member since: {member.timestamp}</p>
         <p>Cougar Coins: 0</p>
       </div>
       <div className="flex items-center justify-end gap-6">
