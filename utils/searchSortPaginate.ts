@@ -29,7 +29,7 @@ export function searchSortPaginate(data: memberType[], cfg: SSPConfig): memberTy
     });
   }
   else {
-    newArr = data;
+    newArr = [...data];
   }
 
   // Sort
