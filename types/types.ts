@@ -29,7 +29,7 @@ type titleProps = {
   children: ReactNode;
   title: string;
   subtitle: string;
-}
+};
 /*
 const demo = {
   "uh_id": 1234567,
@@ -80,4 +80,12 @@ type SSPConfig = {
   paginate: number;
 };
 
-export type { memberType, layoutProps, textInputProps, dataTableProps, titleProps, SSPConfig };
+type eventDetails = {
+  title: string,
+  description: string,
+  date: string,
+  duration: number,
+  point_value: number,
+};
+
+export type { memberType, layoutProps, textInputProps, dataTableProps, titleProps, SSPConfig, eventDetails };
