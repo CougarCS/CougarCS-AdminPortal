@@ -15,8 +15,7 @@ import SearchBox from "../../components/searchBox";
 import { TextInput } from "../../components/textInput";
 import { searchSortPaginate } from "../../utils/searchSortPaginate";
 
-const Members: NextPage = () =>
-{
+const Members: NextPage = () => {
   const { data, error, isLoading } = useSWR("/api/members", fetcher);
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
@@ -76,19 +75,14 @@ const Members: NextPage = () =>
     query: (searchQuery === "") ? undefined : searchQuery,
   };
 
-  useEffect(() =>
-  {
-    if (data)
-    {
-      setPresentableData(searchSortPaginate(data, sspConfig));
-    }
-  }, [data]);
-
-  const [presentableData, setPresentableData] = useState<memberType[][]>(searchSortPaginate(data, sspConfig));
   const [dataPage, setDataPage] = useState(0);
 
-  if (error)
-  {
+  let presentableData;
+  if (data) {
+    presentableData = searchSortPaginate(data, sspConfig);
+  }
+
+  if (error) {
     toast.error(`Contacts Error: ${errorMessage}`);
     return (
       <Layout>
@@ -104,8 +98,7 @@ const Members: NextPage = () =>
     );
   }
 
-  if (isLoading || presentableData[0] === undefined)
-  {
+  if (isLoading || !presentableData || presentableData[0] === undefined) {
     return (
       <Layout>
         <div className="grid h-screen place-content-center">
@@ -128,8 +121,7 @@ const Members: NextPage = () =>
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(paginationOpts)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   setPaginationCount(e.target.value);
                 }}
                 value={paginationCount}
@@ -142,8 +134,7 @@ const Members: NextPage = () =>
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(schema)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   const val = schema[e.target.value];
                   setSortBy(val);
                 }}
@@ -179,8 +170,7 @@ const Members: NextPage = () =>
             className="mt-4"
             schema={schema}
             data={presentableData[dataPage]}
-            rowClick={(modalData) =>
-            {
+            rowClick={(modalData) => {
               setModalData(modalData);
               setModalOpen(true);
             }}
