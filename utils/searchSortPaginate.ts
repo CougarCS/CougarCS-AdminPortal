@@ -36,13 +36,11 @@ export function searchSortPaginate(data: memberType[], cfg: SSPConfig): memberTy
   newArr?.sort(comparison(cfg.sort.property, cfg.sort.dir));
 
   // Paginate
-  const paginate = newArr?.slice(0, cfg.paginate);
-
-
 
   const output: memberType[][] = [];
-  output.push(paginate);
-
+  while (newArr.length > 0) {
+    output.push(newArr.splice(0, cfg.paginate));
+  }
   return output;
 };
 
