@@ -14,8 +14,10 @@ import { SelectInput } from "../../components/selectInput";
 import SearchBox from "../../components/searchBox";
 import { TextInput } from "../../components/textInput";
 import { searchSortPaginate } from "../../utils/searchSortPaginate";
+import router from "next/router";
 
-const Members: NextPage = () => {
+const Members: NextPage = () =>
+{
   const { data, error, isLoading } = useSWR("/api/members", fetcher);
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
@@ -78,11 +80,13 @@ const Members: NextPage = () => {
   const [dataPage, setDataPage] = useState(0);
 
   let presentableData;
-  if (data) {
+  if (data)
+  {
     presentableData = searchSortPaginate(data, sspConfig);
   }
 
-  if (error) {
+  if (error)
+  {
     toast.error(`Contacts Error: ${errorMessage}`);
     return (
       <Layout>
@@ -98,7 +102,8 @@ const Members: NextPage = () => {
     );
   }
 
-  if (isLoading || !presentableData || presentableData[0] === undefined) {
+  if (isLoading || !presentableData || presentableData[0] === undefined)
+  {
     return (
       <Layout>
         <div className="grid h-screen place-content-center">
@@ -113,6 +118,7 @@ const Members: NextPage = () => {
       <Title
         title="Contacts"
         subtitle="All past, present, and future? 🤯 CougarCS members and event attendees.">
+
         <div className="flex flex-row">
           <div className="mt-2 flex flex-col gap-2">
             <div>
@@ -121,7 +127,8 @@ const Members: NextPage = () => {
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(paginationOpts)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                {
                   setPaginationCount(e.target.value);
                 }}
                 value={paginationCount}
@@ -134,11 +141,12 @@ const Members: NextPage = () => {
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(schema)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                {
                   const val = schema[e.target.value];
                   setSortBy(val);
                 }}
-                value={schema[sortBy]}
+                value={schema[sortBy] ? schema[sortBy] : "First"}
               />
 
               <label>
@@ -147,8 +155,11 @@ const Members: NextPage = () => {
               </label>
             </div>
           </div>
+        </div>
 
-          <div className="w-2/5 mt-auto ml-auto">
+        <div className="mt-3 w-full flex flex-row gap-x-4">
+          <button className="px-4 py-2 bg-selectInputBG rounded-md" onClick={() => { router.push("/dashboard/addmember"); }}>Add Contact</button> <button className="px-4 py-2 bg-selectInputBG rounded-md">Delete Contact</button>
+          <div className="ml-auto my-auto w-2/5">
             <SearchBox initSearch={setSearchQuery} />
           </div>
         </div>
@@ -166,11 +177,13 @@ const Members: NextPage = () => {
         <a>loading...</a>
       ) : (
         <>
+
           <DataTable
-            className="mt-4"
+            className=""
             schema={schema}
             data={presentableData[dataPage]}
-            rowClick={(modalData) => {
+            rowClick={(modalData) =>
+            {
               setModalData(modalData);
               setModalOpen(true);
             }}
