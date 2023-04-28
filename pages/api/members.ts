@@ -1,14 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) =>
+{
   const supabase = createServerSupabaseClient({ req, res });
 
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session) {
+  if (!session)
+  {
     return res.status(401).json({
       error: "Unauthorized",
       description:
@@ -16,7 +18,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 
-  if (req.method === "POST") {
+  if (req.method === "POST")
+  {
     const { body } = req;
 
     const { data, error } = await supabase
@@ -24,8 +27,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       .insert([body])
       .select();
 
-    if (error) {
-      if (error.code === "23505") {
+    if (error)
+    {
+      if (error.code === "23505")
+      {
         return res.status(409).json({
           error: "Conflict",
           description: "This contact already exists.",
@@ -41,12 +46,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json({ data: data });
   }
 
-  if (req.method === "GET") {
+  if (req.method === "GET")
+  {
     const { data: contacts, error } = await supabase
       .from("contacts")
       .select("*");
 
-    if (error) {
+    if (error)
+    {
       return res.status(500).json({
         error: "Internal Server Error",
         description: "Something went wrong.",
@@ -56,7 +63,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json(contacts);
   }
 
-  if (req.method === "PUT") {
+  if (req.method === "PUT")
+  {
     const { body } = req;
 
     const contactResponse = await supabase
@@ -74,6 +82,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     return res.status(200).json(contactResponse);
+  }
+
+  if (req.method === "DELETE")
+  {
+    const { body } = req;
+
+    const deleteResponse = await supabase
+      .from("contacts")
+      .delete()
+      .eq("contact_id", body.contact_id);
+
+    if (deleteResponse.error)
+    {
+      return res.status(500).json({
+        error: "Internal Server Error",
+        description: "Something went wrong: We couldn't delete the member.",
+      });
+    }
+
+    return res.status(200).json(deleteResponse);
   }
 };
 
