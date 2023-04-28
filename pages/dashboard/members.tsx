@@ -158,7 +158,8 @@ const Members: NextPage = () =>
         </div>
 
         <div className="mt-3 w-full flex flex-row gap-x-4">
-          <button className="px-4 py-2 bg-selectInputBG rounded-md" onClick={() => { router.push("/dashboard/addmember"); }}>Add Contact</button> <button className="px-4 py-2 bg-selectInputBG rounded-md">Delete Contact</button>
+          <button className="px-4 py-2 bg-selectInputBG rounded-md" onClick={() => { router.push("/dashboard/addmember"); }}>Add Contact</button>
+          <button className="px-4 py-2 bg-selectInputBG rounded-md" onClick={() => { router.push("/dashboard/delmember"); }}>Delete Contact</button>
           <div className="ml-auto my-auto w-2/5">
             <SearchBox initSearch={setSearchQuery} />
           </div>
