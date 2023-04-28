@@ -81,6 +81,7 @@ type SSPConfig = {
 };
 
 type eventDetails = {
+  event_id: string,
   title: string,
   description: string,
   date: string,
