@@ -3,10 +3,12 @@ import Image from "next/image";
 import Layout from "../components/layout";
 import { AiOutlineDashboard, AiOutlineUnorderedList, AiOutlineUserAdd, AiOutlineLogout } from "react-icons/ai";
 import { useRouter } from "next/router";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const Home: NextPage = () =>
 {
   const router = useRouter();
+  const supabase = useSupabaseClient();
 
   return (
     <Layout title="Home">
@@ -47,7 +49,10 @@ const Home: NextPage = () =>
           </span>
         </button>
 
-        <button onClick={() => router.push("/dashboard/signup")}
+        <button onClick={ async ()=> {
+            const { error } = await supabase.auth.signOut()
+            router.push('/login')
+          }}
           className="flex justify-center w-full text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700 space-x-2">
           <AiOutlineLogout className="my-auto" />
           <span className="my-auto">
