@@ -18,7 +18,9 @@ const Layout = ({ children, title, sidebarHidden }: layoutProps) =>
       </Head>
 
       <div className="w-full min-h-screen flex text-white">
-        {sidebarHidden ? null : <Sidebar />}
+        {sidebarHidden ? null : <Sidebar onLogout={function (): void {
+          throw new Error("Function not implemented.");
+        } } />}
 
         <div id="layout-content" className="bg-mainBG flex-1 p-8">
           {children}

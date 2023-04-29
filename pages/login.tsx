@@ -10,16 +10,14 @@ import { TextInput } from "../components/textInput";
 import { PasswordInput } from "../components/pwInput";
 import { LoadSpinner } from "../components/loadingSpinner";
 
-const Login: NextPage = () =>
-{
+const Login: NextPage = () => {
   const session = useSession();
   const supabase = useSupabaseClient();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>
-  {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
@@ -35,25 +33,20 @@ const Login: NextPage = () =>
 
     setLoading(false);
 
-    if (error)
-    {
+    if (error) {
       toast.error(`Failed to login: ${error.message}`);
       return;
     }
 
-    if (data)
-    {
-      await router.push("/dashboard");
+    if (data) {
+      await router.push("/");
     }
   };
-
-  if (session)
-  {
-    router.push("/dashboard");
+  if (session) {
+    router.push("/");
   }
 
-  if (loading)
-  {
+  if (loading) {
     return (
       <Layout title="Officer Login" sidebarHidden>
         <div className="my-32 max-w-md w-full mx-auto">

@@ -20,10 +20,10 @@ The backend is built using NextJS and Typescript which is connected to Supabase.
 - #### Requirements
 
   - [NodeJS](https://nodejs.org/en/) Version 16+
-  - [Yarn](https://yarnpkg.com/)
+  - [npm](https://www.npmjs.com/)
 
 - #### Installation
-  1. `yarn` to install packages
+  1. `npm` to install packages
   2. Create an `.env` in the root (./) directory with the following variables:
      You can obtain the values for these variables from the Supabase project dashboard.
   ```
@@ -32,14 +32,14 @@ The backend is built using NextJS and Typescript which is connected to Supabase.
   ```
   3. You're good to go!
 - #### Scripts
-  - `yarn start` : Runs the code normally using next start
-  - `yarn dev` : Starts the development server.
-  - `yarn build` : Builds the application for production usage.
+  - `npm start` : Runs the code normally using next start
+  - `npm run dev` : Starts the development server.
+  - `npm run build` : Builds the application for production usage.
 - #### Linting/Styling
   - This repo uses ESLint and Prettier to enforce linting and styling rules.
-  - `yarn lint` : Runs ESLint on the codebase.
-  - `yarn prettier` : Runs Prettier on the codebase.
-  - `yarn prettier:fix` : Runs Prettier on the codebase and fixes any issues.
+  - `npm run lint` : Runs ESLint on the codebase.
+  - `npm run prettier` : Runs Prettier on the codebase.
+  - `npm run prettier:fix` : Runs Prettier on the codebase and fixes any issues.
   - We highly suggest using an ESLint and Prettier plugin for your respective editor to aid with development.
 - #### Structure
   - `_app.tsx` : This is the root component of the application.

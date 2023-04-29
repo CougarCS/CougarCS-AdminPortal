@@ -7,8 +7,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "mainBG": "#1C1C1C",
-        "sidebarBG": "#131313",
+        mainBG: "#1C1C1C",
+        sidebarBG: "#131313",
+        selectInputBG: "#2b2b2b",
+        tableHD: "#303030",
       },
     },
   },
