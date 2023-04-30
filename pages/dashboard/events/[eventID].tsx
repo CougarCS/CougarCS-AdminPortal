@@ -125,7 +125,7 @@ const EventDetails: NextPage = () =>
     <Layout>
       <Title
         title={data.title}
-        subtitle="All past, present, and future? 🤯 CougarCS members and event attendees.">
+        subtitle={data.description}>
 
         <div className="flex flex-row">
           <div className="mt-2 flex flex-col gap-2">
