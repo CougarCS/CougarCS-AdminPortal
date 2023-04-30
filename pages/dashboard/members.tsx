@@ -102,7 +102,7 @@ const Members: NextPage = () =>
     );
   }
 
-  if (isLoading || !presentableData || presentableData[0] === undefined)
+  if (isLoading)
   {
     return (
       <Layout>
@@ -174,11 +174,8 @@ const Members: NextPage = () =>
 
       <br />
 
-      {isLoading ? (
-        <a>loading...</a>
-      ) : (
+      {presentableData !== undefined && presentableData[0] !== undefined ? (
         <>
-
           <DataTable
             className=""
             schema={schema}
@@ -190,7 +187,15 @@ const Members: NextPage = () =>
             }}
           />
         </>
-
+      ) : (
+        <div className="flex flex-col mt-4 place-content-center">
+          <h1 className="text-center text-3xl font-bold text-red-600">
+            No Contacts Found
+          </h1>
+          <h2 className="mt-2 text-center text-xl font-medium text-white">
+            No contacts matched your query.
+          </h2>
+        </div>
       )}
     </Layout>
   );
