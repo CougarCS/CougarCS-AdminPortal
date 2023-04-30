@@ -1,27 +1,35 @@
-import type { NextPage } from "next";
-import Layout from "../../components/layout";
-import useSWR, { mutate } from "swr";
-import fetcher from "../../utils/fetcher";
-import { useEffect, useState } from "react";
-import { LoadSpinner } from "../../components/loadingSpinner";
-import poster from "../../utils/poster";
-import { SSPConfig, memberType } from "../../types/types";
-import { toast } from "sonner";
-import { DataTable } from "../../components/dataTable/DataTable";
-import { Title } from "../../components/title";
-import { ViewMemberModal } from "../../components/membersModal/viewMemberModal";
-import { SelectInput } from "../../components/selectInput";
-import SearchBox from "../../components/searchBox";
-import { TextInput } from "../../components/textInput";
-import { searchSortPaginate } from "../../utils/searchSortPaginate";
-import router from "next/router";
+// The cool thing about the UI we wrote for the Contacts page
+// is that a lot of it can also be used for the event details page.
+// I think the page should be extracted into a component, maybe?
+// That's a far far into the future change though.
 
-const Members: NextPage = () =>
+import type { NextPage } from "next";
+import Layout from "../../../components/layout";
+import useSWR, { mutate } from "swr";
+import fetcher from "../../../utils/fetcher";
+import { useEffect, useState } from "react";
+import { LoadSpinner } from "../../../components/loadingSpinner";
+import poster from "../../../utils/poster";
+import { SSPConfig, eventDetails, memberType } from "../../../types/types";
+import { toast } from "sonner";
+import { DataTable } from "../../../components/dataTable/DataTable";
+import { Title } from "../../../components/title";
+import { ViewMemberModal } from "../../../components/membersModal/viewMemberModal";
+import { SelectInput } from "../../../components/selectInput";
+import SearchBox from "../../../components/searchBox";
+import { TextInput } from "../../../components/textInput";
+import { searchSortPaginate } from "../../../utils/searchSortPaginate";
+import router, { useRouter } from "next/router";
+
+const EventDetails: NextPage = () =>
 {
-  const { data, error, isLoading } = useSWR("/api/members", fetcher);
+  const router = useRouter();
+  const { eventID } = router.query;
+  const { data, error, isLoading } = useSWR<eventDetails & { attendees: memberType[]; }>(eventID ? `/api/events/${eventID}` : null, eventID ? fetcher : null);
+
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
-    "Unable to retrieve member data."
+    "Unable to retrieve event data."
   );
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -82,17 +90,17 @@ const Members: NextPage = () =>
   let presentableData;
   if (data)
   {
-    presentableData = searchSortPaginate(data, sspConfig);
+    presentableData = searchSortPaginate(data.attendees, sspConfig);
   }
 
   if (error)
   {
-    toast.error(`Contacts Error: ${errorMessage}`);
+    toast.error(`Event Details Error: ${errorMessage}`);
     return (
       <Layout>
         <div className="grid h-full place-content-center">
           <h1 className="text-center text-4xl font-bold text-red-600">
-            Contacts Page Error
+            Event Details Error
           </h1>
           <h2 className="mt-2 text-center text-2xl font-medium text-white">
             {errorMessage}
@@ -102,7 +110,7 @@ const Members: NextPage = () =>
     );
   }
 
-  if (isLoading)
+  if (isLoading || !data)
   {
     return (
       <Layout>
@@ -116,8 +124,8 @@ const Members: NextPage = () =>
   return (
     <Layout>
       <Title
-        title="Contacts"
-        subtitle="All past, present, and future? 🤯 CougarCS members and event attendees.">
+        title={data.title}
+        subtitle={data.description}>
 
         <div className="flex flex-row">
           <div className="mt-2 flex flex-col gap-2">
@@ -190,39 +198,12 @@ const Members: NextPage = () =>
       ) : (
         <div className="flex flex-col mt-4 place-content-center">
           <h1 className="text-center text-3xl font-bold text-red-600">
-            No Contacts Found
+            No Attendees Found
           </h1>
-          <h2 className="mt-2 text-center text-xl font-medium text-white">
-            No contacts matched your query.
-          </h2>
         </div>
       )}
     </Layout>
   );
 };
 
-export default Members;
-
-// for future ref/use
-/* <button
-  onClick={async () =>
-  {
-    setError(false);
-
-    const res = await poster("/api/members", modalData);
-
-    if (res.error)
-    {
-      setError(true);
-      setErrorMessage(res.description);
-      toast.error(`Contacts Error: ${res.description}`);
-      return;
-    }
-
-    toast.success(`Successfully added ${modalData.first_name}.`);
-    mutate("/api/members", data, false);
-  }}
-  className="h-9 rounded-sm bg-red-600 px-4 text-sm font-semibold text-white hover:bg-red-700"
->
-  Add Member
-</button>; */
+export default EventDetails;
