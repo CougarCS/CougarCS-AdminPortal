@@ -64,6 +64,35 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
 
     return res.status(200).json(resp);
   }
+
+  if (req.method === "DELETE")
+  {
+    const { query, body } = req;
+
+    if (!query.eventID || query.eventID === "undefined")
+    {
+      return res.status(401).json({
+        error: "Unauthorized",
+        description:
+          "The event does not have any attendees!",
+      });
+    }
+
+    const deleteResponse = await supabase
+      .from("event_attendance")
+      .delete()
+      .eq("contact_id", body.contact_id);
+
+    if (deleteResponse.error)
+    {
+      return res.status(500).json({
+        error: "Internal Server Error",
+        description: "Something went wrong: We couldn't delete the member.",
+      });
+    }
+
+    return res.status(200).json(deleteResponse);
+  }
 };
 
 export default handler;
