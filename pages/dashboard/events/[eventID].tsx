@@ -10,7 +10,7 @@ import fetcher from "../../../utils/fetcher";
 import { useEffect, useState } from "react";
 import { LoadSpinner } from "../../../components/loadingSpinner";
 import poster from "../../../utils/poster";
-import { SSPConfig, memberType } from "../../../types/types";
+import { SSPConfig, eventDetails, memberType } from "../../../types/types";
 import { toast } from "sonner";
 import { DataTable } from "../../../components/dataTable/DataTable";
 import { Title } from "../../../components/title";
@@ -25,7 +25,7 @@ const EventDetails: NextPage = () =>
 {
   const router = useRouter();
   const { eventID } = router.query;
-  const { data, error, isLoading } = useSWR(`/api/events/${eventID}`, fetcher);
+  const { data, error, isLoading } = useSWR<eventDetails & { attendees: memberType[]; }>(eventID ? `/api/events/${eventID}` : null, eventID ? fetcher : null);
 
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
@@ -90,8 +90,7 @@ const EventDetails: NextPage = () =>
   let presentableData;
   if (data)
   {
-    console.log(data);
-    presentableData = searchSortPaginate(data, sspConfig);
+    presentableData = searchSortPaginate(data.attendees, sspConfig);
   }
 
   if (error)
@@ -111,7 +110,7 @@ const EventDetails: NextPage = () =>
     );
   }
 
-  if (isLoading || !presentableData || presentableData[0] === undefined)
+  if (isLoading || !data)
   {
     return (
       <Layout>
@@ -125,7 +124,7 @@ const EventDetails: NextPage = () =>
   return (
     <Layout>
       <Title
-        title="Contacts"
+        title={data.title}
         subtitle="All past, present, and future? 🤯 CougarCS members and event attendees.">
 
         <div className="flex flex-row">
@@ -183,11 +182,8 @@ const EventDetails: NextPage = () =>
 
       <br />
 
-      {isLoading ? (
-        <a>loading...</a>
-      ) : (
+      {presentableData !== undefined && presentableData[0] !== undefined ? (
         <>
-
           <DataTable
             className=""
             schema={schema}
@@ -199,7 +195,12 @@ const EventDetails: NextPage = () =>
             }}
           />
         </>
-
+      ) : (
+        <div className="flex flex-col mt-4 place-content-center">
+          <h1 className="text-center text-3xl font-bold text-red-600">
+            No Attendees Found
+          </h1>
+        </div>
       )}
     </Layout>
   );
