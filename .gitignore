@@ -41,3 +41,6 @@ next-env.d.ts
 
 # Environment variables
 .env
+
+# remove yarn
+yarn.lock
