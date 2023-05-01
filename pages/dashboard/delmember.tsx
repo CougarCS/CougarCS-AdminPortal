@@ -58,20 +58,12 @@ const DelMember: NextPage = () =>
 
   return (
     <Layout title="Contact Deletion">
-      <div>
-      <Title
-        title="Contact Deletion"
-        subtitle="Here's where you break eye contact 👁️">
-      </Title>
-      </div>
-        <div>
-        <button
-          onClick={() => router.push("/dashboard/members")}
-          className="flex items-center gap-x-2 text-white font-medium text-sm h-9 pl-2 pr-3 py-2">
-          <AiOutlineArrowLeft className="text-lg" />
-          <span>Back to Contacts</span>
-        </button>
-      </div>
+      <Title title="Contact Deletion" subtitle="Here's where you break eye contact 👁️">
+          <button onClick={() => router.push("/dashboard/members")} className="flex items-center gap-x-2 text-white font-medium text-sm h-9 pl-2 pr-3 py-2">
+            <AiOutlineArrowLeft className="text-lg" />
+            <span>Back to Contacts</span>
+          </button>
+        </Title>
 
       {(modalOpen && modalData) ? <DeleteMemberModal isOpen={modalOpen} setModalOpen={setModalOpen} member={modalData} /> : <></>}
 
