@@ -79,7 +79,7 @@ const AddMember: NextPage = () =>
   return (
     <Layout title="Contact Creation">
         <Title title="Contact Creation" subtitle="Establish First Contact 👽🛸">
-          <button onClick={() => router.push("/dashboard/members")} className="flex items-center gap-x-2 text-white font-medium text-sm h-9 pl-2 pr-3 py-2">
+          <button onClick={() => router.push("/dashboard/members")} className="flex items-center gap-x-2 text-white font-medium text-sm h-9 pr-3 py-2">
             <AiOutlineArrowLeft className="text-lg" />
             <span>Back to Contacts</span>
           </button>
