@@ -10,12 +10,11 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 const menuOptions = [
   { title: "Overview", icon: <FaHome className='h-7 w-7' />, path: "/" },
-  { title: "Members", icon: <FaUsers className='h-7 w-7' />, path: "/dashboard/members" },
+  { title: "Contacts", icon: <FaUsers className='h-7 w-7' />, path: "/dashboard/members" },
   { title: "Add Officer", icon: <FaUserPlus className='h-7 w-7' />, path: "/dashboard/signup" },
   { title: "Events", icon: <FaCalendarAlt className='h-7 w-7' />, path: "/dashboard/events" }
 ];
-const Sidebar = () =>
-{
+const Sidebar = () => {
   const router = useRouter();
   const supabase = useSupabaseClient();
 
@@ -33,10 +32,9 @@ const Sidebar = () =>
           <p className="text-sm font-light text-white">Admin Portal</p>
         </div>
       </div>
-      
+
       <div id="sidebar-content" className="sticky top-0 items-center">
-        {menuOptions.map((item) =>
-        {
+        {menuOptions.map((item) => {
           return (
             <NavElement onClick={() => router.push(item.path)} active={router.pathname === item.path}>
               {item.icon}
