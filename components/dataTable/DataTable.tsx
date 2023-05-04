@@ -20,6 +20,7 @@ export const DataTable = ({
 
   const rowElements = data.map((row: any, rowIndex) => {
     row.timestamp = dayjs(row.timestamp).format('MM-DD-YYYY');
+    row.swag = row.swag ? "TRUE" : "FALSE"
     const columns = columnValues.map((value: any, colIndex) => {
       return (
         <td

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { memberAttendanceType, memberType } from "../../../types/types";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) =>
 {
@@ -38,16 +39,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
     // event_attendance is structured oddly and I can't
     // get everything with 1 query
 
+    // event data
     const { data: eventData, error: eventDataError } = await supabase
       .from("event")
       .select()
       .eq("event_id", query.eventID)
       .single();
 
+    // attendance data
     const { data: attendanceData, error: eventAttendanceError } = await supabase
       .from("contacts")
       .select(`*, event_attendance!inner (timestamp, swag, event_id)`)
       .eq("event_attendance.event_id", query.eventID);
+
+    // replace 'timestamp' for members with 'timestamp' in member.event_attendnace
+    // so it can be mapped in a DataTable
+    for (const member of attendanceData as unknown as memberAttendanceType[])
+    {
+      member.timestamp = member.event_attendance.timestamp;
+      member.swag = member.event_attendance.swag;
+    }
 
     if (eventDataError || eventAttendanceError)
     {
