@@ -1,13 +1,19 @@
 import React from "react";
 import { dataTableProps } from "../../types/types";
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export const DataTable = ({
   schema,
   data,
   className,
   rowClick,
-}: dataTableProps) => {
+}: dataTableProps) =>
+{
   // schema stays the same so we get the names + values outside of the maps
   const headerNames = Object.keys(schema);
   const columnValues = Object.values(schema);
@@ -18,15 +24,20 @@ export const DataTable = ({
     </th>
   ));
 
-  const rowElements = data.map((row: any, rowIndex) => {
+  const rowElements = data.map((row: any, rowIndex) =>
+  {
     row.timestamp = dayjs(row.timestamp).format('MM-DD-YYYY');
-    row.swag = row.swag ? "TRUE" : "FALSE"
-    const columns = columnValues.map((value: any, colIndex) => {
+    row.event_timestamp = dayjs(row.event_timestamp).format('MM-DD-YYYY[ ]h:mm[ ]A');
+
+    row.swag = row.swag ? "TRUE" : "FALSE";
+    const columns = columnValues.map((value: any, colIndex) =>
+    {
       return (
         <td
           key={colIndex}
           className=" border-collapse px-3 py-1.5"
-          onClick={() => {
+          onClick={() =>
+          {
             if (row && rowClick) rowClick(row);
           }}
         >

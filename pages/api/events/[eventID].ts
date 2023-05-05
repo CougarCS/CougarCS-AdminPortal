@@ -48,17 +48,28 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
 
     // attendance data
     const { data: attendanceData, error: eventAttendanceError } = await supabase
-      .from("contacts")
-      .select(`*, event_attendance!inner (timestamp, swag, event_id)`)
-      .eq("event_attendance.event_id", query.eventID);
+      .from("event_attendance")
+      .select(`event_id, timestamp, swag, contacts (*)`)
+      .eq("event_id", query.eventID);
 
-    // replace 'timestamp' for members with 'timestamp' in member.event_attendnace
-    // so it can be mapped in a DataTable
-    for (const member of attendanceData as unknown as memberAttendanceType[])
+    type eventAttInfo = {
+      event_id: string;
+      swag: boolean;
+      timestamp: string;
+      contacts: memberAttendanceType;
+    };
+
+
+    // this puts the event attendance info on the "top-level"
+    // of each contact, so it can be mapped in a DataTable
+    for (const member of attendanceData as unknown as eventAttInfo[])
     {
-      member.timestamp = member.event_attendance.timestamp;
-      member.swag = member.event_attendance.swag;
+      member.contacts.event_id = member.event_id;
+      member.contacts.event_timestamp = member.timestamp;
+      member.contacts.swag = member.swag;
     }
+
+    let memberAttendanceOutput = attendanceData?.map(member => member.contacts);
 
     if (eventDataError || eventAttendanceError)
     {
@@ -70,7 +81,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
 
     const resp = {
       ...eventData,
-      attendees: attendanceData
+      attendees: memberAttendanceOutput
     };
 
     return res.status(200).json(resp);

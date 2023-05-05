@@ -34,6 +34,7 @@ const EventDetails: NextPage = () =>
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState<memberAttendanceType>({
+    event_id: "321foobar",
     contact_id: "123foobar",
     uh_id: 1111117,
     email: "testa@ibm.com",
@@ -43,10 +44,7 @@ const EventDetails: NextPage = () =>
     shirt_size_id: "XXS",
     timestamp: "01/01/1970",
     swag: false,
-    event_attendance: {
-      swag: false,
-      timestamp: "01/01/1970"
-    }
+    event_timestamp: "01/01/1970",
   });
 
   type schemaDef = {
@@ -57,7 +55,7 @@ const EventDetails: NextPage = () =>
     "First": "first_name",
     "Last": "last_name",
     "Shirt": "shirt_size_id",
-    "Timestamp": "timestamp",
+    "Attended": "event_timestamp",
     "Swag": "swag"
   };
 
