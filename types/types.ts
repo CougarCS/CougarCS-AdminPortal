@@ -19,11 +19,9 @@ type memberType = {
 
 interface memberAttendanceType extends memberType
 {
+  event_id: string;
   swag: boolean;
-  event_attendance: {
-    timestamp: string;
-    swag: boolean;
-  };
+  event_timestamp: string;
 };
 
 type textInputProps = {
