@@ -26,12 +26,27 @@ export const DataTable = ({
 
   const rowElements = data.map((row: any, rowIndex) =>
   {
-    row.timestamp = dayjs(row.timestamp).format('MM-DD-YYYY');
-    row.event_timestamp = dayjs(row.event_timestamp).format('MM-DD-YYYY[ ]h:mm[ ]A');
-
-    row.swag = row.swag ? "TRUE" : "FALSE";
     const columns = columnValues.map((value: any, colIndex) =>
     {
+      // replacement system changed so the original objects
+      // are no longer modified
+
+      let replacement;
+
+      switch (value)
+      {
+        case "timestamp":
+          replacement = dayjs(row.timestamp).format('MM-DD-YYYY');
+          break;
+        case "event_timestamp":
+          replacement = dayjs(row.event_timestamp).format('MM-DD-YYYY[ ]h:mm[ ]A');
+          break;
+        case "swag":
+          replacement = row.swag ? "TRUE" : "FALSE";
+        default:
+          break;
+      }
+
       return (
         <td
           key={colIndex}
@@ -41,7 +56,7 @@ export const DataTable = ({
             if (row && rowClick) rowClick(row);
           }}
         >
-          {row[value]}
+          {replacement ? replacement : row[value]}
         </td>
       );
     });
