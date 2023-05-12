@@ -15,9 +15,9 @@ import SearchBox from "../../components/searchBox";
 import { TextInput } from "../../components/textInput";
 import { searchSortPaginate } from "../../utils/searchSortPaginate";
 import router from "next/router";
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 
-const Members: NextPage = () =>
-{
+const Members: NextPage = () => {
   const { data, error, isLoading } = useSWR("/api/members", fetcher);
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
@@ -41,12 +41,12 @@ const Members: NextPage = () =>
   };
   const schema: schemaDef = {
     "UH ID": "uh_id",
-    "First": "first_name",
-    "Last": "last_name",
-    "Email": "email",
-    "Phone": "phone_number",
-    "Shirt": "shirt_size_id",
-    "Timestamp": "timestamp",
+    First: "first_name",
+    Last: "last_name",
+    Email: "email",
+    Phone: "phone_number",
+    Shirt: "shirt_size_id",
+    Timestamp: "timestamp",
   };
 
   type paginationDef = {
@@ -56,7 +56,7 @@ const Members: NextPage = () =>
     "20": 20,
     "50": 50,
     "100": 100,
-    "All": 1000
+    All: 1000,
   };
 
   // search, sort, filter
@@ -72,21 +72,19 @@ const Members: NextPage = () =>
     paginate: paginationOpts[paginationCount],
     sort: {
       dir: sortDsc ? "descending" : "ascending",
-      property: sortBy
+      property: sortBy,
     },
-    query: (searchQuery === "") ? undefined : searchQuery,
+    query: searchQuery === "" ? undefined : searchQuery,
   };
 
   const [dataPage, setDataPage] = useState(0);
 
   let presentableData;
-  if (data)
-  {
+  if (data) {
     presentableData = searchSortPaginate(data, sspConfig);
   }
 
-  if (error)
-  {
+  if (error) {
     toast.error(`Contacts Error: ${errorMessage}`);
     return (
       <Layout>
@@ -102,8 +100,7 @@ const Members: NextPage = () =>
     );
   }
 
-  if (isLoading)
-  {
+  if (isLoading) {
     return (
       <Layout>
         <div className="grid h-screen place-content-center">
@@ -113,22 +110,36 @@ const Members: NextPage = () =>
     );
   }
 
+  function decrementDataPage() {
+    if (dataPage === 0) return;
+
+    setDataPage((prev) => prev - 1);
+  }
+
+  function incrementDataPage() {
+    if (dataPage === presentableData.length - 1) return;
+
+    setDataPage((prev) => prev + 1);
+  }
+
   return (
     <Layout>
       <Title
         title="Contacts"
-        subtitle="All past, present, and future? 🤯 CougarCS members and event attendees.">
-
+        subtitle="All past, present, and future? 🤯 CougarCS members and event attendees."
+      >
         <div className="flex flex-row">
           <div className="mt-2 flex flex-col gap-2">
             <div>
               <span className="text-lg">Contacts per page: </span>
-              <SelectInput name="pagination" ariaLabel="Contacts Per Page" height="h-fit"
+              <SelectInput
+                name="pagination"
+                ariaLabel="Contacts Per Page"
+                height="h-fit"
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(paginationOpts)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   setPaginationCount(e.target.value);
                 }}
                 value={paginationCount}
@@ -137,12 +148,14 @@ const Members: NextPage = () =>
 
             <div>
               <span className="text-lg">Sort contacts by: </span>
-              <SelectInput name="sortBy" ariaLabel="Sort Data By" height="h-fit"
+              <SelectInput
+                name="sortBy"
+                ariaLabel="Sort Data By"
+                height="h-fit"
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(schema)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   const val = schema[e.target.value];
                   setSortBy(val);
                 }}
@@ -151,16 +164,35 @@ const Members: NextPage = () =>
 
               <label>
                 <span className="ml-2 mr-1 text-lg">Descending:</span>
-                <input type="checkbox" className="accent-red-500 scale-125" checked={sortDsc} onChange={e => setSortDsc(e.target.checked)} />
+                <input
+                  type="checkbox"
+                  className="scale-125 accent-red-500"
+                  checked={sortDsc}
+                  onChange={(e) => setSortDsc(e.target.checked)}
+                />
               </label>
             </div>
           </div>
         </div>
 
-        <div className="mt-3 w-full flex flex-row gap-x-4">
-          <button className="px-4 py-2 bg-selectInputBG rounded-md" onClick={() => { router.push("/dashboard/addmember"); }}>Add Contact</button>
-          <button className="px-4 py-2 bg-selectInputBG rounded-md" onClick={() => { router.push("/dashboard/delmember"); }}>Delete Contact</button>
-          <div className="ml-auto my-auto w-2/5">
+        <div className="mt-3 flex w-full flex-row gap-x-4">
+          <button
+            className="rounded-md bg-selectInputBG px-4 py-2"
+            onClick={() => {
+              router.push("/dashboard/addmember");
+            }}
+          >
+            Add Contact
+          </button>
+          <button
+            className="rounded-md bg-selectInputBG px-4 py-2"
+            onClick={() => {
+              router.push("/dashboard/delmember");
+            }}
+          >
+            Delete Contact
+          </button>
+          <div className="my-auto ml-auto w-2/5">
             <SearchBox initSearch={setSearchQuery} />
           </div>
         </div>
@@ -180,15 +212,36 @@ const Members: NextPage = () =>
             className=""
             schema={schema}
             data={presentableData[dataPage]}
-            rowClick={(modalData) =>
-            {
+            rowClick={(modalData) => {
               setModalData(modalData);
               setModalOpen(true);
             }}
           />
+
+          <div className="mt-3 flex items-center justify-end">
+            <button
+              className="mr-3 rounded-md p-2 text-red-600 hover:bg-gray-500 hover:bg-opacity-30 disabled:text-gray-400 disabled:text-opacity-40 disabled:hover:bg-transparent"
+              onClick={decrementDataPage}
+              disabled={dataPage === 0 ? true : false}
+            >
+              <AiOutlineArrowLeft className="h-6 w-6" />
+            </button>
+
+            <p className="flex w-fit justify-center font-medium">
+              Page {dataPage + 1} of {presentableData.length}
+            </p>
+
+            <button
+              className="ml-3 rounded-md p-2 text-red-600 hover:bg-gray-500 hover:bg-opacity-30 disabled:text-gray-400 disabled:text-opacity-40 disabled:hover:bg-transparent"
+              onClick={incrementDataPage}
+              disabled={dataPage === presentableData.length - 1 ? true : false}
+            >
+              <AiOutlineArrowRight className="h-6 w-6" />
+            </button>
+          </div>
         </>
       ) : (
-        <div className="flex flex-col mt-4 place-content-center">
+        <div className="mt-4 flex flex-col place-content-center">
           <h1 className="text-center text-3xl font-bold text-red-600">
             No Contacts Found
           </h1>
