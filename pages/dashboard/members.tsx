@@ -15,7 +15,6 @@ import SearchBox from "../../components/searchBox";
 import { TextInput } from "../../components/textInput";
 import { searchSortPaginate } from "../../utils/searchSortPaginate";
 import router from "next/router";
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import { PaginationControl } from "../../components/paginationControl";
 
 const Members: NextPage = () => {
