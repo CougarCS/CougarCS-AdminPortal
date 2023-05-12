@@ -31,9 +31,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
       });
     }
 
-    // not implementing swag/timestamp for now, gonna chat w/ johnny
-    // regarding the usecase
-
     // after like 3 hours of messing with this I decided to just
     // split this into two separate API calls because 
     // event_attendance is structured oddly and I can't
@@ -59,7 +56,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
       contacts: memberAttendanceType;
     };
 
-
     // this puts the event attendance info on the "top-level"
     // of each contact, so it can be mapped in a DataTable
     for (const member of attendanceData as unknown as eventAttInfo[])
@@ -83,6 +79,63 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
       ...eventData,
       attendees: memberAttendanceOutput
     };
+
+    return res.status(200).json(resp);
+  }
+
+  if (req.method === "POST")
+  {
+    const { query } = req;
+    const { member, swag } = req.body;
+
+    if (!query.eventID || query.eventID === "undefined")
+    {
+      return res.status(401).json({
+        error: "Unauthorized",
+        description:
+          "No event specified.",
+      });
+    }
+
+    // check if they're already in the event, if so, just update swag
+    const { data: attendanceData, error: eventAttendanceError } = await supabase
+      .from("event_attendance")
+      .select(`event_id, timestamp, swag, contacts (*)`)
+      .eq("contact_id", member.contact_id);
+
+    if (attendanceData)
+    {
+      const { data: swagUpdated, error: swagUpdateError } = await supabase
+        .from("event_attendance")
+        .update({ swag: swag })
+        .eq("contact_id", member.contact_id);
+
+      if (swagUpdateError)
+      {
+        return res.status(500).json({
+          error: "Internal Server Error",
+          description: `Something went wrong. ${(swagUpdateError ? swagUpdateError.message : "")}`,
+        });
+      }
+
+      const resp = swagUpdated;
+
+      return res.status(200).json(resp);
+    }
+
+    const { data: attendanceAdded, error: attendanceAddError } = await supabase
+      .from("event_attendance")
+      .insert({ event_id: query.eventID, contact_id: member.contact_id, swag: swag });
+
+    if (attendanceAddError)
+    {
+      return res.status(500).json({
+        error: "Internal Server Error",
+        description: `Something went wrong. ${(attendanceAddError ? attendanceAddError.message : "")}`,
+      });
+    }
+
+    const resp = attendanceAdded;
 
     return res.status(200).json(resp);
   }
@@ -115,6 +168,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
 
     return res.status(200).json(deleteResponse);
   }
+
+
 };
 
 export default handler;
