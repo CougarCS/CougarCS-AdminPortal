@@ -110,18 +110,6 @@ const Members: NextPage = () => {
     );
   }
 
-  function decrementDataPage() {
-    if (dataPage === 0) return;
-
-    setDataPage((prev) => prev - 1);
-  }
-
-  function incrementDataPage() {
-    if (dataPage === presentableData.length - 1) return;
-
-    setDataPage((prev) => prev + 1);
-  }
-
   return (
     <Layout>
       <Title
