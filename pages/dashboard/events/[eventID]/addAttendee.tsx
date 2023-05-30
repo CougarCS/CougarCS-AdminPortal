@@ -21,9 +21,8 @@ const AddAttendee: NextPage = () =>
 {
   const router = useRouter();
 
-  const [swag, setSwag] = useState(false);
   const [idSearch, setIdSearch] = useState("");
-  const [contactExists, setContactExists] = useState(false);
+  const [existingContact, setExistingContact] = useState<memberType | undefined>(undefined);
 
   const { eventID } = router.query;
 
@@ -32,28 +31,24 @@ const AddAttendee: NextPage = () =>
   const handleExistingSubmit = async (e: React.FormEvent<HTMLFormElement>) =>
   {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
 
-    const fdID = formData.get("uhid");
-    if (!fdID)
-    {
-      toast.error(`Attendee Add Error: Adding requires a UH ID.`);
-      return;
-    }
-
-    const id = parseInt(fdID.toString());
-    const memberDat = data as memberType[];
-    const toBeAdded = memberDat.find((member) => member.uh_id === id);
-
-    if (!toBeAdded)
+    if (!existingContact)
     {
       toast.error(`Attendee Add Error: We couldn't find that contact.`);
       return;
     }
 
-    await poster(`/api/events/${eventID}`, { member: toBeAdded, swag: swag });
+    const swag = document.getElementsByName("swagcheck")[0] as HTMLInputElement;
+    const result = await poster(`/api/events/${eventID}`, { member: existingContact, swag: swag.checked });
 
+    if (result.error)
+    {
+      toast.error("Failed to add attendee! " + result.description);
+      return;
+    }
     toast.success("Successfully added attendee!");
+    mutate(`/api/events/${eventID}`);
+    setIdSearch("");
   };
 
   // basically the code from /addmember.tsx
@@ -61,29 +56,60 @@ const AddAttendee: NextPage = () =>
   const handleNewSubmit = async (e: React.FormEvent<HTMLFormElement>) =>
   {
     e.preventDefault();
+
     const formData = new FormData(e.currentTarget);
 
-    const fdID = formData.get("uhid");
-    if (!fdID)
+    if (!formData.get("first")?.toString() || !formData.get("uhid")?.toString() || !formData.get("last")?.toString())
     {
-      toast.error(`Attendee Add Error: Adding requires a UH ID.`);
+      toast.error(`Contact Creation Error: Contact requires at LEAST a first name, last name, and UH ID.`);
       return;
     }
 
-    const id = parseInt(fdID.toString());
-    const memberDat = data?.attendees as memberType[];
-
-    const toBeAdded = memberDat.find((member) => member.uh_id === id);
-
-    if (!toBeAdded)
+    if (!parseInt(formData.get("phone")!.toString()) || formData.get("phone")!.toString().includes("-"))
     {
-      toast.error(`Attendee Add Error: We couldn't find that contact.`);
+      toast.error(`Contact Creation Error: Rewrite the phone number to use no special characters.`);
       return;
     }
 
-    await poster(`/api/events/${eventID}`, { member: toBeAdded, swag: swag });
+    type contactWOTS = Omit<memberType, "timestamp">;
 
-    toast.success("Successfully added attendee!");
+    const contactObj: contactWOTS = {
+      contact_id: crypto.randomUUID(),
+      uh_id: 1234567,
+      first_name: "",
+      last_name: "",
+      phone_number: 123456789,
+      email: "",
+      shirt_size_id: "M"
+    };
+
+    // ok to use ! here cause guard statement should catch but TS cries anyway
+    // so ! it is
+    const contInput: Partial<memberType> & Pick<memberType, "uh_id" | "first_name" | "last_name"> = {
+      uh_id: parseInt(formData.get("uhid")!.toString()),
+      first_name: formData.get("first")!.toString(),
+      last_name: formData.get("last")!.toString(),
+      email: formData.get("email")!.toString(),
+      phone_number: parseInt(formData.get("phone")!.toString()),
+      shirt_size_id: formData.get("shirt")!.toString(),
+    };
+
+    Object.assign(contactObj, contInput);
+
+    const nuMember = await poster(`/api/members`, contactObj);
+    const swag = document.getElementsByName("swagcheck")[0] as HTMLInputElement;
+    const res = await poster(`/api/events/${eventID}`, { member: nuMember.data, swag: swag.checked });
+
+    if (res.error)
+    {
+      toast.error(`Contact Creation Error: ${res.error.message}`);
+    }
+    else
+    {
+      toast.success("Successfully created and added attendee!");
+      mutate(`/api/events/${eventID}`);
+      setIdSearch("");
+    }
   };
 
   return (
@@ -96,9 +122,10 @@ const AddAttendee: NextPage = () =>
       </Title>
 
       <div className="w-5/12 mx-auto mt-4">
-        <div className="bg-red-900 bg-opacity-10 px-4 py-2 my-4 rounded-sm border border-red-500">
+        {/* lil note */}
+        {idSearch.length < 7 && <div className="bg-neutral-700 bg-opacity-10 px-4 py-2 my-4 rounded-sm border border-neutral-500">
           <span className="block font-semibold mx-2">
-            Notes
+            Note
           </span>
           <ul className="list-disc mx-2">
             <li className="mt-0.5">
@@ -106,44 +133,76 @@ const AddAttendee: NextPage = () =>
               their swag status.
             </li>
           </ul>
-        </div>
-        <label className="w-full">
-          <input
-            className="w-full h-9 px-2 bg-selectInputBG placeholder:text-neutral-500 focus:outline-none focus:border-white focus:ring-white border border-neutral-500 rounded-sm"
-            name="searchBox"
-            placeholder={"UH ID"}
-            maxLength={7}
-            value={idSearch}
-            onChange={e =>
-            {
-              setIdSearch(e.target.value);
-              const id = parseInt(e.target.value);
-              const memberDat = data as memberType[];
-              console.log(memberDat.some((member) => member.uh_id === id));
-              setContactExists(memberDat.some((member) => member.uh_id === id));
-            }}
-          />
-        </label>
+        </div>}
 
-        <form onSubmit={contactExists ? handleExistingSubmit : handleNewSubmit}>
-          {contactExists ? <ExistingAttendee /> : <NewAttendee />}
-          <label>
-            <span className="mr-2 text-md">Did they receive swag?:</span>
-            <input type="checkbox" className="mt-4 accent-red-500 scale-125" checked={swag} onChange={e => setSwag(e.target.checked)} />
+        {/* contact status */}
+        {idSearch.length === 7 && <>
+          {existingContact ? <div className="bg-green-700 bg-opacity-10 px-4 py-2 my-4 rounded-sm border border-green-500">
+            <span className="block font-semibold mx-2">
+              Contact Found!
+            </span>
+            <ul className="list-disc mx-2">
+              <li className="mt-0.5">
+                {existingContact.first_name}'s already logged in our system, so you don't have to enter their info.
+              </li>
+            </ul>
+          </div> : <div className="bg-red-700 bg-opacity-10 px-4 py-2 my-4 rounded-sm border border-red-500">
+            <span className="block font-semibold mx-2">
+              Contact Not Found!
+            </span>
+            <ul className="list-disc mx-2">
+              <li className="mt-0.5">
+                We don't have that contact logged in our system. Please create a new one below:
+              </li>
+            </ul>
+          </div>}
+        </>}
+
+        <form onSubmit={existingContact ? handleExistingSubmit : handleNewSubmit}>
+          <label className="w-full">
+            UH ID
+            <input
+              className="placeholder:text-neutral-500 focus:outline-none focus:border-blue-500 focus:ring-blue-500 w-full h-9 rounded-sm text-sm px-4 bg-zinc-800 border border-zinc-700"
+              name="uhid"
+              placeholder={"UH ID"}
+              maxLength={7}
+              value={idSearch}
+              onChange={e =>
+              {
+                setIdSearch(e.target.value);
+                const id = parseInt(e.target.value);
+                const memberDat = data as memberType[];
+
+                setExistingContact(memberDat.find((member) => member.uh_id === id));
+              }}
+            />
           </label>
+
+          {idSearch.length === 7 &&
+            <>
+              {existingContact ? <ExistingAttendee member={existingContact} /> : <NewAttendee />}
+            </>
+          }
         </form>
       </div>
-    </Layout >
+    </Layout>
   );
 };
 
 export default AddAttendee;
 
-
-const ExistingAttendee = () =>
+type ExistingAttendeeProps = {
+  member: memberType;
+};
+const ExistingAttendee = ({ member }: ExistingAttendeeProps) =>
 {
   return (
     <>
+      <label>
+        <span className="mr-2 text-md">Did they receive swag?:</span>
+        <input name="swagcheck" type="checkbox" className="mt-4 accent-red-500 scale-125" />
+      </label>
+
       <button type="submit" className="mt-6 w-full text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700">Add Attendee</button>
     </>
   );
@@ -156,7 +215,6 @@ const NewAttendee = () =>
 
   return (
     <>
-      <TextInput className="mt-4" name="uhid" label="UH ID" placeholder="1234567" />
       <TextInput className="mt-4" name="first" label="First Name" placeholder="Mihir" />
       <TextInput className="mt-4" name="last" label="Last Name" placeholder="Sahu" />
       <TextInput className="mt-4" name="phone" label="Phone" placeholder="0123456789" />
@@ -175,6 +233,11 @@ const NewAttendee = () =>
           ariaLabel="Update shirt size"
         />
       </div>
+
+      <label>
+        <span className="mr-2 text-md">Did they receive swag?:</span>
+        <input name="swagcheck" type="checkbox" className="mt-4 accent-red-500 scale-125" />
+      </label>
 
       <button type="submit" className="mt-6 w-full text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700">Add Contact</button>
     </>

@@ -51,7 +51,7 @@ const AddMember: NextPage = () =>
       shirt_size_id: "M"
     };
 
-    // ok to use ! here cause guard statement should catch but TS cries anyway
+    // ok to use ! here cause the guard statement should catch but TS cries anyway
     // so ! it is
     const contInput: Partial<memberType> & Pick<memberType, "uh_id" | "first_name" | "last_name"> = {
       uh_id: parseInt(formData.get("uhid")!.toString()),

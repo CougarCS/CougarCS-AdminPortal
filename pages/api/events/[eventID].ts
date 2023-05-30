@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { memberAttendanceType, memberType } from "../../../types/types";
+import poster from "../../../utils/poster";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) =>
 {
@@ -85,6 +86,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
 
   if (req.method === "POST")
   {
+    console.dir(req.body.member);
     const { query } = req;
     const { member, swag } = req.body;
 
@@ -100,15 +102,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
     // check if they're already in the event, if so, just update swag
     const { data: attendanceData, error: eventAttendanceError } = await supabase
       .from("event_attendance")
-      .select(`event_id, timestamp, swag, contacts (*)`)
-      .eq("contact_id", member.contact_id);
+      .select(`event_id, timestamp, swag, contact_id`)
+      .eq("contact_id", member.contact_id)
+      .eq("event_id", query.eventID);
 
-    if (attendanceData)
+    if (attendanceData && attendanceData.length > 0)
     {
       const { data: swagUpdated, error: swagUpdateError } = await supabase
         .from("event_attendance")
         .update({ swag: swag })
-        .eq("contact_id", member.contact_id);
+        .eq("contact_id", member.contact_id)
+        .eq("event_id", query.eventID)
+        .select();
 
       if (swagUpdateError)
       {
@@ -118,14 +123,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
         });
       }
 
-      const resp = swagUpdated;
-
-      return res.status(200).json(resp);
+      return res.status(200).json(swagUpdated);
     }
 
+    // not already in the event
     const { data: attendanceAdded, error: attendanceAddError } = await supabase
       .from("event_attendance")
-      .insert({ event_id: query.eventID, contact_id: member.contact_id, swag: swag });
+      .insert({ event_id: query.eventID, contact_id: member.contact_id, swag: swag })
+      .select();
 
     if (attendanceAddError)
     {
@@ -135,9 +140,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
       });
     }
 
-    const resp = attendanceAdded;
-
-    return res.status(200).json(resp);
+    return res.status(200).json(attendanceAdded);
   }
 
   if (req.method === "DELETE")
