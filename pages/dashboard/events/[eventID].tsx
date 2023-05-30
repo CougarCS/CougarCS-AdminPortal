@@ -10,7 +10,7 @@ import fetcher from "../../../utils/fetcher";
 import { useEffect, useState } from "react";
 import { LoadSpinner } from "../../../components/loadingSpinner";
 import poster from "../../../utils/poster";
-import { SSPConfig, eventDetails, memberType } from "../../../types/types";
+import { SSPConfig, eventDetails, memberAttendanceType } from "../../../types/types";
 import { toast } from "sonner";
 import { DataTable } from "../../../components/dataTable/DataTable";
 import { Title } from "../../../components/title";
@@ -25,7 +25,7 @@ const EventDetails: NextPage = () =>
 {
   const router = useRouter();
   const { eventID } = router.query;
-  const { data, error, isLoading } = useSWR<eventDetails & { attendees: memberType[]; }>(eventID ? `/api/events/${eventID}` : null, eventID ? fetcher : null);
+  const { data, error, isLoading } = useSWR<eventDetails & { attendees: memberAttendanceType[]; }>(eventID ? `/api/events/${eventID}` : null, eventID ? fetcher : null);
 
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
@@ -33,7 +33,8 @@ const EventDetails: NextPage = () =>
   );
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalData, setModalData] = useState<memberType>({
+  const [modalData, setModalData] = useState<memberAttendanceType>({
+    event_id: "321foobar",
     contact_id: "123foobar",
     uh_id: 1111117,
     email: "testa@ibm.com",
@@ -42,19 +43,20 @@ const EventDetails: NextPage = () =>
     phone_number: 1112223435,
     shirt_size_id: "XXS",
     timestamp: "01/01/1970",
+    swag: false,
+    event_timestamp: "01/01/1970",
   });
 
   type schemaDef = {
-    [key: string]: keyof memberType;
+    [key: string]: keyof memberAttendanceType;
   };
   const schema: schemaDef = {
     "UH ID": "uh_id",
     "First": "first_name",
     "Last": "last_name",
-    "Email": "email",
-    "Phone": "phone_number",
     "Shirt": "shirt_size_id",
-    "Timestamp": "timestamp",
+    "Attended": "event_timestamp",
+    "Swag": "swag"
   };
 
   type paginationDef = {
@@ -73,7 +75,7 @@ const EventDetails: NextPage = () =>
 
   const [paginationCount, setPaginationCount] = useState<string>("20");
 
-  const [sortBy, setSortBy] = useState<keyof memberType>("first_name");
+  const [sortBy, setSortBy] = useState<keyof memberAttendanceType>("first_name");
   const [sortDsc, setSortDsc] = useState(false);
 
   const sspConfig: SSPConfig = {
@@ -166,8 +168,7 @@ const EventDetails: NextPage = () =>
         </div>
 
         <div className="mt-3 w-full flex flex-row gap-x-4">
-          <button className="px-4 py-2 bg-selectInputBG rounded-md" onClick={() => { router.push("/dashboard/addmember"); }}>Add Contact</button>
-          <button className="px-4 py-2 bg-selectInputBG rounded-md" onClick={() => { router.push("/dashboard/delmember"); }}>Delete Contact</button>
+          <button className="px-4 py-2 bg-selectInputBG rounded-md" onClick={() => { router.push(`/dashboard/events/${eventID}/addAttendee`); }}>Add Attendee</button>
           <div className="ml-auto my-auto w-2/5">
             <SearchBox initSearch={setSearchQuery} />
           </div>

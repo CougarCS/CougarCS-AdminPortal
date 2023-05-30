@@ -1,5 +1,6 @@
 import React from "react";
 import { memberType } from "../../types/types";
+import dayjs from "dayjs";
 
 type memberInformationModalProps = {
   member: memberType;
@@ -21,8 +22,8 @@ export const MemberInformationModal = ({
         <p>Phone #: {member.phone_number}</p>
         <p>Email: {member.email}</p>
         <p>Shirt Size: {member.shirt_size_id}</p>
-        <p>Timestamp: {member.timestamp}</p>
-        <p>Member since: {member.timestamp}</p>
+        <p>Timestamp: {dayjs(member.timestamp).format('MM-DD-YYYY[ ]h:mm[ ]A')}</p>
+        <p>Member since: {dayjs(member.timestamp).format('MM-DD-YYYY[ ]h:mm[ ]A')}</p>
         <p>Cougar Coins: 0</p>
       </div>
       <div className="flex items-center justify-end gap-6">
