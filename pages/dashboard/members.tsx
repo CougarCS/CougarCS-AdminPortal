@@ -128,6 +128,7 @@ const Members: NextPage = () => {
                 textSize="text-lg"
                 options={Object.keys(paginationOpts)}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                  setDataPage(0);
                   setPaginationCount(e.target.value);
                 }}
                 value={paginationCount}
@@ -181,7 +182,7 @@ const Members: NextPage = () => {
             Delete Contact
           </button>
           <div className="my-auto ml-auto w-2/5">
-            <SearchBox initSearch={setSearchQuery} />
+            <SearchBox initSearch={(searchQuery) => { setSearchQuery(searchQuery); setDataPage(0); }} />
           </div>
         </div>
       </Title>
