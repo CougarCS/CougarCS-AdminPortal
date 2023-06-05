@@ -2,6 +2,8 @@ import { NextPage } from "next";
 import React, { useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Layout from "../../components/layout";
+import router, { useRouter } from "next/router";
+
 
 import { Title } from "../../components/title";
 import { SelectInput } from "../../components/selectInput";
@@ -14,6 +16,8 @@ import fetcher from "../../utils/fetcher";
 
 import useSWR, { mutate } from "swr";
 import { DeleteMemberModal } from "../../components/membersModal/deleteMemberModal";
+
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
 const DelMember: NextPage = () =>
 {
@@ -54,10 +58,12 @@ const DelMember: NextPage = () =>
 
   return (
     <Layout title="Contact Deletion">
-      <Title
-        title="Contact Deletion"
-        subtitle="Here's where you break eye contact 👁️">
-      </Title>
+      <Title title="Contact Deletion" subtitle="Here's where you break eye contact 👁️">
+          <button onClick={() => router.push("/dashboard/members")} className="flex items-center gap-x-2 text-white font-medium text-sm h-9 pr-3 py-2">
+            <AiOutlineArrowLeft className="text-lg" />
+            <span>Back to Contacts</span>
+          </button>
+        </Title>
 
       {(modalOpen && modalData) ? <DeleteMemberModal isOpen={modalOpen} setModalOpen={setModalOpen} member={modalData} /> : <></>}
 

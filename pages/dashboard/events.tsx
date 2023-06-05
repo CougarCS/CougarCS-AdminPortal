@@ -12,12 +12,10 @@ import fetcher from "../../utils/fetcher";
 import EventCard from "../../components/eventsPage/eventCard";
 import { eventDetails } from "../../types/types";
 
-const Events: NextPage = () =>
-{
+const Events: NextPage = () => {
   const { data, error, isLoading } = useSWR("/api/events", fetcher);
 
-  if (error)
-  {
+  if (error) {
     toast.error(`Events Error: ${error}`);
 
     return (
@@ -34,8 +32,7 @@ const Events: NextPage = () =>
     );
   }
 
-  if (data)
-  {
+  if (data) {
     const eventCards = data.map((evnt: eventDetails) => <EventCard event={evnt} />);
     return (
       <Layout title="Events">
@@ -45,7 +42,7 @@ const Events: NextPage = () =>
           <div className="mt-3"> <button className="px-4 py-2 bg-selectInputBG rounded-md">Add Event</button></div>
         </Title>
 
-        <div className="w-full py-4 mx-auto place-content-center">
+        <div className="w-full grid grid-cols-2 gap-x-8 py-4 mx-auto">
           {eventCards}
         </div>
       </Layout>

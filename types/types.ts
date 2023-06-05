@@ -81,11 +81,12 @@ type SSPConfig = {
 };
 
 type eventDetails = {
+  event_id: string,
   title: string,
   description: string,
   date: string,
   duration: number,
-  point_value: number,
+  point_value: number
 };
 
 export type { memberType, layoutProps, textInputProps, dataTableProps, titleProps, SSPConfig, eventDetails };

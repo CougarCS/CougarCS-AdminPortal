@@ -11,12 +11,11 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 
 const menuOptions = [
-  { id: "overview", title: "Overview", icon: <FaHome className='h-7 w-7' />, path: "/" },
-  { id: "members", title: "Members", icon: <FaUsers className='h-7 w-7' />, path: "/dashboard/members" },
-  { id: "officer", title: "Add Officer", icon: <FaUserPlus className='h-7 w-7' />, path: "/dashboard/signup" },
-  { id: "events", title: "Events", icon: <FaCalendarAlt className='h-7 w-7' />, path: "/dashboard/events" }
+  { title: "Overview", icon: <FaHome className='h-7 w-7' />, path: "/" },
+  { title: "Contacts", icon: <FaUsers className='h-7 w-7' />, path: "/dashboard/members" },
+  { title: "Add Officer", icon: <FaUserPlus className='h-7 w-7' />, path: "/dashboard/signup" },
+  { title: "Events", icon: <FaCalendarAlt className='h-7 w-7' />, path: "/dashboard/events" }
 ];
-
 const Sidebar = () => {
   const router = useRouter();
   const supabase = useSupabaseClient();
@@ -35,10 +34,10 @@ const Sidebar = () => {
           <p className="text-sm font-light text-white">Admin Portal</p>
         </div>
       </div>
-      
+
       <div id="sidebar-content" className="sticky top-0 items-center">
         {menuOptions.map((item) => (
-          <NavElement key={item.id} onClick={() => router.push(item.path)} active={router.pathname === item.path}>
+          <NavElement key={item.title} onClick={() => router.push(item.path)} active={router.pathname === item.path}>
             {item.icon}
             {item.title}
           </NavElement>

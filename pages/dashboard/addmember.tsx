@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import React, { useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Layout from "../../components/layout";
+import router, { useRouter } from "next/router";
 
 import { TextInput } from "../../components/textInput";
 import { toast } from "sonner";
@@ -11,6 +12,9 @@ import { SelectInput } from "../../components/selectInput";
 import { memberType } from "../../types/types";
 
 import poster from "../../utils/poster";
+
+import { AiOutlineArrowLeft } from "react-icons/ai";
+
 
 const AddMember: NextPage = () =>
 {
@@ -74,10 +78,12 @@ const AddMember: NextPage = () =>
 
   return (
     <Layout title="Contact Creation">
-      <Title
-        title="Contact Creation"
-        subtitle="Establish First Contact 👽🛸">
-      </Title>
+        <Title title="Contact Creation" subtitle="Establish First Contact 👽🛸">
+          <button onClick={() => router.push("/dashboard/members")} className="flex items-center gap-x-2 text-white font-medium text-sm h-9 pr-3 py-2">
+            <AiOutlineArrowLeft className="text-lg" />
+            <span>Back to Contacts</span>
+          </button>
+        </Title>
 
       <div className="w-5/12 mx-auto place-content-center">
         <form onSubmit={handleSubmit}>
