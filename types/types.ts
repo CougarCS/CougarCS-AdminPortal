@@ -17,6 +17,13 @@ type memberType = {
   uh_id: number;
 };
 
+interface memberAttendanceType extends memberType
+{
+  event_id: string;
+  swag: boolean;
+  event_timestamp: string;
+};
+
 type textInputProps = {
   name: string;
   label: string;
@@ -70,7 +77,7 @@ type SSPConfig = {
   // sort objects by object[property], using dir to determine whether
   // to use < or >
   sort: {
-    property: keyof memberType;
+    property: keyof memberType | keyof memberAttendanceType;
     dir: "ascending" | "descending";
   };
 
@@ -86,7 +93,7 @@ type eventDetails = {
   description: string,
   date: string,
   duration: number,
-  point_value: number
+  point_value: number;
 };
 
-export type { memberType, layoutProps, textInputProps, dataTableProps, titleProps, SSPConfig, eventDetails };
+export type { memberType, layoutProps, textInputProps, dataTableProps, titleProps, SSPConfig, eventDetails, memberAttendanceType };

@@ -43,7 +43,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
       });
     }
 
-    return res.status(200).json({ data: data });
+    return res.status(200).json({ data: data[0] });
   }
 
   if (req.method === "GET")
@@ -95,6 +95,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
 
     if (deleteResponse.error)
     {
+      console.log(deleteResponse.error.message);
       return res.status(500).json({
         error: "Internal Server Error",
         description: "Something went wrong: We couldn't delete the member.",
