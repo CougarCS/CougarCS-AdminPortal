@@ -49,7 +49,7 @@ export const DataTable = ({
 
       return (
         <td
-          key={`${rowIndex}-${colIndex}`} // Use a combination of rowIndex and colIndex as the key
+          key={`${colIndex}`} // Use a combination of rowIndex and colIndex as the key
           className=" border-collapse px-3 py-1.5"
           onClick={() =>
           {
