@@ -5,8 +5,10 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
+
 // moving logout function here for the sake of keeping layout file cleaner,
 // and because it's not really reused so it can sit here anyway
+
 
 const menuOptions = [
   { title: "Overview", icon: <FaHome className='h-7 w-7' />, path: "/" },
@@ -34,19 +36,20 @@ const Sidebar = () => {
       </div>
 
       <div id="sidebar-content" className="sticky top-0 items-center">
-        {menuOptions.map((item) => {
-          return (
-            <NavElement onClick={() => router.push(item.path)} active={router.pathname === item.path}>
-              {item.icon}
-              {item.title}
-            </NavElement>
-          );
-        })}
+        {menuOptions.map((item) => (
+          <NavElement key={item.title} onClick={() => router.push(item.path)} active={router.pathname === item.path}>
+            {item.icon}
+            {item.title}
+          </NavElement>
+        ))}
       </div>
+      
       <div className="flex flex-col justify-end mt-auto mb-4">
-        <button onClick={async () => { await supabase.auth.signOut(); router.push("/login"); }} className="text-red-500 px-4 py-2 text-lg"><FaSignOutAlt className="inline-block mr-2 h-7 w-7" />Log Out</button>
+        <button onClick={async () => { await supabase.auth.signOut(); router.push("/login"); }} className="text-red-500 px-4 py-2 text-lg">
+          <FaSignOutAlt className="inline-block mr-2 h-7 w-7" />Log Out
+        </button>
       </div>
-    </div >
+    </div>
   );
 };
 
