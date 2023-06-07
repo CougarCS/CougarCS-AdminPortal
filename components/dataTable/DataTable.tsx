@@ -17,7 +17,7 @@ export const DataTable = ({
   // schema stays the same so we get the names + values outside of the maps
   const headerNames = Object.keys(schema);
   const columnValues = Object.values(schema);
-
+  
   const headerElements = headerNames.map((columnTitle) => (
     <th key={columnTitle} className="bg-tableHD text-left px-3 py-2 rounded-2xl">
       {columnTitle}
@@ -49,7 +49,7 @@ export const DataTable = ({
 
       return (
         <td
-          key={`${colIndex}`} // Use a combination of rowIndex and colIndex as the key
+          key={`${row.uh_id}-${colIndex}`} // colIndex as the key
           className=" border-collapse px-3 py-1.5"
           onClick={() =>
           {
