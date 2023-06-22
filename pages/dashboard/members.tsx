@@ -5,7 +5,7 @@ import fetcher from "../../utils/fetcher";
 import { useEffect, useState } from "react";
 import { LoadSpinner } from "../../components/loadingSpinner";
 import poster from "../../utils/poster";
-import { SSPConfig, memberType } from "../../types/types";
+import { SSPConfig, dataTableProps2, memberType } from "../../types/types";
 import { toast } from "sonner";
 import { DataTable } from "../../components/dataTable/DataTable";
 import { Title } from "../../components/title";
@@ -81,7 +81,7 @@ const Members: NextPage = () => {
 
   let presentableData;
   if (data) {
-    presentableData = searchSortPaginate(data, sspConfig) as memberType[][];
+    presentableData = searchSortPaginate(data, sspConfig) as dataTableProps2[][];
   }
 
   if (error) {
@@ -137,6 +137,7 @@ const Members: NextPage = () => {
 
             <div>
               <span className="text-lg">Sort contacts by: </span>
+              {/* TODO: FIX THIS LATER, CURRENTLY GOES BY SCHEMA SHOULD BE UPDATED TO NEW TYPING */}
               <SelectInput
                 name="sortBy"
                 ariaLabel="Sort Data By"
@@ -197,9 +198,8 @@ const Members: NextPage = () => {
 
       {presentableData !== undefined && presentableData[0] !== undefined ? (
         <>
-          <DataTable
-            className=""
-            schema={schema}
+        {/* TODO: FIX AFTER MAIN PAGE */}
+         <DataTable
             data={presentableData[dataPage]}
             rowClick={(modalData) => {
               setModalData(modalData);

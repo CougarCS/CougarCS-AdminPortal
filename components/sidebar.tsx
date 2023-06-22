@@ -21,7 +21,7 @@ const Sidebar = () => {
   const supabase = useSupabaseClient();
 
   return (
-    <div id="sidebar" className="min-h-full w-56 bg-sidebarBG flex justify-between flex-col">
+    <div id="sidebar" className="min-h-full min-w-[224px] bg-sidebarBG flex justify-between flex-col">
       <div className="flex items-center justify-center  bg-sidebarBG p-8">
         <Image
           src="/images/CougarCS-logo.png"

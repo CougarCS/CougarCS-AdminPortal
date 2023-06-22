@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-
+import { Database } from "./supabase";
 type layoutProps = {
   children: ReactNode;
   title?: string;
@@ -69,7 +69,7 @@ type dataTableProps = {
   rowClick?: (data: any) => void;
   className?: string;
 };
-
+export type dataTableProps2 = Database['public']['Tables']['contacts']['Row']
 type SSPConfig = {
   // if query is undef, don't search :)
   query?: string;
