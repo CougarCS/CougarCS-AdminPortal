@@ -184,6 +184,7 @@ const EventDetails: NextPage = () =>
       <br />
 
       {presentableData !== undefined && presentableData[0] !== undefined ? (
+        // TODO: ADD DATATABLE CHANGES HERE
         <>
           <DataTable
             className=""
