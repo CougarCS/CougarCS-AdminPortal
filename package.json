@@ -9,7 +9,8 @@
     "lint": "next lint",
     "prettier": "prettier --check src/**/*.ts",
     "prettier-f": "prettier --write src/**/*.ts",
-    "gen-types": "supabase gen types typescript --linked> types/supabase.ts"
+    "gen-types": "supabase gen types typescript --linked> types/supabase.ts",
+    "test": "jest --watch"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
