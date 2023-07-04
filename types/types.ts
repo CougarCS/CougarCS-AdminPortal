@@ -17,12 +17,11 @@ type memberType = {
   uh_id: number;
 };
 
-interface memberAttendanceType extends memberType
-{
+interface memberAttendanceType extends memberType {
   event_id: string;
   swag: boolean;
   event_timestamp: string;
-};
+}
 
 type textInputProps = {
   name: string;
@@ -69,7 +68,7 @@ type dataTableProps = {
   rowClick?: (data: any) => void;
   className?: string;
 };
-export type dataTableProps2 = Database['public']['Tables']['contacts']['Row']
+export type dataTableProps2 = Database["public"]["Tables"]["contacts"]["Row"];
 type SSPConfig = {
   // if query is undef, don't search :)
   query?: string;
@@ -88,12 +87,21 @@ type SSPConfig = {
 };
 
 type eventDetails = {
-  event_id: string,
-  title: string,
-  description: string,
-  date: string,
-  duration: number,
+  event_id: string;
+  title: string;
+  description: string;
+  date: string;
+  duration: number;
   point_value: number;
 };
 
-export type { memberType, layoutProps, textInputProps, dataTableProps, titleProps, SSPConfig, eventDetails, memberAttendanceType };
+export type {
+  memberType,
+  layoutProps,
+  textInputProps,
+  dataTableProps,
+  titleProps,
+  SSPConfig,
+  eventDetails,
+  memberAttendanceType,
+};
