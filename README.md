@@ -49,6 +49,7 @@ The backend is built using NextJS and Typescript which is connected to Supabase.
   - `./styles` : This folder contains all the styles used in the application.
   - `./types` : This folder contains all the types used in the application.
   - `./utils` : This folder contains all the utility functions used in the application.
+  - `./__tests__`: This folder contains all the tests used in the application.
 
 <hr/>
 
