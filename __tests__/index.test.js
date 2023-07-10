@@ -11,6 +11,7 @@ useRouter.mockReturnValue({
   query: {},
   push: pushMock,
 });
+// What do we expect from Index?
 describe("Test Index", () => {
   it("Checks if there exist one Admin Portal text", () => {
     const {getByTest } = render(<Home />);
@@ -19,4 +20,10 @@ describe("Test Index", () => {
 
     expect(Dashboard[0]).toBeInTheDocument();
   });
+  it("Check if there is a logout botton", () => {
+    const { getByText } = render(<Home />);
+    const logout = screen.getByText('Logout');
+    expect(logout).toBeInTheDocument();
+  
+  });    
 });
