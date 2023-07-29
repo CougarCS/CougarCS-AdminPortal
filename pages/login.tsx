@@ -16,7 +16,6 @@ const Login: NextPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -49,8 +48,8 @@ const Login: NextPage = () => {
   if (loading) {
     return (
       <Layout title="Officer Login" sidebarHidden>
-        <div className="my-32 max-w-md w-full mx-auto">
-          <h1 className="font-bold text-white text-center">
+        <div className="my-32 mx-auto w-full max-w-md">
+          <h1 className="text-center font-bold text-white">
             <Image
               src="/images/CougarCS-logo.png"
               alt="CougarCS Logo"
@@ -69,8 +68,8 @@ const Login: NextPage = () => {
 
   return (
     <Layout title="Officer Login" sidebarHidden>
-      <div className="my-32 max-w-md w-full mx-auto items-center">
-        <div className="block mx-auto w-fit">
+      <div className="my-32 mx-auto w-full max-w-md items-center">
+        <div className="mx-auto block w-fit">
           <Image
             src="/images/CougarCS-logo.png"
             alt="CougarCS Logo"
@@ -78,11 +77,11 @@ const Login: NextPage = () => {
             height={150}
           />
         </div>
-        <h1 className="mt-4 font-bold text-white text-center text-4xl">
+        <h1 className="mt-4 text-center text-4xl font-bold text-white">
           CougarCS Login
         </h1>
 
-        <p className="mt-2 text-center text-gray-500 text-lg">
+        <p className="mt-2 text-center text-lg text-gray-500">
           Don&#39;t have an account? Contact the{" "}
           <a className="text-red-500">Webmaster</a>.
         </p>
@@ -90,14 +89,29 @@ const Login: NextPage = () => {
         <div className="mt-8 rounded-md border border-zinc-700 px-8 pt-5 pb-8 shadow-md">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div id="username-input">
-              <TextInput name="username" label="Username" placeholder="Username" required />
+              <TextInput
+                name="username"
+                label="Username"
+                placeholder="Username"
+                required
+              />
             </div>
 
             <div id="password-input">
-              <PasswordInput name="password" label="Password" placeholder="Password" required />
+              <PasswordInput
+                name="password"
+                label="Password"
+                placeholder="Password"
+                required
+              />
             </div>
 
-            <button type="submit" className="w-full text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700">Sign in</button>
+            <button
+              type="submit"
+              className="h-9 w-full rounded-sm bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
+            >
+              Sign in
+            </button>
           </form>
         </div>
       </div>

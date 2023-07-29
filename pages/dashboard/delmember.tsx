@@ -4,7 +4,6 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Layout from "../../components/layout";
 import router, { useRouter } from "next/router";
 
-
 import { Title } from "../../components/title";
 import { SelectInput } from "../../components/selectInput";
 import { memberType } from "../../types/types";
@@ -19,8 +18,7 @@ import { DeleteMemberModal } from "../../components/membersModal/deleteMemberMod
 
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
-const DelMember: NextPage = () =>
-{
+const DelMember: NextPage = () => {
   const { data, error, isLoading } = useSWR("/api/members", fetcher);
 
   const supabase = useSupabaseClient();
@@ -29,14 +27,12 @@ const DelMember: NextPage = () =>
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState<memberType | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>
-  {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
     const fdID = formData.get("uhid");
-    if (!fdID)
-    {
+    if (!fdID) {
       toast.error(`Contact Deletion Error: Deletion requires a UH ID.`);
       return;
     }
@@ -46,8 +42,7 @@ const DelMember: NextPage = () =>
 
     const toBeKilled = memberDat.find((member) => member.uh_id === id);
 
-    if (!toBeKilled)
-    {
+    if (!toBeKilled) {
       toast.error(`Contact Deletion Error: We couldn't find that contact.`);
       return;
     }
@@ -58,19 +53,38 @@ const DelMember: NextPage = () =>
 
   return (
     <Layout title="Contact Deletion">
-      <Title title="Contact Deletion" subtitle="Here's where you break eye contact 👁️">
-          <button onClick={() => router.push("/dashboard/members")} className="flex items-center gap-x-2 text-white font-medium text-sm h-9 pr-3 py-2">
-            <AiOutlineArrowLeft className="text-lg" />
-            <span>Back to Contacts</span>
-          </button>
-        </Title>
+      <Title
+        title="Contact Deletion"
+        subtitle="Here's where you break eye contact 👁️"
+      >
+        <button
+          onClick={() => router.push("/dashboard/members")}
+          className="flex h-9 items-center gap-x-2 py-2 pr-3 text-sm font-medium text-white"
+        >
+          <AiOutlineArrowLeft className="text-lg" />
+          <span>Back to Contacts</span>
+        </button>
+      </Title>
 
-      {(modalOpen && modalData) ? <DeleteMemberModal isOpen={modalOpen} setModalOpen={setModalOpen} member={modalData} /> : <></>}
+      {modalOpen && modalData ? (
+        <DeleteMemberModal
+          isOpen={modalOpen}
+          setModalOpen={setModalOpen}
+          member={modalData}
+        />
+      ) : (
+        <></>
+      )}
 
-      <form className="w-5/12 mx-auto mt-4" onSubmit={handleSubmit}>
+      <form className="mx-auto mt-4 w-5/12" onSubmit={handleSubmit}>
         <div>
           <TextInput label="UH ID" name="uhid" placeholder="UH ID" required />
-          <button type="submit" className="mt-6 w-full text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700">Delete Contact</button>
+          <button
+            type="submit"
+            className="mt-6 h-9 w-full rounded-sm bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
+          >
+            Delete Contact
+          </button>
         </div>
       </form>
     </Layout>

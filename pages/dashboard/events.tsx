@@ -33,16 +33,24 @@ const Events: NextPage = () => {
   }
 
   if (data) {
-    const eventCards = data.map((evnt: eventDetails) => <EventCard event={evnt} />);
+    const eventCards = data.map((evnt: eventDetails) => (
+      <EventCard event={evnt} />
+    ));
     return (
       <Layout title="Events">
         <Title
           title="Events"
-          subtitle="Let's get the party started! 🎉 Check event attendance and make new events here.">
-          <div className="mt-3"> <button className="px-4 py-2 bg-selectInputBG rounded-md">Add Event</button></div>
+          subtitle="Let's get the party started! 🎉 Check event attendance and make new events here."
+        >
+          <div className="mt-3">
+            {" "}
+            <button className="rounded-md bg-selectInputBG px-4 py-2">
+              Add Event
+            </button>
+          </div>
         </Title>
 
-        <div className="w-full grid grid-cols-2 gap-x-8 py-4 mx-auto">
+        <div className="mx-auto grid w-full grid-cols-2 gap-x-8 py-4">
           {eventCards}
         </div>
       </Layout>

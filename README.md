@@ -41,6 +41,7 @@ The backend is built using NextJS and Typescript which is connected to Supabase.
   - `npm run prettier` : Runs Prettier on the codebase.
   - `npm run prettier:fix` : Runs Prettier on the codebase and fixes any issues.
   - We highly suggest using an ESLint and Prettier plugin for your respective editor to aid with development.
+  - Enable prettier: require config in settings so you use the .prettierrc file.
 - #### Structure
   - `_app.tsx` : This is the root component of the application.
   - `./components` : This folder contains all the components used in the application.
@@ -49,6 +50,7 @@ The backend is built using NextJS and Typescript which is connected to Supabase.
   - `./styles` : This folder contains all the styles used in the application.
   - `./types` : This folder contains all the types used in the application.
   - `./utils` : This folder contains all the utility functions used in the application.
+  - `./__tests__`: This folder contains all the tests used in the application.
 
 <hr/>
 
