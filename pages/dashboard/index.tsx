@@ -31,24 +31,21 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   };
 };
 
-const Dashboard = ({ user }: { user: User; }) => {
+const Dashboard = ({ user }: { user: User }) => {
   const router = useRouter();
 
   return (
     <Layout title="Dashboard">
-
-      <Title
-        title="Dashboard"
-        subtitle="The Great Dashboard">
+      <Title title="Dashboard" subtitle="The Great Dashboard">
         Welcome, <a className="text-red-600">{user.email}</a>
       </Title>
 
-      <button onClick={() => router.push("/dashboard/members")}
-        className="my-4 flex justify-center w-1/5 text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700 space-x-2">
+      <button
+        onClick={() => router.push("/dashboard/members")}
+        className="my-4 flex h-9 w-1/5 justify-center space-x-2 rounded-sm bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
+      >
         <AiOutlineUnorderedList className="my-auto" />
-        <span className="my-auto">
-          Members
-        </span>
+        <span className="my-auto">Members</span>
       </button>
     </Layout>
   );

@@ -7,8 +7,7 @@ import { useState } from "react";
 const MyApp = ({
   Component,
   pageProps,
-}: AppProps<{ initialSession: Session; }>) =>
-{
+}: AppProps<{ initialSession: Session }>) => {
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
 
   return (

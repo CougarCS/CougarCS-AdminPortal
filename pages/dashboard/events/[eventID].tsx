@@ -10,7 +10,11 @@ import fetcher from "../../../utils/fetcher";
 import { useEffect, useState } from "react";
 import { LoadSpinner } from "../../../components/loadingSpinner";
 import poster from "../../../utils/poster";
-import { SSPConfig, eventDetails, memberAttendanceType } from "../../../types/types";
+import {
+  SSPConfig,
+  eventDetails,
+  memberAttendanceType,
+} from "../../../types/types";
 import { toast } from "sonner";
 import { DataTable } from "../../../components/dataTable/DataTable";
 import { Title } from "../../../components/title";
@@ -21,11 +25,12 @@ import { TextInput } from "../../../components/textInput";
 import { searchSortPaginate } from "../../../utils/searchSortPaginate";
 import router, { useRouter } from "next/router";
 
-const EventDetails: NextPage = () =>
-{
+const EventDetails: NextPage = () => {
   const router = useRouter();
   const { eventID } = router.query;
-  const { data, error, isLoading } = useSWR<eventDetails & { attendees: memberAttendanceType[]; }>(eventID ? `/api/events/${eventID}` : null, eventID ? fetcher : null);
+  const { data, error, isLoading } = useSWR<
+    eventDetails & { attendees: memberAttendanceType[] }
+  >(eventID ? `/api/events/${eventID}` : null, eventID ? fetcher : null);
 
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
@@ -52,11 +57,11 @@ const EventDetails: NextPage = () =>
   };
   const schema: schemaDef = {
     "UH ID": "uh_id",
-    "First": "first_name",
-    "Last": "last_name",
-    "Shirt": "shirt_size_id",
-    "Attended": "event_timestamp",
-    "Swag": "swag"
+    First: "first_name",
+    Last: "last_name",
+    Shirt: "shirt_size_id",
+    Attended: "event_timestamp",
+    Swag: "swag",
   };
 
   type paginationDef = {
@@ -66,7 +71,7 @@ const EventDetails: NextPage = () =>
     "20": 20,
     "50": 50,
     "100": 100,
-    "All": 1000
+    All: 1000,
   };
 
   // search, sort, filter
@@ -75,28 +80,27 @@ const EventDetails: NextPage = () =>
 
   const [paginationCount, setPaginationCount] = useState<string>("20");
 
-  const [sortBy, setSortBy] = useState<keyof memberAttendanceType>("first_name");
+  const [sortBy, setSortBy] =
+    useState<keyof memberAttendanceType>("first_name");
   const [sortDsc, setSortDsc] = useState(false);
 
   const sspConfig: SSPConfig = {
     paginate: paginationOpts[paginationCount],
     sort: {
       dir: sortDsc ? "descending" : "ascending",
-      property: sortBy
+      property: sortBy,
     },
-    query: (searchQuery === "") ? undefined : searchQuery,
+    query: searchQuery === "" ? undefined : searchQuery,
   };
 
   const [dataPage, setDataPage] = useState(0);
 
   let presentableData;
-  if (data)
-  {
+  if (data) {
     presentableData = searchSortPaginate(data.attendees, sspConfig);
   }
 
-  if (error)
-  {
+  if (error) {
     toast.error(`Event Details Error: ${errorMessage}`);
     return (
       <Layout>
@@ -112,8 +116,7 @@ const EventDetails: NextPage = () =>
     );
   }
 
-  if (isLoading || !data)
-  {
+  if (isLoading || !data) {
     return (
       <Layout>
         <div className="grid h-screen place-content-center">
@@ -125,20 +128,19 @@ const EventDetails: NextPage = () =>
 
   return (
     <Layout>
-      <Title
-        title={data.title}
-        subtitle={data.description}>
-
+      <Title title={data.title} subtitle={data.description}>
         <div className="flex flex-row">
           <div className="mt-2 flex flex-col gap-2">
             <div>
               <span className="text-lg">Contacts per page: </span>
-              <SelectInput name="pagination" ariaLabel="Contacts Per Page" height="h-fit"
+              <SelectInput
+                name="pagination"
+                ariaLabel="Contacts Per Page"
+                height="h-fit"
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(paginationOpts)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   setPaginationCount(e.target.value);
                 }}
                 value={paginationCount}
@@ -147,12 +149,14 @@ const EventDetails: NextPage = () =>
 
             <div>
               <span className="text-lg">Sort contacts by: </span>
-              <SelectInput name="sortBy" ariaLabel="Sort Data By" height="h-fit"
+              <SelectInput
+                name="sortBy"
+                ariaLabel="Sort Data By"
+                height="h-fit"
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(schema)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   const val = schema[e.target.value];
                   setSortBy(val);
                 }}
@@ -161,15 +165,27 @@ const EventDetails: NextPage = () =>
 
               <label>
                 <span className="ml-2 mr-1 text-lg">Descending:</span>
-                <input type="checkbox" className="accent-red-500 scale-125" checked={sortDsc} onChange={e => setSortDsc(e.target.checked)} />
+                <input
+                  type="checkbox"
+                  className="scale-125 accent-red-500"
+                  checked={sortDsc}
+                  onChange={(e) => setSortDsc(e.target.checked)}
+                />
               </label>
             </div>
           </div>
         </div>
 
-        <div className="mt-3 w-full flex flex-row gap-x-4">
-          <button className="px-4 py-2 bg-selectInputBG rounded-md" onClick={() => { router.push(`/dashboard/events/${eventID}/addAttendee`); }}>Add Attendee</button>
-          <div className="ml-auto my-auto w-2/5">
+        <div className="mt-3 flex w-full flex-row gap-x-4">
+          <button
+            className="rounded-md bg-selectInputBG px-4 py-2"
+            onClick={() => {
+              router.push(`/dashboard/events/${eventID}/addAttendee`);
+            }}
+          >
+            Add Attendee
+          </button>
+          <div className="my-auto ml-auto w-2/5">
             <SearchBox initSearch={setSearchQuery} />
           </div>
         </div>
@@ -190,15 +206,14 @@ const EventDetails: NextPage = () =>
             className=""
             schema={schema}
             data={presentableData[dataPage]}
-            rowClick={(modalData) =>
-            {
+            rowClick={(modalData) => {
               setModalData(modalData);
               setModalOpen(true);
             }}
           />
         </>
       ) : (
-        <div className="flex flex-col mt-4 place-content-center">
+        <div className="mt-4 flex flex-col place-content-center">
           <h1 className="text-center text-3xl font-bold text-red-600">
             No Attendees Found
           </h1>

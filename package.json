@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier": "prettier --check src/**/*.ts",
-    "prettier-f": "prettier --write src/**/*.ts",
+    "prettier": "prettier . --check",
+    "prettier-f": "prettier . --write",
     "gen-types": "supabase gen types typescript --linked> types/supabase.ts",
     "test": "jest --watch"
   },

@@ -29,14 +29,14 @@ const Signup: NextPage = () => {
 
     setLoading(false);
 
-    if (error) toast.error(`Signup Error: ${error.message}`)
+    if (error) toast.error(`Signup Error: ${error.message}`);
     else if (data) toast.success("Account invite sent!");
   };
 
   if (loading) {
     return (
       <Layout title="Officer Signup">
-        <div className="w-5/12 mx-auto place-content-center">
+        <div className="mx-auto w-5/12 place-content-center">
           <h1>Loading</h1>
           <LoadSpinner />
         </div>
@@ -48,12 +48,17 @@ const Signup: NextPage = () => {
     <Layout title="Officer Signup">
       <Title
         title="Officer Signup"
-        subtitle="Add new coogs to the pack! 😸">
-      </Title>
-      <div className="w-5/12 mx-auto place-content-center">
-
+        subtitle="Add new coogs to the pack! 😸"
+      ></Title>
+      <div className="mx-auto w-5/12 place-content-center">
         <form onSubmit={handleSubmit}>
-          <TextInput className="mt-4" name="username" label="Username" placeholder="Web Developer" required />
+          <TextInput
+            className="mt-4"
+            name="username"
+            label="Username"
+            placeholder="Web Developer"
+            required
+          />
           <PasswordInput
             className="mt-4"
             name="password"
@@ -61,7 +66,12 @@ const Signup: NextPage = () => {
             placeholder="Password"
             required
           />
-          <button type="submit" className="mt-6 w-full text-white font-semibold text-sm h-9 rounded-sm bg-red-600 hover:bg-red-700">Sign up</button>
+          <button
+            type="submit"
+            className="mt-6 h-9 w-full rounded-sm bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
+          >
+            Sign up
+          </button>
         </form>
       </div>
     </Layout>

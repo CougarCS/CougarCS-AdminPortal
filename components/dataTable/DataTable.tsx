@@ -46,7 +46,7 @@ export const DataTable = ({
         case "swag":
           replacement = row.swag ? "TRUE" : "FALSE";
           break;
-        
+
         default:
           break;
       }
@@ -75,7 +75,9 @@ export const DataTable = ({
   });
 
   return (
-    <table className={`w-full max-w-[900px] border-collapse rounded-md bg-tableHD`}>
+    <table
+      className={`w-full max-w-[900px] border-collapse rounded-md bg-tableHD`}
+    >
       <thead>
         <tr className="sticky top-0">{headerElements}</tr>
       </thead>

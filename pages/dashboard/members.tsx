@@ -81,7 +81,10 @@ const Members: NextPage = () => {
 
   let presentableData;
   if (data) {
-    presentableData = searchSortPaginate(data, sspConfig) as dataTableProps2[][];
+    presentableData = searchSortPaginate(
+      data,
+      sspConfig
+    ) as dataTableProps2[][];
   }
 
   if (error) {
@@ -183,7 +186,12 @@ const Members: NextPage = () => {
             Delete Contact
           </button>
           <div className="my-auto ml-auto w-2/5">
-            <SearchBox initSearch={(searchQuery) => { setSearchQuery(searchQuery); setDataPage(0); }} />
+            <SearchBox
+              initSearch={(searchQuery) => {
+                setSearchQuery(searchQuery);
+                setDataPage(0);
+              }}
+            />
           </div>
         </div>
       </Title>
@@ -198,8 +206,8 @@ const Members: NextPage = () => {
 
       {presentableData !== undefined && presentableData[0] !== undefined ? (
         <>
-        {/* TODO: FIX AFTER MAIN PAGE */}
-         <DataTable
+          {/* TODO: FIX AFTER MAIN PAGE */}
+          <DataTable
             data={presentableData[dataPage]}
             rowClick={(modalData) => {
               setModalData(modalData);
