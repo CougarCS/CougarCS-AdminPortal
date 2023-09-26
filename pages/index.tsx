@@ -42,7 +42,7 @@ const Home: NextPage = () => {
           className="flex h-9 w-full justify-center space-x-2 rounded-sm bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
         >
           <AiOutlineUnorderedList className="my-auto" />
-          <span className="my-auto">Members</span>
+          <span className="my-auto">Contacts</span>
         </button>
 
         <button
