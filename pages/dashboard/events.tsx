@@ -49,8 +49,7 @@ const Events: NextPage = () => {
             </button>
           </div>
         </Title>
-
-        <div className="mx-auto grid w-full grid-cols-2 gap-x-8 py-4">
+        <div className="flex min-w-full flex-wrap gap-y-6 gap-x-8 py-6">
           {eventCards}
         </div>
       </Layout>

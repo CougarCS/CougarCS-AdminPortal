@@ -11,6 +11,7 @@ module.exports = {
         sidebarBG: "#131313",
         selectInputBG: "#2b2b2b",
         tableHD: "#303030",
+        cardBorder: "#636363"
       },
     },
   },
