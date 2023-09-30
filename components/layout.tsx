@@ -25,7 +25,7 @@ const Layout = ({ children, title, sidebarHidden }: layoutProps) => {
           />
         )}
 
-        <div id="layout-content" className="flex-1 bg-mainBG p-8">
+        <div id="layout-content" className="flex-1 bg-mainBG px-16 py-8">
           {children}
           <Toaster position="top-right" richColors closeButton />
         </div>

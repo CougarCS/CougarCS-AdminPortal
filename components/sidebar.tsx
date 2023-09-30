@@ -40,7 +40,7 @@ const Sidebar = () => {
   return (
     <div
       id="sidebar"
-      className="flex min-h-full w-32 min-w-[224px] flex-col justify-between bg-sidebarBG"
+      className="flex min-h-full w-60 min-w-[15rem] flex-col justify-between bg-sidebarBG"
     >
       <div className="flex items-center justify-center  bg-sidebarBG p-8">
         <Image
