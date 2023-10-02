@@ -17,9 +17,9 @@ import { searchSortPaginate } from "../../utils/searchSortPaginate";
 import router from "next/router";
 import { PaginationControl } from "../../components/paginationControl";
 
-const Members: NextPage = () => {
+const Members: NextPage = () =>
+{
   const { data, error, isLoading } = useSWR("/api/members", fetcher);
-  const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
     "Unable to retrieve member data."
   );
@@ -47,6 +47,21 @@ const Members: NextPage = () => {
     Phone: "phone_number",
     Shirt: "shirt_size_id",
     Timestamp: "timestamp",
+  };
+
+  // for the select input, come up with a more elegant solution later
+  // (when we split the tables into individual member/contact table components and simplify logic)
+  type invertedSchemaDef = {
+    [key: string]: string;
+  };
+  const invertedSchema: invertedSchemaDef = {
+    uh_id: "UH ID",
+    first_name: "First",
+    last_name: "Last",
+    email: "Email",
+    phone_number: "Phone",
+    shirt_size_id: "Shirt",
+    timestamp: "Timestamp",
   };
 
   type paginationDef = {
@@ -80,11 +95,13 @@ const Members: NextPage = () => {
   const [dataPage, setDataPage] = useState(0);
 
   let presentableData;
-  if (data) {
+  if (data)
+  {
     presentableData = searchSortPaginate(data, sspConfig) as memberType[][];
   }
 
-  if (error) {
+  if (error)
+  {
     toast.error(`Contacts Error: ${errorMessage}`);
     return (
       <Layout>
@@ -100,7 +117,8 @@ const Members: NextPage = () => {
     );
   }
 
-  if (isLoading) {
+  if (isLoading)
+  {
     return (
       <Layout>
         <div className="grid h-screen place-content-center">
@@ -127,7 +145,8 @@ const Members: NextPage = () => {
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(paginationOpts)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                {
                   setDataPage(0);
                   setPaginationCount(e.target.value);
                 }}
@@ -144,11 +163,12 @@ const Members: NextPage = () => {
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(schema)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                {
                   const val = schema[e.target.value];
                   setSortBy(val);
                 }}
-                value={schema[sortBy] ? schema[sortBy] : "First"}
+                value={invertedSchema[sortBy]}
               />
 
               <label>
@@ -167,7 +187,8 @@ const Members: NextPage = () => {
         <div className="mt-3 flex w-full flex-row gap-x-4">
           <button
             className="rounded-md bg-selectInputBG px-4 py-2"
-            onClick={() => {
+            onClick={() =>
+            {
               router.push("/dashboard/addmember");
             }}
           >
@@ -175,7 +196,8 @@ const Members: NextPage = () => {
           </button>
           <button
             className="rounded-md bg-selectInputBG px-4 py-2"
-            onClick={() => {
+            onClick={() =>
+            {
               router.push("/dashboard/delmember");
             }}
           >
@@ -201,7 +223,8 @@ const Members: NextPage = () => {
             className=""
             schema={schema}
             data={presentableData[dataPage]}
-            rowClick={(modalData) => {
+            rowClick={(modalData) =>
+            {
               setModalData(modalData);
               setModalOpen(true);
             }}
