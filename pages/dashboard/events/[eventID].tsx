@@ -10,7 +10,8 @@ import fetcher from "../../../utils/fetcher";
 import { useEffect, useState } from "react";
 import { LoadSpinner } from "../../../components/loadingSpinner";
 import poster from "../../../utils/poster";
-import {
+import
+{
   SSPConfig,
   eventDetails,
   memberAttendanceType,
@@ -25,11 +26,12 @@ import { TextInput } from "../../../components/textInput";
 import { searchSortPaginate } from "../../../utils/searchSortPaginate";
 import router, { useRouter } from "next/router";
 
-const EventDetails: NextPage = () => {
+const EventDetails: NextPage = () =>
+{
   const router = useRouter();
   const { eventID } = router.query;
   const { data, error, isLoading } = useSWR<
-    eventDetails & { attendees: memberAttendanceType[] }
+    eventDetails & { attendees: memberAttendanceType[]; }
   >(eventID ? `/api/events/${eventID}` : null, eventID ? fetcher : null);
 
   const [isError, setError] = useState(false);
@@ -64,6 +66,21 @@ const EventDetails: NextPage = () => {
     Swag: "swag",
   };
 
+  // for the select input, come up with a more elegant solution later
+  // (when we split the tables into individual member/contact table components and simplify logic)
+  type invertedSchemaDef = {
+    [key: string]: string;
+  };
+  const invertedSchema: invertedSchemaDef = {
+    uh_id: "UH ID",
+    first_name: "First",
+    last_name: "Last",
+    email: "Email",
+    phone_number: "Phone",
+    shirt_size_id: "Shirt",
+    timestamp: "Timestamp",
+  };
+
   type paginationDef = {
     [key: string]: number;
   };
@@ -96,11 +113,13 @@ const EventDetails: NextPage = () => {
   const [dataPage, setDataPage] = useState(0);
 
   let presentableData;
-  if (data) {
+  if (data)
+  {
     presentableData = searchSortPaginate(data.attendees, sspConfig);
   }
 
-  if (error) {
+  if (error)
+  {
     toast.error(`Event Details Error: ${errorMessage}`);
     return (
       <Layout>
@@ -116,7 +135,8 @@ const EventDetails: NextPage = () => {
     );
   }
 
-  if (isLoading || !data) {
+  if (isLoading || !data)
+  {
     return (
       <Layout>
         <div className="grid h-screen place-content-center">
@@ -140,7 +160,8 @@ const EventDetails: NextPage = () => {
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(paginationOpts)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                {
                   setPaginationCount(e.target.value);
                 }}
                 value={paginationCount}
@@ -156,11 +177,12 @@ const EventDetails: NextPage = () => {
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(schema)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                {
                   const val = schema[e.target.value];
                   setSortBy(val);
                 }}
-                value={schema[sortBy] ? schema[sortBy] : "First"}
+                value={invertedSchema[sortBy]}
               />
 
               <label>
@@ -179,7 +201,8 @@ const EventDetails: NextPage = () => {
         <div className="mt-3 flex w-full flex-row gap-x-4">
           <button
             className="rounded-md bg-selectInputBG px-4 py-2"
-            onClick={() => {
+            onClick={() =>
+            {
               router.push(`/dashboard/events/${eventID}/addAttendee`);
             }}
           >
@@ -206,7 +229,8 @@ const EventDetails: NextPage = () => {
             className=""
             schema={schema}
             data={presentableData[dataPage]}
-            rowClick={(modalData) => {
+            rowClick={(modalData) =>
+            {
               setModalData(modalData);
               setModalOpen(true);
             }}
