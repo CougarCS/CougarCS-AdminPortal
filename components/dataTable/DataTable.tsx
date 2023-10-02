@@ -20,7 +20,7 @@ export const DataTable = ({
 
   console.log(headerNames);
   const headerElements = headerNames.map((columnTitle) => (
-    <th key={columnTitle} className="bg-tableHD text-left px-3 py-2 rounded-2xl">
+    <th key={columnTitle} className="bg-tableHD text-left px-3 py-2 rounded-t-xl">
       {columnTitle}
     </th>
   ));
@@ -73,8 +73,8 @@ export const DataTable = ({
   });
 
   return (
-    <table className={`border-collapse w-full rounded-md bg-tableHD ${className}`}>
-      <thead>
+    <table className={`border-collapse w-full rounded-xl bg-tableHD ${className}`}>
+      <thead className="">
         <tr className="sticky top-0">{headerElements}</tr>
       </thead>
 
