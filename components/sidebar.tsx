@@ -1,12 +1,11 @@
 import React from "react";
 import {
-  FaHome,
-  FaUsers,
-  FaUserPlus,
-  FaCog,
-  FaSignOutAlt,
-  FaCalendarAlt,
-} from "react-icons/fa";
+  BsGrid,
+  BsPeopleFill,
+  BsPersonFillAdd,
+  BsCalendar4Event,
+} from "react-icons/bs";
+import { MdLogin } from "react-icons/md";
 import { NavElement } from "./sidebarNavElement";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -16,20 +15,24 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 // and because it's not really reused so it can sit here anyway
 
 const menuOptions = [
-  { title: "Overview", icon: <FaHome className="h-7 w-7" />, path: "/" },
+  {
+    title: "Overview",
+    icon: <BsGrid className="h-[22px] w-[22px]" />,
+    path: "/",
+  },
   {
     title: "Contacts",
-    icon: <FaUsers className="h-7 w-7" />,
+    icon: <BsPeopleFill className="h-[22px] w-[22px]" />,
     path: "/dashboard/members",
   },
   {
     title: "Add Officer",
-    icon: <FaUserPlus className="h-7 w-7" />,
+    icon: <BsPersonFillAdd className="h-[22px] w-[22px]" />,
     path: "/dashboard/signup",
   },
   {
     title: "Events",
-    icon: <FaCalendarAlt className="h-7 w-7" />,
+    icon: <BsCalendar4Event className="h-[22px] w-[22px]" />,
     path: "/dashboard/events",
   },
 ];
@@ -40,18 +43,18 @@ const Sidebar = () => {
   return (
     <div
       id="sidebar"
-      className="flex min-h-full w-60 min-w-[15rem] flex-col justify-between bg-sidebarBG"
+      className="fixed top-0 left-0 flex min-h-full w-60 min-w-[15rem] flex-col justify-between bg-sidebarBG"
     >
-      <div className="flex items-center justify-center  bg-sidebarBG p-8">
+      <div className="ml-7 flex items-center bg-sidebarBG py-12">
         <Image
           src="/images/CougarCS-logo.png"
           alt="CougarCS Logo"
-          width={64}
-          height={64}
+          width={56}
+          height={56}
         />
-        <div>
-          <p className="text-lg font-bold text-white">CougarCS</p>
-          <p className="text-sm font-light text-white">Admin Portal</p>
+        <div className="ml-2">
+          <p className="text-xl font-semibold text-white">CougarCS</p>
+          <p className="text-sm font-medium text-gray-400">Admin Portal</p>
         </div>
       </div>
 
@@ -68,16 +71,16 @@ const Sidebar = () => {
         ))}
       </div>
 
-      <div className="mt-auto mb-4 flex flex-col justify-end">
+      <div className="mt-auto mb-6 flex flex-col justify-end">
         <button
           onClick={async () => {
             await supabase.auth.signOut();
             router.push("/login");
           }}
-          className="px-4 py-2 text-lg text-red-500"
+          className="mx-auto flex w-[75%] items-center justify-center gap-4 rounded-md p-2 text-gray-400 hover:bg-hoverBG hover:text-white"
         >
-          <FaSignOutAlt className="mr-2 inline-block h-7 w-7" />
-          Log Out
+          <p className="font-medium">Logout</p>
+          <MdLogin className="h-6 w-6" />
         </button>
       </div>
     </div>

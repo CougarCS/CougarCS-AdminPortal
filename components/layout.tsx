@@ -18,11 +18,9 @@ const Layout = ({ children, title, sidebarHidden }: layoutProps) => {
 
       <div className="flex min-h-screen w-full text-white">
         {sidebarHidden ? null : (
-          <Sidebar
-            onLogout={function (): void {
-              throw new Error("Function not implemented.");
-            }}
-          />
+          <div className="w-60 min-w-[15rem]">
+            <Sidebar />
+          </div>
         )}
 
         <div id="layout-content" className="flex-1 bg-mainBG px-16 py-8">
