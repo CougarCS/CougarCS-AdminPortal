@@ -1,11 +1,11 @@
 import React from "react";
-import { dataTableProps2, memberType } from "../types/types";
+import { memberType } from "../types/types";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 
 type paginationControlProps = {
   dataPage: number;
   setDataPage: React.Dispatch<React.SetStateAction<number>>;
-  presentableData: dataTableProps2[][];
+  presentableData: memberType[][];
 };
 
 export const PaginationControl = ({

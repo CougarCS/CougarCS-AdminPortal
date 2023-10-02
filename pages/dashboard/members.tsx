@@ -5,7 +5,7 @@ import fetcher from "../../utils/fetcher";
 import { useEffect, useState } from "react";
 import { LoadSpinner } from "../../components/loadingSpinner";
 import poster from "../../utils/poster";
-import { SSPConfig, dataTableProps2, memberType } from "../../types/types";
+import { SSPConfig, memberType } from "../../types/types";
 import { toast } from "sonner";
 import { DataTable } from "../../components/dataTable/DataTable";
 import { Title } from "../../components/title";
@@ -81,10 +81,7 @@ const Members: NextPage = () => {
 
   let presentableData;
   if (data) {
-    presentableData = searchSortPaginate(
-      data,
-      sspConfig
-    ) as dataTableProps2[][];
+    presentableData = searchSortPaginate(data, sspConfig) as memberType[][];
   }
 
   if (error) {
@@ -140,7 +137,6 @@ const Members: NextPage = () => {
 
             <div>
               <span className="text-lg">Sort contacts by: </span>
-              {/* TODO: FIX THIS LATER, CURRENTLY GOES BY SCHEMA SHOULD BE UPDATED TO NEW TYPING */}
               <SelectInput
                 name="sortBy"
                 ariaLabel="Sort Data By"
@@ -186,12 +182,7 @@ const Members: NextPage = () => {
             Delete Contact
           </button>
           <div className="my-auto ml-auto w-2/5">
-            <SearchBox
-              initSearch={(searchQuery) => {
-                setSearchQuery(searchQuery);
-                setDataPage(0);
-              }}
-            />
+            <SearchBox initSearch={(searchQuery) => { setSearchQuery(searchQuery); setDataPage(0); }} />
           </div>
         </div>
       </Title>
@@ -206,8 +197,9 @@ const Members: NextPage = () => {
 
       {presentableData !== undefined && presentableData[0] !== undefined ? (
         <>
-          {/* TODO: FIX AFTER MAIN PAGE */}
           <DataTable
+            className=""
+            schema={schema}
             data={presentableData[dataPage]}
             rowClick={(modalData) => {
               setModalData(modalData);
