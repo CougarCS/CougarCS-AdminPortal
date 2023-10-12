@@ -4,6 +4,7 @@ import {
   BsPeopleFill,
   BsPersonFillAdd,
   BsCalendar4Event,
+  BsPatchCheck
 } from "react-icons/bs";
 import { MdLogin } from "react-icons/md";
 import { NavElement } from "./sidebarNavElement";
@@ -34,6 +35,11 @@ const menuOptions = [
     title: "Events",
     icon: <BsCalendar4Event className="h-[22px] w-[22px]" />,
     path: "/dashboard/events",
+  },
+  {
+    title: "Membership",
+    icon: <BsPatchCheck className="h-[22px] w-[22px]" />,
+    path: "/dashboard/membercheck",
   },
 ];
 const Sidebar = () => {
