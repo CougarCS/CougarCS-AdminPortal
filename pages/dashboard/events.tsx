@@ -11,9 +11,11 @@ import useSWR, { mutate } from "swr";
 import fetcher from "../../utils/fetcher";
 import EventCard from "../../components/eventsPage/eventCard";
 import { eventDetails } from "../../types/types";
+import { useRouter } from "next/router";
 
 const Events: NextPage = () => {
   const { data, error, isLoading } = useSWR("/api/events", fetcher);
+  const router = useRouter();
 
   if (error) {
     toast.error(`Events Error: ${error}`);
@@ -44,12 +46,15 @@ const Events: NextPage = () => {
         >
           <div className="mt-3">
             {" "}
-            <button className="rounded-md bg-selectInputBG px-4 py-2">
+            <button
+              className="rounded-md bg-selectInputBG px-4 py-2"
+              onClick={() => router.push("/dashboard/addevents")}
+            >
               Add Event
             </button>
           </div>
         </Title>
-        <div className="flex min-w-full flex-wrap gap-y-6 gap-x-8 py-6">
+        <div className="mt-5 flex min-w-full flex-wrap gap-y-6 gap-x-8">
           {eventCards}
         </div>
       </Layout>

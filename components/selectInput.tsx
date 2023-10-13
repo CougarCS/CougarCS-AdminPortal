@@ -1,13 +1,12 @@
-import React from "react";
-
 type selectProps = {
   name: string;
   options: any[];
-  value: string;
+  value?: string;
   height: string;
   width: string;
+  marginTop?: string;
   textSize: string;
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange?: (event: React.ChangeEvent<any>) => void;
   ariaLabel: string;
 };
 
@@ -17,6 +16,7 @@ export const SelectInput = ({
   options,
   height,
   width,
+  marginTop,
   textSize,
   value,
   ariaLabel,
@@ -26,7 +26,7 @@ export const SelectInput = ({
       name={name}
       value={value}
       onChange={onChange}
-      className={`${width} ${textSize} ${height} rounded-md border-[1px] border-transparent bg-selectInputBG pl-3 outline-0 transition-all hover:border-gray-500 focus:border-gray-200`}
+      className={`${width} ${textSize} ${height} ${marginTop} focus:ring-blue-5000 rounded-sm border border-zinc-700 bg-zinc-800  pl-3 pr-1 outline-0 focus:border-blue-500 focus:outline-none`}
       required
       aria-label={ariaLabel}
     >
