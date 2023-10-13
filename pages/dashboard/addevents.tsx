@@ -1,50 +1,44 @@
 import { NextPage } from "next";
 import React, { useState } from "react";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Layout from "../../components/layout";
-import router, { useRouter } from "next/router";
+import router from "next/router";
 
 import { TextInput } from "../../components/textInput";
 import { toast } from "sonner";
-import { LoadSpinner } from "../../components/loadingSpinner";
 import { Title } from "../../components/title";
-import { memberType, eventDetails } from "../../types/types";
 import { TextAreaInput } from "../../components/textareaInput";
 import { SelectInput } from "../../components/selectInput";
 import poster from "../../utils/poster";
 import { HiArrowLeft } from "react-icons/hi";
 import { NumberInput } from "../../components/numberInput";
 import { LabelWrapper } from "../../components/labelWrapper";
+import { ButtonSpinner } from "../../components/buttonSpinner";
 
 type eventCreation = {
   date: string;
-  description: string;
-  duration: number;
-  point_value: number | string;
-  time: string;
+  description: string | null;
+  duration: number | null;
+  point_value: number;
   title: string;
 };
 
 const AddEvent: NextPage = () => {
-  const supabase = useSupabaseClient();
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [timeOfDay, setTimeOfDay] = useState("PM");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    const formRef = e.currentTarget;
 
     if (
       !formData.get("title")?.toString() ||
-      !formData.get("description")?.toString() ||
       !formData.get("date")?.toString() ||
       !formData.get("time")?.toString() ||
-      (!formData.get("hours")?.toString() &&
-        !formData.get("minutes")?.toString()) ||
-      !formData.get("pointValue")?.toString()
+      !formData.get("cougarCoin")?.toString()
     ) {
       toast.error(
-        `Event Creation Error: Contact requires at LEAST a title, description, date, duration, and point value.`
+        `Event Creation Error: Event requires at LEAST a title, date, time and Cougar Coin value.`
       );
       return;
     }
@@ -72,22 +66,41 @@ const AddEvent: NextPage = () => {
     const minutes = formData.get("minutes")
       ? parseInt(formData.get("minutes")!.toString())
       : 0;
+
     const time = formData
       .get("time")!
       .toString()
       .concat(" ", formData.get("timeOfDay")!.toString());
 
+    const eventDate = new Date(
+      formData.get("date")!.toString().concat(" ", time)
+    );
+
     const eventObj: eventCreation = {
-      date: new Date(formData.get("date")!.toString()).toISOString(),
-      description: formData.get("description")!.toString(),
-      duration: hours + minutes,
-      point_value: parseInt(formData.get("pointValue")!.toString()),
-      time: time,
+      date: eventDate.toISOString(),
+      description: formData.get("description")
+        ? formData.get("description")!.toString()
+        : null,
+      duration: hours + minutes > 0 ? hours + minutes : null,
+      point_value: parseInt(formData.get("cougarCoin")!.toString()),
       title: formData.get("title")!.toString(),
     };
 
-    console.log(eventObj);
-    toast.success("Event created!");
+    setIsLoading(true);
+
+    const res = await poster("/api/events", eventObj);
+
+    setIsLoading(false);
+
+    if (res.error) {
+      toast.error(`Event Creation Error: ${res.description}`);
+    } else if (res.data) {
+      toast.success("Event created!");
+
+      if (formRef) {
+        formRef.reset();
+      }
+    }
   };
 
   return (
@@ -102,7 +115,7 @@ const AddEvent: NextPage = () => {
         </button>
       </Title>
 
-      <div className="mx-auto w-full place-content-center xl:w-[40%]">
+      <div className="mx-auto w-full place-content-center xl:w-[42%]">
         <form onSubmit={handleSubmit}>
           <TextInput
             className="mt-4"
@@ -152,8 +165,8 @@ const AddEvent: NextPage = () => {
             </div>
           </LabelWrapper>
 
-          <LabelWrapper className="mt-4" label="Point Value">
-            <NumberInput name="pointValue" placeholder="5" />
+          <LabelWrapper className="mt-4" label="Cougar Coin">
+            <NumberInput name="cougarCoin" placeholder="5" />
           </LabelWrapper>
 
           <LabelWrapper className="mt-4" label="Description">
@@ -163,8 +176,18 @@ const AddEvent: NextPage = () => {
           <button
             type="submit"
             className="mt-6 h-9 w-full rounded-sm bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
+            disabled={isLoading}
           >
-            Add Event
+            {isLoading ? (
+              <ButtonSpinner
+                height="h-6"
+                width="w-6"
+                color="text-gray-100"
+                fill="fill-black"
+              />
+            ) : (
+              <span>Add Event</span>
+            )}
           </button>
         </form>
       </div>

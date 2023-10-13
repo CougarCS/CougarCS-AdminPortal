@@ -33,7 +33,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
       {
         return res.status(409).json({
           error: "Conflict",
-          description: "This contact already exists.",
+          description: "This event already exists.",
         });
       }
 
