@@ -1,40 +1,30 @@
 import type { NextPage } from "next";
 import Layout from "../../components/layout";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import fetcher from "../../utils/fetcher";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LoadSpinner } from "../../components/loadingSpinner";
-import poster from "../../utils/poster";
 import { SSPConfig, memberType } from "../../types/types";
 import { toast } from "sonner";
 import { DataTable } from "../../components/dataTable/DataTable";
 import { Title } from "../../components/title";
-import { ViewMemberModal } from "../../components/membersModal/viewMemberModal";
 import { SelectInput } from "../../components/selectInput";
 import SearchBox from "../../components/searchBox";
-import { TextInput } from "../../components/textInput";
 import { searchSortPaginate } from "../../utils/searchSortPaginate";
 import router from "next/router";
 import { PaginationControl } from "../../components/paginationControl";
+import { SideDrawer } from "../../components/sideDrawer/sideDrawer";
+import { ContactsController } from "../../components/sideDrawer/contacts/contactsController";
+import { useContactsStore } from "../../store/contactsStore";
 
-const Members: NextPage = () =>
-{
+const Members: NextPage = () => {
   const { data, error, isLoading } = useSWR("/api/members", fetcher);
   const [errorMessage, setErrorMessage] = useState(
     "Unable to retrieve member data."
   );
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalData, setModalData] = useState<memberType>({
-    contact_id: "123foobar",
-    uh_id: 1111117,
-    email: "testa@ibm.com",
-    first_name: "Testy",
-    last_name: "Test",
-    phone_number: 1112223435,
-    shirt_size_id: "XXS",
-    timestamp: "01/01/1970",
-  });
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const { setContactInfo } = useContactsStore();
 
   type schemaDef = {
     [key: string]: keyof memberType;
@@ -95,13 +85,11 @@ const Members: NextPage = () =>
   const [dataPage, setDataPage] = useState(0);
 
   let presentableData;
-  if (data)
-  {
+  if (data) {
     presentableData = searchSortPaginate(data, sspConfig) as memberType[][];
   }
 
-  if (error)
-  {
+  if (error) {
     toast.error(`Contacts Error: ${errorMessage}`);
     return (
       <Layout>
@@ -117,8 +105,7 @@ const Members: NextPage = () =>
     );
   }
 
-  if (isLoading)
-  {
+  if (isLoading) {
     return (
       <Layout>
         <div className="grid h-screen place-content-center">
@@ -145,8 +132,7 @@ const Members: NextPage = () =>
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(paginationOpts)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   setDataPage(0);
                   setPaginationCount(e.target.value);
                 }}
@@ -163,8 +149,7 @@ const Members: NextPage = () =>
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(schema)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   const val = schema[e.target.value];
                   setSortBy(val);
                 }}
@@ -187,8 +172,7 @@ const Members: NextPage = () =>
         <div className="mt-3 flex w-full flex-row gap-x-4">
           <button
             className="rounded-md bg-selectInputBG px-4 py-2"
-            onClick={() =>
-            {
+            onClick={() => {
               router.push("/dashboard/addmember");
             }}
           >
@@ -196,37 +180,37 @@ const Members: NextPage = () =>
           </button>
           <button
             className="rounded-md bg-selectInputBG px-4 py-2"
-            onClick={() =>
-            {
+            onClick={() => {
               router.push("/dashboard/delmember");
             }}
           >
             Delete Contact
           </button>
           <div className="my-auto ml-auto w-2/5">
-            <SearchBox initSearch={(searchQuery) => { setSearchQuery(searchQuery); setDataPage(0); }} />
+            <SearchBox
+              initSearch={(searchQuery) => {
+                setSearchQuery(searchQuery);
+                setDataPage(0);
+              }}
+            />
           </div>
         </div>
       </Title>
-
-      <ViewMemberModal
-        isOpen={modalOpen}
-        member={modalData}
-        setModalOpen={(state) => setModalOpen(state)}
-      />
 
       <br />
 
       {presentableData !== undefined && presentableData[0] !== undefined ? (
         <>
+          <SideDrawer open={openDrawer} setOpen={setOpenDrawer}>
+            <ContactsController />
+          </SideDrawer>
+
           <DataTable
-            className=""
             schema={schema}
             data={presentableData[dataPage]}
-            rowClick={(modalData) =>
-            {
-              setModalData(modalData);
-              setModalOpen(true);
+            rowClick={(modalData) => {
+              setOpenDrawer(true);
+              setContactInfo(modalData);
             }}
           />
 
