@@ -14,15 +14,15 @@ export const LabelWrapper = ({
   return (
     <div className={className}>
       <label>
-        <span
+        <p
           className={
             required
               ? "text-sm after:ml-1 after:align-sub after:text-red-500 after:content-['*']"
-              : ""
+              : "text-base"
           }
         >
           {label}
-        </span>
+        </p>
         {children}
       </label>
     </div>

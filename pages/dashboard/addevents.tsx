@@ -6,13 +6,13 @@ import router from "next/router";
 import { TextInput } from "../../components/textInput";
 import { toast } from "sonner";
 import { Title } from "../../components/title";
-import { TextAreaInput } from "../../components/textareaInput";
+import { TextAreaInput } from "../../components/formInput/textareaInput";
 import { SelectInput } from "../../components/selectInput";
 import poster from "../../utils/poster";
 import { HiArrowLeft } from "react-icons/hi";
-import { NumberInput } from "../../components/numberInput";
-import { LabelWrapper } from "../../components/labelWrapper";
-import { ButtonSpinner } from "../../components/buttonSpinner";
+import { NumberInput } from "../../components/formInput/numberInput";
+import { LabelWrapper } from "../../components/formInput/labelWrapper";
+import { ButtonSpinner } from "../../components/loading/buttonSpinner";
 
 type eventCreation = {
   date: string;
