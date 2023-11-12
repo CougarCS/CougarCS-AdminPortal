@@ -23,7 +23,7 @@ const Members: NextPage = () => {
     "Unable to retrieve member data."
   );
 
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState<boolean>(false);
   const { setContactInfo } = useContactsStore();
 
   type schemaDef = {

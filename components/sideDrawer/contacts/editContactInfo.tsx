@@ -9,8 +9,9 @@ import fetcher from "../../../utils/fetcher";
 import putter from "../../../utils/putter";
 import useSWR, { mutate } from "swr";
 import { toast } from "sonner";
-import { Skeleton } from "../../loading/skeleton";
 import { useContactsStore } from "../../../store/contactsStore";
+import dayjs from "dayjs";
+import { LoadSpinner } from "../../loadingSpinner";
 
 type contactInfoProps = {
   contact: memberType;
@@ -40,6 +41,8 @@ export const EditContactInfo = ({
   contact,
   setIsEditing,
 }: contactInfoProps) => {
+  const { data } = useSWR("/api/members", fetcher);
+
   const [contactInfoForm, setContactInfoForm] = useState<contactInfoForm>({
     uh_id: contact.uh_id ? contact.uh_id.toString() : "",
     first_name: contact.first_name,
@@ -50,8 +53,6 @@ export const EditContactInfo = ({
   });
 
   const { setContactInfo } = useContactsStore();
-
-  const { data } = useSWR("/api/members", fetcher);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -121,16 +122,8 @@ export const EditContactInfo = ({
   };
 
   const shirtSizeOptions = ["XS", "S", "M", "L", "XL", "XXL"];
-  const contactCreatedDate = new Date(contact.timestamp);
-  const dateOptions = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  } as const;
-  const formattedDate = contactCreatedDate.toLocaleDateString(
-    "en-US",
-    dateOptions
-  );
+
+  const contactCreatedDate = dayjs(contact.timestamp).format("MM-DD-YYYY");
 
   const compareObjects = (objToBeCompared: any, objComparer: any) => {
     return Object.keys(objToBeCompared).every((key) => {
@@ -138,93 +131,92 @@ export const EditContactInfo = ({
     });
   };
 
+  if (isLoading) {
+    return (
+      <div className="mb-2 flex h-full items-center justify-center">
+        <LoadSpinner />
+      </div>
+    );
+  }
+
   return (
-    <div className="">
-      <Dialog.Title className="mb-10 text-4xl font-bold leading-6 ">
+    <>
+      <Dialog.Title className="mb-10 text-4xl font-bold leading-6">
         <p className="mb-4">{contact.first_name}</p>
         <p>{contact.last_name}</p>
       </Dialog.Title>
 
       <form onSubmit={handleSubmit}>
-        {isLoading ? (
-          <div className="mb-2 flex h-[30rem] flex-col gap-9">
-            {Array.from({ length: 6 }, (_, i) => i).map((i) => (
-              <Skeleton key={i} height="h-8" width="w-full" />
-            ))}
+        <div className="mb-2 flex h-[30rem] flex-col gap-5">
+          <LabelWrapper label="UH ID">
+            <NumberInput
+              name="uh_id"
+              placeholder="1234567"
+              value={contactInfoForm.uh_id}
+              onChange={handleChange}
+            />
+          </LabelWrapper>
 
-            <Skeleton height="h-8" width="w-[25%]" />
-          </div>
-        ) : (
-          <div className="mb-2 flex h-[30rem] flex-col gap-5">
-            <LabelWrapper label="UH ID">
-              <NumberInput
-                name="uh_id"
-                placeholder="1234567"
-                value={contactInfoForm.uh_id}
-                onChange={handleChange}
-              />
-            </LabelWrapper>
+          <LabelWrapper label="First Name">
+            <TextInput
+              name="first_name"
+              placeholder="John"
+              value={contactInfoForm.first_name}
+              onChange={handleChange}
+            />
+          </LabelWrapper>
 
-            <LabelWrapper label="First Name">
-              <TextInput
-                name="first_name"
-                placeholder="John"
-                value={contactInfoForm.first_name}
-                onChange={handleChange}
-              />
-            </LabelWrapper>
+          <LabelWrapper label="Last Name">
+            <TextInput
+              name="last_name"
+              placeholder="Doe"
+              value={contactInfoForm.last_name}
+              onChange={handleChange}
+            />
+          </LabelWrapper>
 
-            <LabelWrapper label="Last Name">
-              <TextInput
-                name="last_name"
-                placeholder="Doe"
-                value={contactInfoForm.last_name}
-                onChange={handleChange}
-              />
-            </LabelWrapper>
+          <LabelWrapper label="Email">
+            <TextInput
+              name="email"
+              placeholder="mihir@gmail.com"
+              value={contactInfoForm.email}
+              onChange={handleChange}
+            />
+          </LabelWrapper>
 
-            <LabelWrapper label="Email">
-              <TextInput
-                name="email"
-                placeholder="mihir@gmail.com"
-                value={contactInfoForm.email}
-                onChange={handleChange}
-              />
-            </LabelWrapper>
+          <LabelWrapper label="Phone">
+            <NumberInput
+              name="phone_number"
+              placeholder="1234567890"
+              value={contactInfoForm.phone_number}
+              onChange={handleChange}
+            />
+          </LabelWrapper>
 
-            <LabelWrapper label="Phone">
-              <NumberInput
-                name="phone_number"
-                placeholder="1234567890"
-                value={contactInfoForm.phone_number}
-                onChange={handleChange}
-              />
-            </LabelWrapper>
-
-            <LabelWrapper className="w-1/5" label="Shirt Size">
-              <SelectInput
-                name="shirt_size_id"
-                onChange={handleChange}
-                options={shirtSizeOptions}
-                value={contactInfoForm.shirt_size_id}
-                height="h-9"
-                width="w-full"
-                textSize="text-md"
-                ariaLabel="Update shirt size"
-              />
-            </LabelWrapper>
-          </div>
-        )}
+          <LabelWrapper className="w-1/5" label="Shirt Size">
+            <SelectInput
+              name="shirt_size_id"
+              onChange={handleChange}
+              options={shirtSizeOptions}
+              value={contactInfoForm.shirt_size_id}
+              height="h-9"
+              width="w-full"
+              textSize="text-md"
+              ariaLabel="Update shirt size"
+            />
+          </LabelWrapper>
+        </div>
 
         <div className="mb-8">
-          <p>Contact Logged</p>
-          <p className="text-xl">{formattedDate}</p>
+          <p>Contact Created</p>
+          <p className="text-xl">{contactCreatedDate}</p>
         </div>
 
         <div className="flex items-center justify-end gap-8">
           <button
             className="h-10 w-28 rounded-sm bg-selectInputBG px-4 py-2 font-medium transition-colors hover:bg-hoverBG"
-            aria-label="Save member information"
+            aria-label="Cancel editing"
+            type="button"
             onClick={() => {
               setIsEditing(false);
             }}
@@ -235,13 +227,14 @@ export const EditContactInfo = ({
 
           <button
             className="h-10 w-36 rounded-sm bg-red-600 px-4 font-medium text-white transition-colors hover:bg-red-800 disabled:bg-gray-700 disabled:bg-opacity-40 disabled:text-gray-400 disabled:text-opacity-40 disabled:hover:cursor-not-allowed"
-            aria-label="Save member information"
+            type="submit"
+            aria-label="Save contact information"
             disabled={isLoading || compareObjects(contactInfoForm, contact)}
           >
             Save Changes
           </button>
         </div>
       </form>
-    </div>
+    </>
   );
 };

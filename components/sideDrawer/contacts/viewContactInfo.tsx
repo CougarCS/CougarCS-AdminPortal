@@ -1,7 +1,8 @@
 import { memberType } from "../../../types/types";
 import { Dialog } from "@headlessui/react";
+import dayjs from "dayjs";
 
-type ContactInfoProps = {
+type contactInfoProps = {
   contact: memberType;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -9,21 +10,12 @@ type ContactInfoProps = {
 export const ViewContactInfo = ({
   contact,
   setIsEditing,
-}: ContactInfoProps) => {
-  const contactCreatedDate = new Date(contact.timestamp);
-  const dateOptions = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  } as const;
-  const formattedDate = contactCreatedDate.toLocaleDateString(
-    "en-US",
-    dateOptions
-  );
+}: contactInfoProps) => {
+  const contactCreatedDate = dayjs(contact.timestamp).format("MM-DD-YYYY");
 
   return (
-    <div>
-      <Dialog.Title className="mb-10 text-4xl font-bold leading-6 ">
+    <>
+      <Dialog.Title className="mb-10 text-4xl font-bold leading-6">
         <p className="mb-4">{contact.first_name}</p>
         <p>{contact.last_name}</p>
       </Dialog.Title>
@@ -50,12 +42,12 @@ export const ViewContactInfo = ({
         </div>
 
         <div>
-          <p>Contact Logged</p>
-          <p className="text-xl">{formattedDate}</p>
+          <p>Contact Created</p>
+          <p className="text-xl">{contactCreatedDate}</p>
         </div>
       </div>
 
-      <div className="mb-12 flex h-28 w-full flex-col items-center justify-center border border-green-600 bg-green-900 bg-opacity-10">
+      <div className="mb-10 flex h-28 w-full flex-col items-center justify-center border border-green-600 bg-green-900 bg-opacity-10">
         <p className="text-xl font-medium">Member</p>
         <p className="text-xl">
           Via <span className="font-bold">Stripe</span>
@@ -72,6 +64,6 @@ export const ViewContactInfo = ({
           Edit
         </button>
       </div>
-    </div>
+    </>
   );
 };

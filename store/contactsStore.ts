@@ -1,13 +1,13 @@
 import create from 'zustand'
 import { memberType } from '../types/types';
 
-type ContactsStore = {
+type contactsStore = {
     contact: memberType;
     setContactInfo: (contact: memberType) => void;
     clearContactInfo: () => void;
 }
 
-export const useContactsStore = create<ContactsStore>((set) => ({
+export const useContactsStore = create<contactsStore>((set) => ({
     contact : {
         contact_id: "",
         uh_id: 0,
