@@ -43,14 +43,14 @@ const Sidebar = () => {
   return (
     <div
       id="sidebar"
-      className="fixed top-0 left-0 flex min-h-full w-60 min-w-[15rem] flex-col justify-between bg-sidebarBG"
+      className="fixed top-0 left-0 z-10 flex min-h-full w-60 min-w-[15rem] flex-col justify-between bg-sidebarBG"
     >
-      <div className="ml-7 flex items-center bg-sidebarBG py-12">
+      <div className="flex items-center bg-sidebarBG py-12 pl-10">
         <Image
-          src="/images/CougarCS-logo.png"
+          src="/images/CougarCS-icon.png"
           alt="CougarCS Logo"
-          width={56}
-          height={56}
+          width={43}
+          height={43}
         />
         <div className="ml-2">
           <p className="text-xl font-semibold text-white">CougarCS</p>
@@ -71,16 +71,16 @@ const Sidebar = () => {
         ))}
       </div>
 
-      <div className="mt-auto mb-6 flex flex-col justify-end">
+      <div className="mt-auto mb-8 flex flex-col justify-end">
         <button
           onClick={async () => {
             await supabase.auth.signOut();
             router.push("/login");
           }}
-          className="mx-auto flex w-[75%] items-center justify-center gap-4 rounded-md p-2 text-gray-400 hover:bg-hoverBG hover:text-white"
+          className="mx-auto flex h-10 w-4/5 items-center justify-start gap-4 rounded-md pl-4 font-medium text-gray-400 hover:bg-hoverBG hover:text-white"
         >
-          <p className="font-medium">Logout</p>
           <MdLogin className="h-6 w-6" />
+          <p className="font-medium">Logout</p>
         </button>
       </div>
     </div>

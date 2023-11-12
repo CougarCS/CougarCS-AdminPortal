@@ -5,13 +5,11 @@
 
 import type { NextPage } from "next";
 import Layout from "../../../components/layout";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import fetcher from "../../../utils/fetcher";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LoadSpinner } from "../../../components/loadingSpinner";
-import poster from "../../../utils/poster";
-import
-{
+import {
   SSPConfig,
   eventDetails,
   memberAttendanceType,
@@ -19,19 +17,19 @@ import
 import { toast } from "sonner";
 import { DataTable } from "../../../components/dataTable/DataTable";
 import { Title } from "../../../components/title";
-import { ViewMemberModal } from "../../../components/membersModal/viewMemberModal";
 import { SelectInput } from "../../../components/selectInput";
 import SearchBox from "../../../components/searchBox";
-import { TextInput } from "../../../components/textInput";
 import { searchSortPaginate } from "../../../utils/searchSortPaginate";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
+import { SideDrawer } from "../../../components/sideDrawer/sideDrawer";
+import { useEventAttendeeStore } from "../../../store/eventAttendeeStore";
+import { ViewEventAttendee } from "../../../components/sideDrawer/eventAttendees/viewEventAttendee";
 
-const EventDetails: NextPage = () =>
-{
+const EventDetails: NextPage = () => {
   const router = useRouter();
   const { eventID } = router.query;
   const { data, error, isLoading } = useSWR<
-    eventDetails & { attendees: memberAttendanceType[]; }
+    eventDetails & { attendees: memberAttendanceType[] }
   >(eventID ? `/api/events/${eventID}` : null, eventID ? fetcher : null);
 
   const [isError, setError] = useState(false);
@@ -39,20 +37,8 @@ const EventDetails: NextPage = () =>
     "Unable to retrieve event data."
   );
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalData, setModalData] = useState<memberAttendanceType>({
-    event_id: "321foobar",
-    contact_id: "123foobar",
-    uh_id: 1111117,
-    email: "testa@ibm.com",
-    first_name: "Testy",
-    last_name: "Test",
-    phone_number: 1112223435,
-    shirt_size_id: "XXS",
-    timestamp: "01/01/1970",
-    swag: false,
-    event_timestamp: "01/01/1970",
-  });
+  const { setAttendeeState } = useEventAttendeeStore();
+  const [isDrawerOpen, setDrawerOpen] = useState<boolean>(false);
 
   type schemaDef = {
     [key: string]: keyof memberAttendanceType;
@@ -113,13 +99,11 @@ const EventDetails: NextPage = () =>
   const [dataPage, setDataPage] = useState(0);
 
   let presentableData;
-  if (data)
-  {
+  if (data) {
     presentableData = searchSortPaginate(data.attendees, sspConfig);
   }
 
-  if (error)
-  {
+  if (error) {
     toast.error(`Event Details Error: ${errorMessage}`);
     return (
       <Layout>
@@ -135,8 +119,7 @@ const EventDetails: NextPage = () =>
     );
   }
 
-  if (isLoading || !data)
-  {
+  if (isLoading || !data) {
     return (
       <Layout>
         <div className="grid h-screen place-content-center">
@@ -160,8 +143,7 @@ const EventDetails: NextPage = () =>
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(paginationOpts)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   setPaginationCount(e.target.value);
                 }}
                 value={paginationCount}
@@ -177,8 +159,7 @@ const EventDetails: NextPage = () =>
                 width="w-fit"
                 textSize="text-lg"
                 options={Object.keys(schema)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   const val = schema[e.target.value];
                   setSortBy(val);
                 }}
@@ -201,8 +182,7 @@ const EventDetails: NextPage = () =>
         <div className="mt-3 flex w-full flex-row gap-x-4">
           <button
             className="rounded-md bg-selectInputBG px-4 py-2"
-            onClick={() =>
-            {
+            onClick={() => {
               router.push(`/dashboard/events/${eventID}/addAttendee`);
             }}
           >
@@ -213,26 +193,22 @@ const EventDetails: NextPage = () =>
           </div>
         </div>
       </Title>
-
-      <ViewMemberModal
-        isOpen={modalOpen}
-        member={modalData}
-        setModalOpen={(state) => setModalOpen(state)}
-      />
-
       <br />
 
       {presentableData !== undefined && presentableData[0] !== undefined ? (
         // TODO: ADD DATATABLE CHANGES HERE
         <>
+          <SideDrawer open={isDrawerOpen} setOpen={setDrawerOpen}>
+            <ViewEventAttendee />
+          </SideDrawer>
+
           <DataTable
             className=""
             schema={schema}
             data={presentableData[dataPage]}
-            rowClick={(modalData) =>
-            {
-              setModalData(modalData);
-              setModalOpen(true);
+            rowClick={(modalData) => {
+              setAttendeeState(modalData);
+              setDrawerOpen(true);
             }}
           />
         </>

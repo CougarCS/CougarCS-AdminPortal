@@ -35,8 +35,8 @@ const Events: NextPage = () => {
   }
 
   if (data) {
-    const eventCards = data.map((evnt: eventDetails) => (
-      <EventCard event={evnt} />
+    const eventCards = data.map((evnt: eventDetails, i: number) => (
+      <EventCard key={i} event={evnt} />
     ));
     return (
       <Layout title="Events">

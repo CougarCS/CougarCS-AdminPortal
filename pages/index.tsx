@@ -21,8 +21,8 @@ const Home: NextPage = () => {
           <Image
             src="/images/CougarCS-logo.png"
             alt="CougarCS Logo"
-            width={150}
-            height={150}
+            height={270}
+            width={350}
           />
         </div>
         <h1 className="mt-4 text-center text-4xl font-bold text-white">
