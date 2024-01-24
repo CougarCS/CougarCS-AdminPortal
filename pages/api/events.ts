@@ -77,7 +77,28 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) =>
     {
       return res.status(500).json({
         error: "Internal Server Error",
-        description: "Something went wrong: We couldn't update the member.",
+        description: "Something went wrong: We couldn't update this event.",
+      });
+    }
+
+    return res.status(200).json(data);
+  }
+
+  if (req.method === "DELETE")
+  {
+    const { body } = req;
+
+    const {data, error } = await supabase
+      .from("event")
+      .delete()
+      .eq("event_id", body.event_id)
+      
+
+    if (error)
+    {
+      return res.status(500).json({
+        error: "Internal Server Error",
+        description: "Something went wrong: We couldn't delete this event.",
       });
     }
 

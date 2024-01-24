@@ -2,9 +2,8 @@ import { NextPage } from "next";
 import React, { useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Layout from "../../components/layout";
-
 import { TextInput } from "../../components/textInput";
-import { PasswordInput } from "../../components/pwInput";
+import { PasswordInput } from "../../components/formInput/pwInput";
 import { toast } from "sonner";
 import { LoadSpinner } from "../../components/loadingSpinner";
 import { Title } from "../../components/title";
@@ -50,7 +49,7 @@ const Signup: NextPage = () => {
         title="Officer Signup"
         subtitle="Add new coogs to the pack! 😸"
       ></Title>
-      <div className="mx-auto w-5/12 place-content-center">
+      <div className="mx-auto w-full place-content-center xl:w-[42%]">
         <form onSubmit={handleSubmit}>
           <TextInput
             className="mt-4"
@@ -68,7 +67,7 @@ const Signup: NextPage = () => {
           />
           <button
             type="submit"
-            className="mt-6 h-9 w-full rounded-sm bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
+            className="mt-6 h-9 w-full rounded-md bg-red-600 text-sm font-semibold text-white transition-colors hover:bg-red-700"
           >
             Sign up
           </button>

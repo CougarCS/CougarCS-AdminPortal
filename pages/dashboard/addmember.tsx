@@ -2,18 +2,15 @@ import { NextPage } from "next";
 import React, { useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Layout from "../../components/layout";
-import router, { useRouter } from "next/router";
-
+import router from "next/router";
 import { TextInput } from "../../components/textInput";
 import { toast } from "sonner";
 import { LoadSpinner } from "../../components/loadingSpinner";
 import { Title } from "../../components/title";
-import { SelectInput } from "../../components/selectInput";
+import { SelectInput } from "../../components/formInput/selectInput";
 import { memberType } from "../../types/types";
-
 import poster from "../../utils/poster";
-
-import { AiOutlineArrowLeft } from "react-icons/ai";
+import { HiArrowLeft } from "react-icons/hi";
 
 const AddMember: NextPage = () => {
   const supabase = useSupabaseClient();
@@ -88,14 +85,16 @@ const AddMember: NextPage = () => {
       <Title title="Contact Creation" subtitle="Establish First Contact 👽🛸">
         <button
           onClick={() => router.push("/dashboard/members")}
-          className="flex h-9 items-center gap-x-2 py-2 pr-3 text-sm font-medium text-white"
+          className="group mt-1 flex h-9 items-center gap-x-2 pr-3 text-sm text-white"
         >
-          <AiOutlineArrowLeft className="text-lg" />
-          <span>Back to Contacts</span>
+          <HiArrowLeft className="text-lg" />
+          <span className="border-gray-200 group-hover:border-b">
+            Back to Contacts
+          </span>
         </button>
       </Title>
 
-      <div className="mx-auto w-5/12 place-content-center">
+      <div className="mx-auto w-full place-content-center xl:w-[42%]">
         <form onSubmit={handleSubmit}>
           <TextInput
             className="mt-4"
@@ -128,8 +127,8 @@ const AddMember: NextPage = () => {
             placeholder="mihir_here@uh.edu"
           />
 
-          <div className="mt-4 flex gap-x-2">
-            <span>Shirt size</span>
+          <div className="mt-4 flex items-center gap-x-2">
+            <span className="text-sm">Shirt size</span>
             <SelectInput
               name="shirt"
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -139,14 +138,14 @@ const AddMember: NextPage = () => {
               value={shirtSize}
               height="h-fit"
               width="w-18"
-              textSize="text-md"
+              textSize="text-base"
               ariaLabel="Update shirt size"
             />
           </div>
 
           <button
             type="submit"
-            className="mt-6 h-9 w-full rounded-sm bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
+            className="mt-6 h-9 w-full rounded-md bg-red-600 text-sm font-semibold text-white transition-colors hover:bg-red-700"
           >
             Add Contact
           </button>

@@ -15,11 +15,10 @@ export const LabelWrapper = ({
     <div className={className}>
       <label>
         <p
-          className={
-            required
-              ? "text-sm after:ml-1 after:align-sub after:text-red-500 after:content-['*']"
-              : "text-base"
-          }
+          className={`${
+            required &&
+            "after:ml-1 after:align-sub after:text-red-500 after:content-['*']"
+          } text-sm`}
         >
           {label}
         </p>
