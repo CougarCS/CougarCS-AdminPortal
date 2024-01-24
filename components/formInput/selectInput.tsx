@@ -26,7 +26,7 @@ export const SelectInput = ({
       name={name}
       value={value}
       onChange={onChange}
-      className={`${width} ${textSize} ${height} ${marginTop} focus:ring-blue-5000 rounded-sm border border-zinc-700 bg-zinc-800 pl-3 pr-1 outline-0 focus:border-blue-500 focus:outline-none`}
+      className={`${width} ${textSize} ${height} ${marginTop} focus:ring-blue-5000 rounded-sm border border-zinc-700 bg-zinc-800 py-[2px] px-3 outline-0 focus:border-blue-500 focus:outline-none`}
       required
       aria-label={ariaLabel}
     >

@@ -11,11 +11,10 @@ export const TextInput = ({
     <div className={className}>
       <label>
         <span
-          className={
-            required
-              ? "text-sm after:ml-1 after:align-sub after:text-red-500 after:content-['*']"
-              : ""
-          }
+          className={`${
+            required &&
+            "after:ml-1 after:align-sub after:text-red-500 after:content-['*']"
+          } text-sm`}
         >
           {label}
         </span>
