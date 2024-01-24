@@ -3,11 +3,11 @@ import { memberType } from "../../../types/types";
 import { Dialog } from "@headlessui/react";
 import { TextInput } from "../../formInput/textInput";
 import { NumberInput } from "../../formInput/numberInput";
-import { SelectInput } from "../../selectInput";
+import { SelectInput } from "../../formInput/selectInput";
 import { LabelWrapper } from "../../formInput/labelWrapper";
 import fetcher from "../../../utils/fetcher";
 import putter from "../../../utils/putter";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import { toast } from "sonner";
 import { useContactsStore } from "../../../store/contactsStore";
 import dayjs from "dayjs";
@@ -41,7 +41,7 @@ export const EditContactInfo = ({
   contact,
   setIsEditing,
 }: contactInfoProps) => {
-  const { data } = useSWR("/api/members", fetcher);
+  const { data, mutate } = useSWR("/api/members", fetcher);
 
   const [contactInfoForm, setContactInfoForm] = useState<contactInfoForm>({
     uh_id: contact.uh_id ? contact.uh_id.toString() : "",
@@ -113,11 +113,11 @@ export const EditContactInfo = ({
       return member;
     });
 
-    mutate("/api/members", updatedCacheData, false);
+    mutate(updatedCacheData, false);
     setContactInfo({ ...updatedContactInfo, timestamp: contact.timestamp });
 
     toast.success(
-      `Successfully updated ${returnedContactInfo.first_name} ${returnedContactInfo.last_name}'s information.`
+      `Successfully updated ${returnedContactInfo.first_name} ${returnedContactInfo.last_name}'s contact information.`
     );
   };
 
@@ -212,9 +212,9 @@ export const EditContactInfo = ({
           <p className="text-xl">{contactCreatedDate}</p>
         </div>
 
-        <div className="flex items-center justify-end gap-8">
+        <div className="flex items-center justify-end gap-6">
           <button
-            className="h-10 w-28 rounded-sm bg-selectInputBG px-4 py-2 font-medium transition-colors hover:bg-hoverBG"
+            className="h-10 w-20 rounded-md bg-selectInputBG px-4 py-2 text-sm font-medium transition-colors hover:bg-hoverBG"
             aria-label="Cancel editing"
             type="button"
             onClick={() => {
@@ -226,7 +226,7 @@ export const EditContactInfo = ({
           </button>
 
           <button
-            className="h-10 w-36 rounded-sm bg-red-600 px-4 font-medium text-white transition-colors hover:bg-red-800 disabled:bg-gray-700 disabled:bg-opacity-40 disabled:text-gray-400 disabled:text-opacity-40 disabled:hover:cursor-not-allowed"
+            className="h-10 w-32 rounded-md bg-red-600 px-4 text-sm font-medium text-white transition-colors hover:bg-red-700 disabled:bg-gray-700 disabled:bg-opacity-40 disabled:text-gray-400 disabled:text-opacity-40 disabled:hover:cursor-not-allowed"
             type="submit"
             aria-label="Save contact information"
             disabled={isLoading || compareObjects(contactInfoForm, contact)}

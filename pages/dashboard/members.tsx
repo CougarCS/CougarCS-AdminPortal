@@ -6,15 +6,15 @@ import { useState } from "react";
 import { LoadSpinner } from "../../components/loadingSpinner";
 import { SSPConfig, memberType } from "../../types/types";
 import { toast } from "sonner";
-import { DataTable } from "../../components/dataTable/DataTable";
+import { DataTable } from "../../components/dataTable/dataTable";
 import { Title } from "../../components/title";
-import { SelectInput } from "../../components/selectInput";
-import SearchBox from "../../components/searchBox";
+import { SelectInput } from "../../components/formInput/selectInput";
+import SearchBox from "../../components/formInput/searchBox";
 import { searchSortPaginate } from "../../utils/searchSortPaginate";
 import router from "next/router";
 import { PaginationControl } from "../../components/paginationControl";
-import { SideDrawer } from "../../components/sideDrawer/sideDrawer";
-import { ContactsController } from "../../components/sideDrawer/contacts/contactsController";
+import { SidePanel } from "../../components/sidePanel/sidePanel";
+import { ContactsController } from "../../components/sidePanel/contacts/contactsController";
 import { useContactsStore } from "../../store/contactsStore";
 
 const Members: NextPage = () => {
@@ -23,7 +23,7 @@ const Members: NextPage = () => {
     "Unable to retrieve member data."
   );
 
-  const [openDrawer, setOpenDrawer] = useState<boolean>(false);
+  const [openPanel, setOpenPanel] = useState<boolean>(false);
   const { setContactInfo } = useContactsStore();
 
   type schemaDef = {
@@ -67,6 +67,7 @@ const Members: NextPage = () => {
   // search, sort, filter
 
   const [searchQuery, setSearchQuery] = useState("");
+  console.log(searchQuery);
 
   const [paginationCount, setPaginationCount] = useState<string>("20");
 
@@ -122,15 +123,15 @@ const Members: NextPage = () => {
         subtitle="All past, present, and future? 🤯 CougarCS members and event attendees."
       >
         <div className="flex flex-row">
-          <div className="mt-2 flex flex-col gap-2">
-            <div>
-              <span className="text-lg">Contacts per page: </span>
+          <div className="mt-3 flex flex-col">
+            <div className="mb-3">
+              <span className="mr-2 text-gray-100">Contacts per page: </span>
               <SelectInput
                 name="pagination"
                 ariaLabel="Contacts Per Page"
                 height="h-fit"
                 width="w-fit"
-                textSize="text-lg"
+                textSize="text-base"
                 options={Object.keys(paginationOpts)}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   setDataPage(0);
@@ -140,51 +141,55 @@ const Members: NextPage = () => {
               />
             </div>
 
-            <div>
-              <span className="text-lg">Sort contacts by: </span>
-              <SelectInput
-                name="sortBy"
-                ariaLabel="Sort Data By"
-                height="h-fit"
-                width="w-fit"
-                textSize="text-lg"
-                options={Object.keys(schema)}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                  const val = schema[e.target.value];
-                  setSortBy(val);
-                }}
-                value={invertedSchema[sortBy]}
-              />
-
-              <label>
-                <span className="ml-2 mr-1 text-lg">Descending:</span>
-                <input
-                  type="checkbox"
-                  className="scale-125 accent-red-500"
-                  checked={sortDsc}
-                  onChange={(e) => setSortDsc(e.target.checked)}
+            <div className="flex items-center">
+              <div className="flex items-center">
+                <span className="mr-2 text-gray-100">Sort contacts by: </span>
+                <SelectInput
+                  name="sortBy"
+                  ariaLabel="Sort Data By"
+                  height="h-fit"
+                  width="w-fit"
+                  textSize="text-base"
+                  options={Object.keys(schema)}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                    const val = schema[e.target.value];
+                    setSortBy(val);
+                  }}
+                  value={invertedSchema[sortBy]}
                 />
-              </label>
+              </div>
+
+              <div className="flex items-center">
+                <label className="flex items-center">
+                  <span className="ml-4 mr-2 text-gray-100">Descending:</span>
+                  <input
+                    type="checkbox"
+                    className="scale-125 accent-red-500"
+                    checked={sortDsc}
+                    onChange={(e) => setSortDsc(e.target.checked)}
+                  />
+                </label>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-3 flex w-full flex-row gap-x-4">
+        <div className="mt-3 flex w-full items-center gap-x-4">
           <button
-            className="rounded-md bg-selectInputBG px-4 py-2"
+            className="rounded-md bg-selectInputBG px-4 py-2 transition-colors hover:bg-hoverBG"
             onClick={() => {
               router.push("/dashboard/addmember");
             }}
           >
-            Add Contact
+            <span className="text-sm font-semibold">Add Contact</span>
           </button>
           <button
-            className="rounded-md bg-selectInputBG px-4 py-2"
+            className="rounded-md bg-selectInputBG px-4 py-2 transition-colors hover:bg-hoverBG"
             onClick={() => {
               router.push("/dashboard/delmember");
             }}
           >
-            Delete Contact
+            <span className="text-sm font-semibold">Delete Contact</span>
           </button>
           <div className="my-auto ml-auto w-2/5">
             <SearchBox
@@ -197,20 +202,18 @@ const Members: NextPage = () => {
         </div>
       </Title>
 
-      <br />
-
       {presentableData !== undefined && presentableData[0] !== undefined ? (
-        <>
-          <SideDrawer open={openDrawer} setOpen={setOpenDrawer}>
+        <div className="mt-6">
+          <SidePanel open={openPanel} setOpen={setOpenPanel}>
             <ContactsController />
-          </SideDrawer>
+          </SidePanel>
 
           <DataTable
             schema={schema}
             data={presentableData[dataPage]}
-            rowClick={(modalData) => {
-              setOpenDrawer(true);
-              setContactInfo(modalData);
+            rowClick={(sidePanelData) => {
+              setOpenPanel(true);
+              setContactInfo(sidePanelData);
             }}
           />
 
@@ -219,7 +222,7 @@ const Members: NextPage = () => {
             presentableData={presentableData}
             setDataPage={setDataPage}
           />
-        </>
+        </div>
       ) : (
         <div className="mt-4 flex flex-col place-content-center">
           <h1 className="text-center text-3xl font-bold text-red-600">
@@ -255,7 +258,7 @@ export default Members;
     toast.success(`Successfully added ${modalData.first_name}.`);
     mutate("/api/members", data, false);
   }}
-  className="h-9 rounded-sm bg-red-600 px-4 text-sm font-semibold text-white hover:bg-red-700"
+  className="h-9 rounded-md bg-red-600 px-4 text-sm font-semibold text-white hover:bg-red-700"
 >
   Add Member
 </button>; */
