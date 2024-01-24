@@ -32,7 +32,7 @@ type textInputProps = {
 };
 
 type titleProps = {
-  children: ReactNode;
+  children?: ReactNode;
   title: string;
   subtitle: string;
 };
@@ -92,6 +92,7 @@ type eventDetails = {
   description: string;
   date: string;
   duration: number;
+  location: string;
   point_value: number;
 };
 

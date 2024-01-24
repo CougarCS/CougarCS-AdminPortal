@@ -43,15 +43,20 @@ export const DataTable = ({
           );
           break;
         case "swag":
-          replacement = row.swag ? "TRUE" : "FALSE";
+          replacement = row.swag ? "Yes" : "No";
         default:
           break;
       }
 
+      const cellWidth =
+        value === "email"
+          ? "min-w-[10rem] max-w-[10rem]"
+          : "min-w-[5rem] max-w-[5rem]";
+
       return (
         <td
           key={colIndex}
-          className=" border-collapse px-3 py-1.5"
+          className={`${cellWidth} border-collapse text-ellipsis px-3 py-1.5`}
           onClick={() => {
             if (row && rowClick) {
               rowClick(row);
@@ -75,7 +80,8 @@ export const DataTable = ({
 
   return (
     <table
-      className={`w-full border-collapse rounded-xl bg-tableHD ${className}`}
+      className={`w-full border-collapse rounded-lg
+       bg-tableHD ${className}`}
     >
       <thead className="">
         <tr className="sticky top-0">{headerElements}</tr>

@@ -2,25 +2,19 @@ import { NextPage } from "next";
 import React, { useState } from "react";
 import Layout from "../../components/layout";
 import router from "next/router";
-
 import { TextInput } from "../../components/textInput";
 import { toast } from "sonner";
 import { Title } from "../../components/title";
 import { TextAreaInput } from "../../components/formInput/textareaInput";
-import { SelectInput } from "../../components/selectInput";
+import { SelectInput } from "../../components/formInput/selectInput";
 import poster from "../../utils/poster";
 import { HiArrowLeft } from "react-icons/hi";
 import { NumberInput } from "../../components/formInput/numberInput";
 import { LabelWrapper } from "../../components/formInput/labelWrapper";
 import { ButtonSpinner } from "../../components/loading/buttonSpinner";
+import { eventDetails } from "../../types/types";
 
-type eventCreation = {
-  date: string;
-  description: string | null;
-  duration: number | null;
-  point_value: number;
-  title: string;
-};
+type eventCreation = Omit<eventDetails, "event_id">;
 
 const AddEvent: NextPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,10 +29,12 @@ const AddEvent: NextPage = () => {
       !formData.get("title")?.toString() ||
       !formData.get("date")?.toString() ||
       !formData.get("time")?.toString() ||
-      !formData.get("cougarCoin")?.toString()
+      !formData.get("cougarCoin")?.toString() ||
+      !formData.get("location")?.toString() ||
+      !formData.get("description")?.toString()
     ) {
       toast.error(
-        `Event Creation Error: Event requires at LEAST a title, date, time and Cougar Coin value.`
+        `Event Creation Error: Event requires at LEAST a title, date, location, description, time and Cougar Coin value.`
       );
       return;
     }
@@ -78,10 +74,9 @@ const AddEvent: NextPage = () => {
 
     const eventObj: eventCreation = {
       date: eventDate.toISOString(),
-      description: formData.get("description")
-        ? formData.get("description")!.toString()
-        : null,
-      duration: hours + minutes > 0 ? hours + minutes : null,
+      description: formData.get("description")!.toString(),
+      duration: hours + minutes,
+      location: formData.get("location")!.toString(),
       point_value: parseInt(formData.get("cougarCoin")!.toString()),
       title: formData.get("title")!.toString(),
     };
@@ -108,10 +103,12 @@ const AddEvent: NextPage = () => {
       <Title title="Event Creation" subtitle="Create An Event Here 🥳🎉">
         <button
           onClick={() => router.push("/dashboard/events")}
-          className="mt-1 flex h-9 items-center gap-x-2 py-2 pr-3 text-sm font-medium text-white"
+          className="group mt-1 flex h-9 items-center gap-x-2 pr-3 text-sm text-white"
         >
           <HiArrowLeft className="text-lg" />
-          <span>Back to Events</span>
+          <span className="border-gray-200 group-hover:border-b">
+            Back to Events
+          </span>
         </button>
       </Title>
 
@@ -129,6 +126,13 @@ const AddEvent: NextPage = () => {
             name="date"
             label="Date"
             placeholder="MM/DD/YYYY"
+          />
+
+          <TextInput
+            className="mt-4"
+            name="location"
+            label="Location"
+            placeholder="PGH 563"
           />
 
           <LabelWrapper className="mt-4" label="Time">
@@ -175,7 +179,7 @@ const AddEvent: NextPage = () => {
 
           <button
             type="submit"
-            className="mt-6 h-9 w-full rounded-sm bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
+            className="mt-6 h-9 w-full rounded-md bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
             disabled={isLoading}
           >
             {isLoading ? (

@@ -59,7 +59,7 @@ export const ViewContactInfo = ({
           onClick={() => {
             setIsEditing(true);
           }}
-          className="w-28 rounded-sm bg-selectInputBG px-4 py-2 font-medium transition-colors hover:bg-hoverBG"
+          className="h-10 w-20 rounded-md bg-selectInputBG px-4 py-2 text-sm font-medium transition-colors hover:bg-hoverBG"
         >
           Edit
         </button>

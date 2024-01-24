@@ -1,25 +1,21 @@
 import { NextPage } from "next";
 import React, { useState } from "react";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Layout from "../../../../components/layout";
-import router, { useRouter } from "next/router";
-
+import { useRouter } from "next/router";
 import { Title } from "../../../../components/title";
 import {
   eventDetails,
   memberAttendanceType,
   memberType,
 } from "../../../../types/types";
-
 import { TextInput } from "../../../../components/textInput";
 import { toast } from "sonner";
 import fetcher from "../../../../utils/fetcher";
 import poster from "../../../../utils/poster";
-
 import useSWR, { mutate } from "swr";
-
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import { SelectInput } from "../../../../components/selectInput";
+import { SelectInput } from "../../../../components/formInput/selectInput";
+import { HiArrowLeft } from "react-icons/hi";
 
 const AddAttendee: NextPage = () => {
   const router = useRouter();
@@ -131,17 +127,19 @@ const AddAttendee: NextPage = () => {
       <Title title="Add Attendee" subtitle="Look who the coog dragged in! 🤗">
         <button
           onClick={() => router.push(`/dashboard/events/${eventID}`)}
-          className="flex h-9 items-center gap-x-2 py-2 pr-3 text-sm font-medium text-white"
+          className="group mt-1 flex h-9 items-center gap-x-2 pr-3 text-sm text-white"
         >
-          <AiOutlineArrowLeft className="text-lg" />
-          <span>Back to Event</span>
+          <HiArrowLeft className="text-lg" />
+          <span className="border-gray-200 group-hover:border-b">
+            Back to Events
+          </span>
         </button>
       </Title>
 
-      <div className="mx-auto mt-4 w-5/12">
+      <div className="mx-auto w-full place-content-center xl:w-[42%]">
         {/* lil note */}
         {idSearch.length < 7 && (
-          <div className="my-4 rounded-sm border border-neutral-500 bg-neutral-700 bg-opacity-10 px-4 py-2">
+          <div className="my-4 rounded-sm border border-neutral-500 bg-neutral-700 bg-opacity-10 px-5 py-4">
             <span className="mx-2 block font-semibold">Note</span>
             <ul className="mx-2 list-disc">
               <li className="mt-0.5">
@@ -184,7 +182,7 @@ const AddAttendee: NextPage = () => {
         <form
           onSubmit={existingContact ? handleExistingSubmit : handleNewSubmit}
         >
-          <label className="w-full">
+          <label className="w-full text-sm">
             UH ID
             <input
               className="h-9 w-full rounded-sm border border-zinc-700 bg-zinc-800 px-4 text-sm placeholder:text-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500"
@@ -228,7 +226,7 @@ const ExistingAttendee = ({ member }: ExistingAttendeeProps) => {
   return (
     <>
       <label>
-        <span className="text-md mr-2">Did they receive swag?:</span>
+        <span className="text-md mr-2">Did they receive swag?</span>
         <input
           name="swagcheck"
           type="checkbox"
@@ -238,7 +236,7 @@ const ExistingAttendee = ({ member }: ExistingAttendeeProps) => {
 
       <button
         type="submit"
-        className="mt-6 h-9 w-full rounded-sm bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
+        className="mt-6 h-9 w-full rounded-md bg-red-600 text-sm font-semibold text-white transition-colors hover:bg-red-700"
       >
         Add Attendee
       </button>
@@ -277,8 +275,8 @@ const NewAttendee = () => {
         placeholder="mihir_here@uh.edu"
       />
 
-      <div className="mt-4 flex gap-x-2">
-        <span>Shirt size</span>
+      <label className="mt-4 flex w-fit items-center gap-x-2">
+        <span className="text-sm">Shirt Size</span>
         <SelectInput
           name="shirt"
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -291,10 +289,10 @@ const NewAttendee = () => {
           textSize="text-md"
           ariaLabel="Update shirt size"
         />
-      </div>
+      </label>
 
       <label>
-        <span className="text-md mr-2">Did they receive swag?:</span>
+        <span className="text-md mr-2">Did they receive swag?</span>
         <input
           name="swagcheck"
           type="checkbox"
@@ -304,7 +302,7 @@ const NewAttendee = () => {
 
       <button
         type="submit"
-        className="mt-6 h-9 w-full rounded-sm bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
+        className="mt-6 h-9 w-full rounded-md bg-red-600 text-sm font-semibold text-white transition-colors hover:bg-red-700"
       >
         Add Contact
       </button>

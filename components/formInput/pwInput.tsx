@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { TbEye, TbEyeOff } from "react-icons/tb";
 
-import { textInputProps } from "../types/types";
+import { textInputProps } from "../../types/types";
 
 export const PasswordInput = ({
   name,

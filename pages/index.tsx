@@ -23,6 +23,7 @@ const Home: NextPage = () => {
             alt="CougarCS Logo"
             height={270}
             width={350}
+            priority={true}
           />
         </div>
         <h1 className="mt-4 text-center text-4xl font-bold text-white">
@@ -31,7 +32,7 @@ const Home: NextPage = () => {
 
         <button
           onClick={() => router.push("/dashboard")}
-          className="flex h-9 w-full justify-center space-x-2 rounded-sm bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
+          className="flex h-9 w-full justify-center space-x-2 rounded-md bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
         >
           <AiOutlineDashboard className=" my-auto" />
           <span className="my-auto">Dashboard</span>
@@ -39,7 +40,7 @@ const Home: NextPage = () => {
 
         <button
           onClick={() => router.push("/dashboard/members")}
-          className="flex h-9 w-full justify-center space-x-2 rounded-sm bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
+          className="flex h-9 w-full justify-center space-x-2 rounded-md bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
         >
           <AiOutlineUnorderedList className="my-auto" />
           <span className="my-auto">Contacts</span>
@@ -47,7 +48,7 @@ const Home: NextPage = () => {
 
         <button
           onClick={() => router.push("/dashboard/signup")}
-          className="flex h-9 w-full justify-center space-x-2 rounded-sm bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
+          className="flex h-9 w-full justify-center space-x-2 rounded-md bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
         >
           <AiOutlineUserAdd className="my-auto" />
           <span className="my-auto">Sign Up</span>
@@ -58,7 +59,7 @@ const Home: NextPage = () => {
             const { error } = await supabase.auth.signOut();
             router.push("/login");
           }}
-          className="flex h-9 w-full justify-center space-x-2 rounded-sm bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
+          className="flex h-9 w-full justify-center space-x-2 rounded-md bg-red-600 text-sm font-semibold text-white hover:bg-red-700"
         >
           <AiOutlineLogout className="my-auto" />
           <span className="my-auto">Logout</span>

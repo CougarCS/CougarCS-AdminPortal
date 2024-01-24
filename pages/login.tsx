@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { toast } from "sonner";
 import { TextInput } from "../components/textInput";
-import { PasswordInput } from "../components/pwInput";
+import { PasswordInput } from "../components/formInput/pwInput";
 import { LoadSpinner } from "../components/loadingSpinner";
 
 const Login: NextPage = () => {
@@ -108,7 +108,7 @@ const Login: NextPage = () => {
 
               <button
                 type="submit"
-                className="h-9 w-full rounded-sm bg-red-600 text-sm font-semibold text-white transition-colors hover:bg-red-700"
+                className="h-9 w-full rounded-md bg-red-600 text-sm font-semibold text-white transition-colors hover:bg-red-700"
               >
                 Sign in
               </button>

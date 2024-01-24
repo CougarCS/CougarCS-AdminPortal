@@ -21,7 +21,7 @@ export default function SearchBox({ initSearch }: SearchBoxProps) {
       </div>
 
       <input
-        className="peer h-9 w-full rounded-sm border border-neutral-500 bg-selectInputBG px-2 pl-10 placeholder:text-neutral-500 focus:border-white focus:outline-none focus:ring-white"
+        className="peer h-9 w-full rounded-sm border border-neutral-500 bg-selectInputBG px-2 pl-10 outline-0 placeholder:text-neutral-500 focus:border-blue-500 focus:outline-none"
         name="searchBox"
         placeholder={"Search"}
         value={searchKey}

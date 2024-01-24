@@ -3,13 +3,13 @@ import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { AiOutlineClose } from "react-icons/ai";
 
-type sideDrawerProps = {
+type sidePanelProps = {
   children?: React.ReactNode;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export const SideDrawer = ({ children, open, setOpen }: sideDrawerProps) => {
+export const SidePanel = ({ children, open, setOpen }: sidePanelProps) => {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog
