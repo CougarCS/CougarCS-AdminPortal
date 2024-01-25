@@ -6,7 +6,7 @@ import { LoadSpinner } from "../../components/loadingSpinner";
 import { Title } from "../../components/title";
 import useSWR from "swr";
 import fetcher from "../../utils/fetcher";
-import EventCard from "../../components/eventsPage/eventCard";
+import EventCard from "../../components/events/eventCard";
 import { eventDetails } from "../../types/types";
 import { useRouter } from "next/router";
 import { BaseModal } from "../../components/modal/baseModal";

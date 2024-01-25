@@ -15,7 +15,7 @@ import {
   memberAttendanceType,
 } from "../../../types/types";
 import { toast } from "sonner";
-import { DataTable } from "../../../components/dataTable/dataTable";
+import { DataTable } from "../../../components/tables/DataTable";
 import { Title } from "../../../components/title";
 import { SelectInput } from "../../../components/formInput/selectInput";
 import SearchBox from "../../../components/formInput/searchBox";

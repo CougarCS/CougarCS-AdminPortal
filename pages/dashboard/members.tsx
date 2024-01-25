@@ -6,7 +6,7 @@ import { useState } from "react";
 import { LoadSpinner } from "../../components/loadingSpinner";
 import { SSPConfig, memberType } from "../../types/types";
 import { toast } from "sonner";
-import { DataTable } from "../../components/dataTable/DataTable";
+import { DataTable } from "../../components/tables/DataTable";
 import { Title } from "../../components/title";
 import { SelectInput } from "../../components/formInput/selectInput";
 import SearchBox from "../../components/formInput/searchBox";
